@@ -1,0 +1,274 @@
+{
+  "id": "conv-016",
+  "userId": "user-006",
+  "title": "Budget prévisionnel RH 2025",
+  "subtitle": "Élaboration et postes de dépenses",
+  "category": "Gestion RH",
+  "tags": ["budget RH", "masse salariale", "prévisionnel", "charges"],
+  "complexity": "high",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-04T10:30:00Z",
+  "updatedAt": "2025-01-04T11:15:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quels sont les postes de dépenses à prévoir dans un budget RH ?",
+      "timestamp": "2025-01-04T10:30:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Bonnes pratiques RH",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 89,
+      "content": {
+        "intro": "Le budget RH regroupe l'ensemble des dépenses liées à la gestion des ressources humaines de l'entreprise. Il doit être structuré et anticipé pour l'année à venir.",
+        "sections": [
+          {
+            "title": "Principaux postes de dépenses RH :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Masse salariale (salaires bruts, charges sociales patronales, primes)",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Formation professionnelle (contribution légale + budget formation complémentaire)",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Recrutement (annonces, cabinet de recrutement, intégration)",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Avantages sociaux (tickets restaurant, mutuelle, prévoyance)",
+                "reference": ""
+              },
+              {
+                "number": 5,
+                "text": "Gestion administrative (logiciels RH, paie externalisée, médecine du travail)",
+                "reference": ""
+              },
+              {
+                "number": 6,
+                "text": "Communication et qualité de vie au travail (événements, baromètre social)",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Méthode d'élaboration",
+            "type": "info",
+            "content": "Le budget RH doit être élaboré en cohérence avec la stratégie de l'entreprise et les prévisions d'activité. Il faut prévoir une marge de sécurité de 5 à 10% pour les imprévus (turnover, évolutions légales)."
+          }
+        ]
+      },
+      "timestamp": "2025-01-04T10:30:05Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Guide budget RH",
+            "article": "BP-2025",
+            "title": "Élaboration du budget prévisionnel RH",
+            "verifiedDate": "2025-01-03",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-04T10:30:05Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Comment calculer l'évolution de la masse salariale pour 2025 ?",
+      "timestamp": "2025-01-04T10:40:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Bonnes pratiques RH",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 87,
+      "content": {
+        "intro": "La prévision de la masse salariale pour 2025 doit intégrer plusieurs facteurs d'évolution.",
+        "sections": [
+          {
+            "title": "Facteurs d'évolution à prendre en compte :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Effet de base : masse salariale 2024 + évolution des effectifs prévue",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Effet GVT (Glissement Vieillesse Technicité) : augmentations automatiques liées à l'ancienneté",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Augmentations individuelles et promotions prévues",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Augmentations collectives (NAO, accord de branche)",
+                "reference": ""
+              },
+              {
+                "number": 5,
+                "text": "Évolution des charges sociales et contributions obligatoires",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Formule simplifiée",
+            "type": "info",
+            "content": "Masse salariale N+1 = Masse salariale N × (1 + taux d'évolution effectif) × (1 + taux d'augmentation moyen) + charges sociales"
+          }
+        ]
+      },
+      "timestamp": "2025-01-04T10:40:35Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Guide budget RH",
+            "article": "MS-2025",
+            "title": "Calcul prévisionnel de la masse salariale",
+            "verifiedDate": "2025-01-03",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-04T10:40:35Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Quels sont les ratios de référence pour le budget formation ?",
+      "timestamp": "2025-01-04T10:50:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Bonnes pratiques RH",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 85,
+      "content": {
+        "intro": "Le budget formation varie selon la taille et le secteur de l'entreprise, mais certains ratios de référence existent.",
+        "sections": [
+          {
+            "title": "Ratios de référence :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Obligation légale minimale : 0,55% de la masse salariale (entreprises -11 salariés) ou 1% (entreprises 11+ salariés)",
+                "reference": "Code du travail, L6331-1"
+              },
+              {
+                "number": 2,
+                "text": "Pratique courante : 1,5% à 2% de la masse salariale",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Entreprises proactives : 2,5% à 3,5% de la masse salariale",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Secteur high-tech/conseil : jusqu'à 4% de la masse salariale",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Conseil",
+            "type": "info",
+            "content": "Au-delà du pourcentage, il est important de cibler les formations stratégiques et de mesurer leur ROI. Pensez également aux cofinancements possibles via votre OPCO."
+          }
+        ]
+      },
+      "timestamp": "2025-01-04T10:50:40Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-3",
+            "name": "Code du travail",
+            "article": "L6331-1",
+            "title": "Contribution à la formation professionnelle",
+            "verifiedDate": "2025-01-03",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-04T10:50:40Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": true,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-7",
+      "type": "question",
+      "content": "Très utile pour mon budget 2025, merci !",
+      "timestamp": "2025-01-04T11:15:00Z",
+      "author": "user"
+    }
+  ]
+}

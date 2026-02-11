@@ -1,0 +1,223 @@
+{
+  "id": "conv-004",
+  "userId": "user-001",
+  "title": "Modification horaires de travail",
+  "subtitle": "Raisons familiales",
+  "category": "Contrat et carrière",
+  "tags": ["horaires", "aménagement du temps de travail", "raisons familiales", "temps partiel"],
+  "complexity": "medium",
+  "createdAt": "2025-01-06T14:15:00Z",
+  "updatedAt": "2025-01-06T15:45:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Puis-je demander une modification de mes horaires de travail pour raisons familiales ?",
+      "timestamp": "2025-01-06T14:15:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 88,
+      "content": {
+        "intro": "Oui, vous pouvez demander une modification de vos horaires de travail. Cependant, l'employeur n'est pas obligé d'accepter, sauf dans certains cas prévus par la loi.",
+        "sections": [
+          {
+            "title": "Cadre légal :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Demande écrite à l'employeur précisant les horaires souhaités et la date souhaitée",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "L'employeur doit répondre dans un délai raisonnable (généralement 1 mois)",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Si refus, l'employeur doit motiver sa décision",
+                "reference": "Code du travail, L1222-10"
+              }
+            ]
+          },
+          {
+            "title": "Point d'attention",
+            "type": "warning",
+            "content": "Pour les parents d'enfants de moins de 3 ans ou en situation de handicap, des droits spécifiques existent (temps partiel choisi, etc.). Je vous suggère de transmettre votre demande au service RH pour étude personnalisée."
+          }
+        ]
+      },
+      "timestamp": "2025-01-06T14:15:05Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "L1222-10",
+            "title": "Aménagement du temps de travail pour raisons familiales",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-06T14:15:05Z"
+      },
+      "suggestsHumanReview": true,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Mon fils a 2 ans. Quels sont exactement mes droits dans ce cas ?",
+      "timestamp": "2025-01-06T14:20:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 92,
+      "content": {
+        "intro": "En tant que parent d'un enfant de moins de 3 ans, vous bénéficiez de droits spécifiques concernant l'aménagement de votre temps de travail.",
+        "sections": [
+          {
+            "title": "Vos droits :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Droit au passage à temps partiel : l'employeur ne peut refuser qu'en cas de motif légitime",
+                "reference": "Code du travail, L1225-47"
+              },
+              {
+                "number": 2,
+                "text": "Possibilité d'aménager vos horaires pour faciliter la garde de votre enfant",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "En cas de refus de l'employeur, celui-ci doit justifier par des raisons objectives (incompatibilité avec l'activité, absence de poste disponible)",
+                "reference": "Code du travail, L1225-47"
+              }
+            ]
+          },
+          {
+            "title": "Démarche recommandée",
+            "type": "info",
+            "content": "Je vous recommande de formuler une demande formelle au service RH en précisant vos contraintes et les horaires souhaités. Le service RH pourra étudier les possibilités d'aménagement adaptées à votre situation."
+          }
+        ]
+      },
+      "timestamp": "2025-01-06T14:20:30Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Code du travail",
+            "article": "L1225-47",
+            "title": "Passage à temps partiel pour élever un enfant",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-06T14:20:30Z"
+      },
+      "suggestsHumanReview": true,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "D'accord, peux-tu transmettre ma demande aux RH ? Je souhaiterais passer à 80% avec mes mercredis libres.",
+      "timestamp": "2025-01-06T14:25:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "transmission",
+      "content": "J'ai bien transmis votre demande au service RH.",
+      "timestamp": "2025-01-06T14:26:00Z",
+      "author": "kalia",
+      "transmissionDetails": {
+        "requestId": "REQ-003",
+        "category": "Contrat et carrière",
+        "priority": "High",
+        "summary": "Demande de passage à temps partiel 80% avec mercredis libres pour raisons familiales (enfant de 2 ans)",
+        "status": "in_progress"
+      },
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": true,
+        "requestId": "REQ-003",
+        "requestStatus": "in_progress"
+      }
+    },
+    {
+      "id": "msg-7",
+      "type": "hrConfirmation",
+      "content": "Bonjour Marie, nous avons bien reçu votre demande de passage à temps partiel. Nous sommes en train d'étudier la faisabilité avec votre manager. Nous reviendrons vers vous dans les 15 jours pour vous communiquer notre réponse. En attendant, pourriez-vous nous transmettre une copie de votre livret de famille pour constitution du dossier ?",
+      "timestamp": "2025-01-06T15:45:00Z",
+      "author": "hr",
+      "confirmationStatus": "requested",
+      "hrConfirmation": {
+        "confirmedBy": "user-004",
+        "confirmedByName": "Jean Dupont",
+        "confirmedAt": "2025-01-06T15:45:00Z",
+        "comment": "Dossier en cours d'instruction - Documents complémentaires demandés"
+      },
+      "hasNewUpdate": true
+    }
+  ],
+  "request": {
+    "id": "REQ-003",
+    "conversationId": "conv-004",
+    "userId": "user-001",
+    "userName": "Sophie Leclerc",
+    "createdAt": "2025-01-06T14:26:00Z",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "Contrat et carrière",
+    "title": "Modification horaires de travail",
+    "reformulatedRequest": "Demande de passage à temps partiel 80% avec mercredis libres pour raisons familiales (enfant de 2 ans)",
+    "includeFullConversation": true,
+    "userComment": "Mon fils a 2 ans. Je souhaiterais passer à 80% avec mes mercredis libres",
+    "assignedTo": "Jean Dupont",
+    "assignedToName": "Jean Dupont",
+    "response": "Bonjour Marie, nous avons bien reçu votre demande de passage à temps partiel. Nous sommes en train d'étudier la faisabilité avec votre manager. Nous reviendrons vers vous dans les 15 jours pour vous communiquer notre réponse. En attendant, pourriez-vous nous transmettre une copie de votre livret de famille pour constitution du dossier ?",
+    "resolvedAt": null
+  }
+}

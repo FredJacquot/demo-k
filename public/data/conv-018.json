@@ -1,0 +1,59 @@
+{
+  "id": "conv-018",
+  "userId": "user-001",
+  "title": "Attestation employeur",
+  "subtitle": "Demande pour dossier bancaire",
+  "category": "autre",
+  "tags": ["attestation", "employeur", "document"],
+  "complexity": "low",
+  "createdAt": "2025-01-02T16:45:00Z",
+  "updatedAt": "2025-01-03T10:00:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "J'ai besoin d'une attestation employeur pour ma demande de prêt bancaire.",
+      "timestamp": "2025-01-02T16:45:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "transmission",
+      "content": "J'ai bien transmis votre demande au service RH.",
+      "timestamp": "2025-01-02T16:45:30Z",
+      "author": "kalia",
+      "transmissionDetails": {
+        "requestId": "REQ-007",
+        "category": "autre",
+        "priority": "urgent",
+        "summary": "J'ai besoin d'une attestation employeur pour ma demande de prêt bancaire.",
+        "status": "resolved"
+      },
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": true,
+        "requestId": "REQ-007",
+        "requestStatus": "resolved"
+      }
+    }
+  ],
+  "request": {
+    "id": "REQ-007",
+    "conversationId": "conv-018",
+    "userId": "user-001",
+    "userName": "Jean Dupont",
+    "createdAt": "2025-01-02T16:45:00Z",
+    "status": "resolved",
+    "priority": "urgent",
+    "category": "autre",
+    "title": "Attestation employeur",
+    "reformulatedRequest": "J'ai besoin d'une attestation employeur pour ma demande de prêt bancaire.",
+    "includeFullConversation": false,
+    "userComment": "Besoin urgent pour dossier bancaire",
+    "assignedTo": "Jean Dupont",
+    "response": "Votre attestation employeur est disponible en téléchargement dans votre espace documents. Elle a été générée et signée électroniquement ce jour.",
+    "resolvedAt": "2025-01-03T10:00:00Z"
+  }
+}

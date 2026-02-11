@@ -1,0 +1,180 @@
+{
+  "id": "conv-009",
+  "userId": "user-004",
+  "title": "Convention collective - Mise à jour",
+  "subtitle": "Nouvelles dispositions 2025",
+  "category": "Réglementation",
+  "tags": ["CCN Syntec", "avenant", "modifications 2025", "salaires minimaux"],
+  "complexity": "medium",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-06T10:00:00Z",
+  "updatedAt": "2025-01-06T10:25:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quelles sont les principales modifications de la CCN Syntec en 2025 ?",
+      "timestamp": "2025-01-06T10:00:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "CCN Syntec",
+          "type": "convention",
+          "color": "purple"
+        },
+        {
+          "name": "Avenant 2024-12",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 93,
+      "content": {
+        "intro": "L'avenant du 15 décembre 2024 à la convention collective Syntec apporte plusieurs modifications importantes entrées en vigueur le 1er janvier 2025.",
+        "sections": [
+          {
+            "title": "Principales modifications :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Revalorisation des salaires minimaux de +2,5%",
+                "reference": "Avenant 2024-12, Art. 1"
+              },
+              {
+                "number": 2,
+                "text": "Nouvelles dispositions sur le télétravail (jusqu'à 3 jours/semaine)",
+                "reference": "Avenant 2024-12, Art. 3"
+              },
+              {
+                "number": 3,
+                "text": "Modification du calcul de la prime d'ancienneté pour les cadres",
+                "reference": "Avenant 2024-12, Art. 5"
+              },
+              {
+                "number": 4,
+                "text": "Nouvelles grilles de classification pour les métiers du numérique",
+                "reference": "Avenant 2024-12, Art. 7"
+              }
+            ]
+          },
+          {
+            "title": "Point important",
+            "type": "info",
+            "content": "Ces modifications s'appliquent automatiquement à tous les salariés relevant de la CCN Syntec. Les bulletins de paie de janvier 2025 intègrent déjà ces changements."
+          }
+        ]
+      },
+      "timestamp": "2025-01-06T10:00:06Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "CCN Syntec",
+            "article": "Avenant 2024-12",
+            "title": "Modifications conventionnelles 2025",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-06T10:00:06Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "La modification de la prime d'ancienneté pour les cadres, ça change quoi concrètement ?",
+      "timestamp": "2025-01-06T10:05:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Avenant 2024-12",
+          "type": "convention",
+          "color": "purple"
+        }
+      ],
+      "confidence": 90,
+      "content": {
+        "intro": "L'avenant 2024-12 modifie le mode de calcul de la prime d'ancienneté pour les cadres en position 3 et supérieure.",
+        "sections": [
+          {
+            "title": "Nouvelle modalité de calcul :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Anciennement : calcul sur le salaire minimum conventionnel de la position",
+                "reference": "CCN Syntec, Art. 3.2 (version 2024)"
+              },
+              {
+                "number": 2,
+                "text": "Désormais : calcul sur une base forfaitaire majorée pour les positions 3.1 et supérieures",
+                "reference": "Avenant 2024-12, Art. 5"
+              },
+              {
+                "number": 3,
+                "text": "Cette modification est plus favorable pour les cadres confirmés",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Impact",
+            "type": "info",
+            "content": "Cette modification entraîne généralement une augmentation de la prime d'ancienneté pour les cadres. Le montant exact dépend de votre position et de votre ancienneté."
+          }
+        ]
+      },
+      "timestamp": "2025-01-06T10:05:30Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Avenant 2024-12",
+            "article": "Art. 5",
+            "title": "Nouvelle modalité de calcul de la prime d'ancienneté cadres",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-06T10:05:30Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": true,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "OK merci, très utile !",
+      "timestamp": "2025-01-06T10:25:00Z",
+      "author": "user"
+    }
+  ]
+}

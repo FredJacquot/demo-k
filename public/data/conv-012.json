@@ -1,0 +1,259 @@
+{
+  "id": "conv-012",
+  "userId": "user-004",
+  "title": "Plan de formation 2025",
+  "subtitle": "Élaboration et budget",
+  "category": "Formation",
+  "tags": ["plan de formation", "budget", "OPCO", "CSE"],
+  "complexity": "high",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-07T11:30:00Z",
+  "updatedAt": "2025-01-07T12:00:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Comment élaborer le plan de développement des compétences 2025 ?",
+      "timestamp": "2025-01-07T11:30:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 91,
+      "content": {
+        "intro": "Le plan de développement des compétences est un document qui rassemble l'ensemble des actions de formation décidées par l'employeur pour ses salariés.",
+        "sections": [
+          {
+            "title": "Étapes d'élaboration :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Analyser les besoins en compétences de l'entreprise (stratégie, projets)",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Recueillir les demandes des salariés (via entretiens professionnels, managers)",
+                "reference": "Code du travail, L6321-1"
+              },
+              {
+                "number": 3,
+                "text": "Prioriser les actions en fonction du budget disponible",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Présenter le plan au CSE pour consultation",
+                "reference": "Code du travail, L2312-24"
+              },
+              {
+                "number": 5,
+                "text": "Communiquer le plan validé aux managers et salariés",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Financement",
+            "type": "info",
+            "content": "Le plan de développement des compétences est financé par la contribution formation de l'entreprise. Vous pouvez aussi mobiliser les fonds mutualisés de votre OPCO pour certaines formations."
+          }
+        ]
+      },
+      "timestamp": "2025-01-07T11:30:06Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "L6321-1",
+            "title": "Plan de développement des compétences",
+            "verifiedDate": "2025-01-06",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-07T11:30:06Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Quel est le délai de consultation du CSE ?",
+      "timestamp": "2025-01-07T11:35:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 96,
+      "content": {
+        "intro": "Le CSE doit être consulté sur le plan de développement des compétences dans le cadre des consultations récurrentes.",
+        "sections": [
+          {
+            "title": "Modalités de consultation :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Consultation annuelle sur les orientations stratégiques et leurs conséquences (dont la formation)",
+                "reference": "Code du travail, L2312-24"
+              },
+              {
+                "number": 2,
+                "text": "Le CSE doit recevoir les documents au moins 15 jours avant la réunion (entreprises +300 salariés) ou 3 jours (entreprises -300 salariés)",
+                "reference": "Code du travail, R2312-6"
+              },
+              {
+                "number": 3,
+                "text": "Le CSE dispose d'un délai d'examen et peut demander des informations complémentaires",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "L'avis du CSE n'est que consultatif : l'employeur n'est pas lié par cet avis",
+                "reference": ""
+              }
+            ]
+          }
+        ]
+      },
+      "timestamp": "2025-01-07T11:35:30Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Code du travail",
+            "article": "L2312-24",
+            "title": "Consultation du CSE sur la formation",
+            "verifiedDate": "2025-01-06",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-07T11:35:30Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Et comment calculer le budget formation optimal ?",
+      "timestamp": "2025-01-07T11:40:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 87,
+      "content": {
+        "intro": "Le budget formation dépend de plusieurs facteurs et il n'existe pas de formule unique, mais voici les éléments à prendre en compte.",
+        "sections": [
+          {
+            "title": "Éléments de calcul :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Contribution légale obligatoire (0,55% ou 1% de la masse salariale selon la taille)",
+                "reference": "Code du travail, L6331-1"
+              },
+              {
+                "number": 2,
+                "text": "Budget complémentaire volontaire selon la stratégie de l'entreprise",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Benchmark sectoriel : en moyenne 2 à 3% de la masse salariale pour les entreprises proactives",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Prise en compte des cofinancements OPCO possibles",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Recommandation",
+            "type": "info",
+            "content": "Le budget optimal dépend de vos objectifs stratégiques, du niveau de compétences actuel, et des évolutions métiers anticipées. Il est recommandé de prévoir une enveloppe flexible pour les besoins imprévus."
+          }
+        ]
+      },
+      "timestamp": "2025-01-07T11:40:45Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-3",
+            "name": "Code du travail",
+            "article": "L6331-1",
+            "title": "Contribution à la formation professionnelle",
+            "verifiedDate": "2025-01-06",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-07T11:40:45Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": true,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-7",
+      "type": "question",
+      "content": "Très utile, merci !",
+      "timestamp": "2025-01-07T12:00:00Z",
+      "author": "user"
+    }
+  ]
+}

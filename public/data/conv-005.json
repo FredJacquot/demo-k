@@ -1,0 +1,233 @@
+{
+  "id": "conv-005",
+  "userId": "user-001",
+  "title": "Congé maternité - Démarches",
+  "subtitle": "Préparation et formalités",
+  "category": "Congés et absences",
+  "tags": ["congé maternité", "démarches", "CPAM", "déclaration grossesse"],
+  "complexity": "medium",
+  "createdAt": "2025-01-04T11:20:00Z",
+  "updatedAt": "2025-01-04T16:15:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quelles sont les démarches à effectuer pour un congé maternité ?",
+      "timestamp": "2025-01-04T11:20:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        },
+        {
+          "name": "Sécurité sociale",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 92,
+      "content": {
+        "intro": "Le congé maternité nécessite plusieurs démarches administratives auprès de votre employeur et de la Sécurité sociale.",
+        "sections": [
+          {
+            "title": "Démarches principales :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Déclaration de grossesse à la CPAM avant la fin du 3ème mois",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Information de l'employeur (aucun délai légal mais usage de prévenir tôt)",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Fourniture du certificat médical précisant la date présumée d'accouchement",
+                "reference": "Code du travail, L1225-16"
+              },
+              {
+                "number": 4,
+                "text": "Demande d'attestation de salaire à l'employeur pour la CPAM",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Durée du congé",
+            "type": "info",
+            "content": "Pour un premier ou deuxième enfant : 6 semaines avant l'accouchement et 10 semaines après (soit 16 semaines au total). Ce délai peut être prolongé en cas de pathologie ou de naissance multiple."
+          }
+        ]
+      },
+      "timestamp": "2025-01-04T11:20:06Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "L1225-16",
+            "title": "Congé de maternité - Durée et démarches",
+            "verifiedDate": "2025-01-03",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-04T11:20:06Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "C'est mon troisième enfant. Est-ce que la durée change ?",
+      "timestamp": "2025-01-04T11:25:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 95,
+      "content": {
+        "intro": "Oui, pour un troisième enfant ou plus, la durée du congé maternité est plus longue.",
+        "sections": [
+          {
+            "title": "Durée pour le 3ème enfant et plus :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "8 semaines avant la date présumée d'accouchement",
+                "reference": "Code du travail, L1225-17"
+              },
+              {
+                "number": 2,
+                "text": "18 semaines après l'accouchement",
+                "reference": "Code du travail, L1225-17"
+              },
+              {
+                "number": 3,
+                "text": "Soit un total de 26 semaines (environ 6 mois)",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Aménagement possible",
+            "type": "info",
+            "content": "Vous pouvez, sous conditions médicales, reporter une partie du congé prénatal (maximum 3 semaines) après l'accouchement, ce qui porterait votre congé postnatal à 21 semaines."
+          }
+        ]
+      },
+      "timestamp": "2025-01-04T11:25:30Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Code du travail",
+            "article": "L1225-17",
+            "title": "Congé de maternité - Durée pour le 3ème enfant",
+            "verifiedDate": "2025-01-03",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-04T11:25:30Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Parfait. Peux-tu transmettre au RH pour qu'ils préparent mon dossier ? Ma date présumée est le 15 juillet.",
+      "timestamp": "2025-01-04T11:30:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "transmission",
+      "content": "J'ai bien transmis votre demande au service RH.",
+      "timestamp": "2025-01-04T11:31:00Z",
+      "author": "kalia",
+      "transmissionDetails": {
+        "requestId": "REQ-004",
+        "category": "Congés et absences",
+        "priority": "High",
+        "summary": "Préparation dossier congé maternité - 3ème enfant - Date présumée d'accouchement : 15 juillet 2025",
+        "status": "resolved"
+      },
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": true,
+        "requestId": "REQ-004",
+        "requestStatus": "resolved"
+      }
+    },
+    {
+      "id": "msg-7",
+      "type": "hrConfirmation",
+      "content": "Bonjour Marie, toutes nos félicitations ! Nous avons bien pris note de votre congé maternité. Votre congé débutera le lundi 19 mai 2025 (8 semaines avant le 15/07) et se terminera le lundi 24 novembre 2025. Nous allons préparer votre attestation de salaire pour la CPAM. Pourriez-vous nous transmettre votre certificat médical dès que possible ?",
+      "timestamp": "2025-01-04T16:15:00Z",
+      "author": "hr",
+      "confirmationStatus": "confirmed",
+      "hrConfirmation": {
+        "confirmedBy": "user-004",
+        "confirmedByName": "Jean Dupont",
+        "confirmedAt": "2025-01-04T16:15:00Z",
+        "comment": "Dossier congé maternité créé - Dates confirmées"
+      },
+      "hasNewUpdate": true
+    }
+  ],
+  "request": {
+    "id": "REQ-004",
+    "conversationId": "conv-005",
+    "userId": "user-001",
+    "userName": "Sophie Leclerc",
+    "createdAt": "2025-01-04T11:31:00Z",
+    "status": "resolved",
+    "priority": "high",
+    "category": "Congés et absences",
+    "title": "Congé maternité - Démarches",
+    "reformulatedRequest": "Préparation dossier congé maternité - 3ème enfant - Date présumée d'accouchement : 15 juillet 2025",
+    "includeFullConversation": true,
+    "userComment": "C'est mon troisième enfant. Ma date présumée est le 15 juillet",
+    "assignedTo": "Jean Dupont",
+    "assignedToName": "Jean Dupont",
+    "response": "Bonjour Marie, toutes nos félicitations ! Nous avons bien pris note de votre congé maternité. Votre congé débutera le lundi 19 mai 2025 (8 semaines avant le 15/07) et se terminera le lundi 24 novembre 2025. Nous allons préparer votre attestation de salaire pour la CPAM. Pourriez-vous nous transmettre votre certificat médical dès que possible ?",
+    "resolvedAt": "2025-01-04T16:15:00Z"
+  }
+}

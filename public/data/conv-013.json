@@ -1,0 +1,259 @@
+{
+  "id": "conv-013",
+  "userId": "user-004",
+  "title": "NAO 2025 - Préparation",
+  "subtitle": "Négociations annuelles obligatoires",
+  "category": "Relations sociales",
+  "tags": ["NAO", "négociation", "salaires", "égalité professionnelle"],
+  "complexity": "high",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-05T14:45:00Z",
+  "updatedAt": "2025-01-05T15:20:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quels sont les thèmes obligatoires des NAO 2025 ?",
+      "timestamp": "2025-01-05T14:45:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 96,
+      "content": {
+        "intro": "Les négociations annuelles obligatoires (NAO) portent sur des thèmes définis par le Code du travail. Elles doivent avoir lieu chaque année dans les entreprises où sont constituées une ou plusieurs sections syndicales.",
+        "sections": [
+          {
+            "title": "Thèmes obligatoires :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Rémunération, temps de travail et partage de la valeur ajoutée (salaires effectifs, primes, participation, intéressement)",
+                "reference": "Code du travail, L2242-1"
+              },
+              {
+                "number": 2,
+                "text": "Égalité professionnelle entre les femmes et les hommes et qualité de vie au travail",
+                "reference": "Code du travail, L2242-1"
+              },
+              {
+                "number": 3,
+                "text": "Gestion des emplois et des parcours professionnels (GEPP)",
+                "reference": "Code du travail, L2242-2"
+              }
+            ]
+          },
+          {
+            "title": "Calendrier et modalités",
+            "type": "info",
+            "content": "Les NAO doivent être engagées au moins une fois par an. L'employeur convoque les organisations syndicales représentatives. En l'absence d'accord, un procès-verbal de désaccord doit être établi."
+          }
+        ]
+      },
+      "timestamp": "2025-01-05T14:45:05Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "L2242-1",
+            "title": "Négociations annuelles obligatoires",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-05T14:45:05Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Que se passe-t-il si aucun accord n'est trouvé ?",
+      "timestamp": "2025-01-05T14:50:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 93,
+      "content": {
+        "intro": "En cas de désaccord lors des NAO, plusieurs conséquences juridiques et pratiques s'appliquent.",
+        "sections": [
+          {
+            "title": "Conséquences du désaccord :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Établissement d'un procès-verbal de désaccord mentionnant les propositions respectives des parties",
+                "reference": "Code du travail, L2242-4"
+              },
+              {
+                "number": 2,
+                "text": "Transmission du PV de désaccord à la DREETS",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "L'employeur conserve son pouvoir de décision unilatérale sur les thèmes non négociés",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Possibilité de sanctions si l'employeur n'a pas engagé les négociations de bonne foi",
+                "reference": "Code du travail, L2242-6"
+              }
+            ]
+          },
+          {
+            "title": "Point important",
+            "type": "warning",
+            "content": "L'absence de négociation ou le refus de négocier de bonne foi peut entraîner une pénalité financière pouvant aller jusqu'à 3 750€ par salarié concerné (dans la limite de 50% de la masse salariale)."
+          }
+        ]
+      },
+      "timestamp": "2025-01-05T14:50:30Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Code du travail",
+            "article": "L2242-4",
+            "title": "Procès-verbal de désaccord",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-05T14:50:30Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Y a-t-il des documents types à préparer pour les NAO ?",
+      "timestamp": "2025-01-05T15:00:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 89,
+      "content": {
+        "intro": "Oui, plusieurs documents doivent être préparés pour conduire efficacement les NAO.",
+        "sections": [
+          {
+            "title": "Documents à préparer :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Bilan de l'année écoulée (salaires, emploi, formation, égalité F/H)",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Données économiques et financières de l'entreprise",
+                "reference": "Code du travail, L2242-15"
+              },
+              {
+                "number": 3,
+                "text": "Index de l'égalité professionnelle F/H",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Propositions de l'employeur sur chaque thème obligatoire",
+                "reference": ""
+              },
+              {
+                "number": 5,
+                "text": "Calendrier prévisionnel des réunions de négociation",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Conseil pratique",
+            "type": "info",
+            "content": "Il est recommandé de transmettre ces documents aux organisations syndicales plusieurs jours avant la première réunion pour permettre une négociation constructive."
+          }
+        ]
+      },
+      "timestamp": "2025-01-05T15:00:45Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-3",
+            "name": "Code du travail",
+            "article": "L2242-15",
+            "title": "Information des organisations syndicales",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-05T15:00:45Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": true,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-7",
+      "type": "question",
+      "content": "Parfait, merci pour toutes ces informations !",
+      "timestamp": "2025-01-05T15:20:00Z",
+      "author": "user"
+    }
+  ]
+}

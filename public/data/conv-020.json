@@ -1,0 +1,161 @@
+{
+  "id": "conv-020",
+  "userId": "user-001",
+  "title": "Demande de congés pour mariage familial",
+  "subtitle": "Congés pour événement familial et congés payés",
+  "category": "conges",
+  "tags": ["congés", "événement familial", "mariage"],
+  "complexity": "low",
+  "createdAt": "2024-03-01T09:15:00Z",
+  "updatedAt": "2024-03-01T09:18:00Z",
+  "messages": [
+    {
+      "id": "msg-001",
+      "type": "question",
+      "content": "Bonjour, je voudrais poser 3 jours de congés du 15 au 17 mars pour le mariage de ma sœur.",
+      "timestamp": "2024-03-01T09:15:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-002",
+      "type": "answer",
+      "content": {
+        "intro": "Bonjour ! J'ai bien noté votre demande. D'après la convention collective, vous avez droit à 1 jour de congé pour événement familial pour le mariage d'un frère ou d'une sœur.",
+        "sections": [
+          {
+            "title": "Analyse de votre situation",
+            "type": "info",
+            "content": "Je vois sur votre compteur que vous avez 12 jours de congés payés disponibles."
+          },
+          {
+            "title": "Proposition",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Le 15 mars en congé pour événement familial",
+                "reference": "Article 52 - Convention collective"
+              },
+              {
+                "number": 2,
+                "text": "Les 16-17 mars en congés payés",
+                "reference": "Code du travail - Congés payés"
+              }
+            ]
+          },
+          {
+            "title": "Documents requis",
+            "type": "warning",
+            "content": "Vous devrez fournir un justificatif (faire-part ou acte de mariage)."
+          }
+        ]
+      },
+      "timestamp": "2024-03-01T09:16:30Z",
+      "author": "kalia",
+      "sources": [
+        {
+          "name": "Convention collective",
+          "type": "convention",
+          "color": "#3B82F6"
+        },
+        {
+          "name": "Procédure congés",
+          "type": "procedure",
+          "color": "#10B981"
+        }
+      ],
+      "confidence": 0.95,
+      "traceability": {
+        "sources": [
+          {
+            "id": "conv-art52",
+            "name": "Convention collective",
+            "article": "Article 52",
+            "title": "Congés pour événements familiaux",
+            "verifiedDate": "2024-01-15",
+            "status": "valid"
+          },
+          {
+            "id": "proc-conges",
+            "name": "Procédure de gestion des congés",
+            "article": "Section 3.2",
+            "title": "Demande de congés via SIRH",
+            "verifiedDate": "2024-02-01",
+            "status": "valid"
+          }
+        ],
+        "context": "Congés pour événement familial - Mariage frère/sœur",
+        "validatedBy": "system",
+        "validatedAt": "2024-03-01T09:16:30Z"
+      },
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false,
+        "primary": {
+          "label": "Confirmer la demande",
+          "action": "confirm-leave-request"
+        },
+        "secondary": {
+          "label": "Modifier les dates",
+          "action": "modify-dates"
+        }
+      }
+    },
+    {
+      "id": "msg-003",
+      "type": "question",
+      "content": "Oui parfait, merci !",
+      "timestamp": "2024-03-01T09:17:15Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-004",
+      "type": "answer",
+      "content": {
+        "intro": "C'est fait ! Votre demande a été transmise à votre manager pour validation.",
+        "sections": [
+          {
+            "title": "Récapitulatif",
+            "type": "info",
+            "content": "• 15 mars : Congé pour événement familial (1 jour)\n• 16-17 mars : Congés payés (2 jours)\n• Solde restant : 10 jours de congés payés"
+          },
+          {
+            "title": "Prochaines étapes",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Vous recevrez une notification dès que votre manager aura validé",
+                "reference": "Processus automatique"
+              },
+              {
+                "number": 2,
+                "text": "N'oubliez pas de fournir le justificatif avant le 15 mars",
+                "reference": "Obligation réglementaire"
+              }
+            ]
+          }
+        ]
+      },
+      "timestamp": "2024-03-01T09:18:00Z",
+      "author": "kalia",
+      "sources": [
+        {
+          "name": "SIRH",
+          "type": "procedure",
+          "color": "#8B5CF6"
+        }
+      ],
+      "confidence": 1.0,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": true,
+        "requestCreated": false
+      },
+      "confirmationStatus": "confirmed"
+    }
+  ]
+}

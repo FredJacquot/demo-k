@@ -1,0 +1,207 @@
+{
+  "id": "conv-008",
+  "userId": "user-001",
+  "title": "Note de frais - Validation",
+  "subtitle": "Procédure et délais",
+  "category": "Paie",
+  "tags": ["note de frais", "remboursement", "délais", "validation"],
+  "complexity": "medium",
+  "createdAt": "2025-01-03T13:30:00Z",
+  "updatedAt": "2025-01-03T14:15:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quel est le délai de traitement d'une note de frais ?",
+      "timestamp": "2025-01-03T13:30:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Politique interne",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 85,
+      "content": {
+        "intro": "Le délai de traitement des notes de frais dépend de la politique interne de votre entreprise. Voici les délais généralement observés.",
+        "sections": [
+          {
+            "title": "Circuit de validation habituel :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Validation par le manager : 5 à 10 jours ouvrés",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Contrôle par le service comptabilité : 5 jours ouvrés",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Remboursement avec le bulletin de paie du mois suivant",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Point d'attention",
+            "type": "warning",
+            "content": "Si votre note de frais n'a pas été traitée dans les délais habituels, je vous recommande de contacter directement le service RH ou comptabilité pour vérification. Il peut y avoir un problème technique ou un justificatif manquant."
+          }
+        ]
+      },
+      "timestamp": "2025-01-03T13:30:05Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Procédure interne",
+            "article": "NDF-2024",
+            "title": "Circuit de validation des notes de frais",
+            "verifiedDate": "2025-01-02",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-03T13:30:05Z"
+      },
+      "suggestsHumanReview": true,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "J'ai soumis ma note de frais le 15 décembre et elle n'est toujours pas remboursée. C'est normal ?",
+      "timestamp": "2025-01-03T13:35:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Politique interne",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 78,
+      "content": {
+        "intro": "Une note de frais soumise le 15 décembre aurait normalement dû être traitée pour le bulletin de paie de janvier.",
+        "sections": [
+          {
+            "title": "Vérifications possibles :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Vérifier si la note a été validée par votre manager",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Contrôler qu'aucun justificatif ne manque",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Vérifier l'absence d'erreur technique dans le système",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Action recommandée",
+            "type": "warning",
+            "content": "Ce délai semble anormal. Je vous recommande vivement de transmettre une demande au service comptabilité pour qu'ils vérifient le statut de votre note de frais."
+          }
+        ]
+      },
+      "timestamp": "2025-01-03T13:35:20Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Procédure interne",
+            "article": "NDF-2024",
+            "title": "Délais de traitement des notes de frais",
+            "verifiedDate": "2025-01-02",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-03T13:35:20Z"
+      },
+      "suggestsHumanReview": true,
+      "actions": {
+        "useful": false,
+        "needsImprovement": true,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Oui s'il te plaît, contacte-les. C'est une note de 340€, ce n'est pas rien.",
+      "timestamp": "2025-01-03T13:40:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "transmission",
+      "content": "J'ai bien transmis votre demande au service comptabilité.",
+      "timestamp": "2025-01-03T13:41:00Z",
+      "author": "kalia",
+      "transmissionDetails": {
+        "requestId": "REQ-006",
+        "category": "Paie",
+        "priority": "Medium",
+        "summary": "Vérification statut note de frais soumise le 15 décembre (340€) - Non remboursée à ce jour",
+        "status": "pending"
+      },
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": true,
+        "requestId": "REQ-006",
+        "requestStatus": "pending"
+      }
+    }
+  ],
+  "request": {
+    "id": "REQ-006",
+    "conversationId": "conv-008",
+    "userId": "user-003",
+    "userName": "Sophie Leclerc",
+    "createdAt": "2025-01-03T13:41:00Z",
+    "status": "pending",
+    "priority": "low",
+    "category": "Paie",
+    "title": "Note de frais - Validation",
+    "reformulatedRequest": "Vérification statut note de frais soumise le 15 décembre (340€) - Non remboursée à ce jour",
+    "includeFullConversation": false,
+    "userComment": "J'ai soumis ma note de frais le 15 décembre et elle n'est toujours pas remboursée. C'est une note de 340€",
+    "assignedTo": null,
+    "response": null,
+    "resolvedAt": null
+  }
+}

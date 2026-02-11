@@ -1,0 +1,180 @@
+{
+  "id": "conv-006",
+  "userId": "user-001",
+  "title": "Formation professionnelle 2025",
+  "subtitle": "Plan de développement des compétences",
+  "category": "Formation",
+  "tags": ["formation", "plan de développement", "CPF", "compétences"],
+  "complexity": "low",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-02T16:45:00Z",
+  "updatedAt": "2025-01-02T17:10:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Comment demander une formation dans le cadre du plan de développement des compétences ?",
+      "timestamp": "2025-01-02T16:45:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 95,
+      "content": {
+        "intro": "Pour demander une formation dans le cadre du plan de développement des compétences de votre entreprise, voici la marche à suivre.",
+        "sections": [
+          {
+            "title": "Processus de demande :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Identifier la formation souhaitée et vérifier qu'elle correspond aux besoins de votre poste",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Formuler une demande écrite à votre manager et/ou au service RH",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Préciser les objectifs, le contenu, la durée et l'organisme de formation",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Attendre la validation du manager et du service RH",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Point important",
+            "type": "info",
+            "content": "Les formations du plan de développement des compétences sont à l'initiative de l'employeur. Votre demande sera étudiée en fonction du budget formation, des priorités de l'entreprise et de votre parcours professionnel."
+          }
+        ]
+      },
+      "timestamp": "2025-01-02T16:45:04Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "L6321-1",
+            "title": "Plan de développement des compétences",
+            "verifiedDate": "2025-01-02",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-02T16:45:04Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Et le CPF, c'est différent ?",
+      "timestamp": "2025-01-02T16:50:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 97,
+      "content": {
+        "intro": "Oui, le CPF (Compte Personnel de Formation) est un dispositif différent du plan de développement des compétences.",
+        "sections": [
+          {
+            "title": "Différences principales :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "CPF : à votre initiative, financé par vos droits personnels accumulés (environ 500€/an)",
+                "reference": "Code du travail, L6323-1"
+              },
+              {
+                "number": 2,
+                "text": "Plan de développement : à l'initiative de l'employeur, financé par l'entreprise",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "CPF : vous gardez vos droits même en changeant d'employeur",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Les deux dispositifs peuvent se cumuler avec l'accord de l'employeur",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Utilisation du CPF",
+            "type": "info",
+            "content": "Vous pouvez consulter vos droits CPF et vous inscrire à une formation sur moncompteformation.gouv.fr. Si la formation se déroule sur votre temps de travail, vous devez demander l'accord de votre employeur."
+          }
+        ]
+      },
+      "timestamp": "2025-01-02T16:50:25Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Code du travail",
+            "article": "L6323-1",
+            "title": "Compte Personnel de Formation",
+            "verifiedDate": "2025-01-02",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-02T16:50:25Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": true,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Merci c'est très clair !",
+      "timestamp": "2025-01-02T17:10:00Z",
+      "author": "user"
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "id": "conv-002",
+  "userId": "user-001",
+  "title": "Prime d'ancienneté - Calcul",
+  "subtitle": "Vérification bulletin de paie",
+  "category": "Paie",
+  "tags": ["prime d'ancienneté", "CCN Syntec", "bulletin de paie", "vérification"],
+  "complexity": "medium",
+  "createdAt": "2025-01-05T14:15:00Z",
+  "updatedAt": "2025-01-05T16:30:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Comment est calculée la prime d'ancienneté selon la CCN Syntec ?",
+      "timestamp": "2025-01-05T14:15:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "CCN Syntec",
+          "type": "convention",
+          "color": "purple"
+        }
+      ],
+      "confidence": 96,
+      "content": {
+        "intro": "La prime d'ancienneté dans la convention collective Syntec est calculée selon un barème progressif basé sur l'ancienneté du salarié.",
+        "sections": [
+          {
+            "title": "Barème de la prime d'ancienneté :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Après 3 ans : 3% du salaire minimum conventionnel",
+                "reference": "CCN Syntec, Art. 3.2"
+              },
+              {
+                "number": 2,
+                "text": "Après 6 ans : 6% du salaire minimum conventionnel",
+                "reference": "CCN Syntec, Art. 3.2"
+              },
+              {
+                "number": 3,
+                "text": "Après 9 ans : 9% du salaire minimum conventionnel",
+                "reference": "CCN Syntec, Art. 3.2"
+              },
+              {
+                "number": 4,
+                "text": "Après 12 ans : 12% du salaire minimum conventionnel",
+                "reference": "CCN Syntec, Art. 3.2"
+              }
+            ]
+          }
+        ]
+      },
+      "timestamp": "2025-01-05T14:15:03Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "CCN Syntec",
+            "article": "Art. 3.2",
+            "title": "Prime d'ancienneté - Barème et modalités de calcul",
+            "verifiedDate": "2025-01-04",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-05T14:15:03Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "J'ai 7 ans d'ancienneté. Sur mon bulletin de décembre, la prime est de 150€ mais mon salaire de base est de 2800€. Est-ce normal ?",
+      "timestamp": "2025-01-05T14:17:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "CCN Syntec",
+          "type": "convention",
+          "color": "purple"
+        }
+      ],
+      "confidence": 88,
+      "content": {
+        "intro": "Pour vérifier si votre prime d'ancienneté est correcte, il faut comparer avec le salaire minimum conventionnel, pas votre salaire brut.",
+        "sections": [
+          {
+            "title": "Vérification du calcul :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Avec 7 ans d'ancienneté, vous êtes dans la tranche des 6 ans : 6% du salaire minimum conventionnel",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Le calcul se fait sur le salaire minimum conventionnel de votre position, pas sur votre salaire réel",
+                "reference": "CCN Syntec, Art. 3.2"
+              },
+              {
+                "number": 3,
+                "text": "Exemple : si votre position a un minimum conventionnel de 2500€, la prime = 2500 × 6% = 150€",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Point d'attention",
+            "type": "warning",
+            "content": "Pour vérifier si le calcul est exact, il faudrait connaître votre position et coefficient selon la grille Syntec. Je vous recommande de transmettre cette question au service paie pour une vérification personnalisée."
+          }
+        ]
+      },
+      "timestamp": "2025-01-05T14:17:30Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "CCN Syntec",
+            "article": "Art. 3.2",
+            "title": "Prime d'ancienneté - Base de calcul",
+            "verifiedDate": "2025-01-04",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-05T14:17:30Z"
+      },
+      "suggestsHumanReview": true,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Oui s'il te plaît, transmets au service paie pour qu'ils vérifient mon bulletin.",
+      "timestamp": "2025-01-05T14:19:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "transmission",
+      "content": "J'ai bien transmis votre demande au service RH.",
+      "timestamp": "2025-01-05T14:20:00Z",
+      "author": "kalia",
+      "transmissionDetails": {
+        "requestId": "REQ-002",
+        "category": "Paie",
+        "priority": "Medium",
+        "summary": "Vérification du calcul de la prime d'ancienneté sur le bulletin de paie de décembre 2024 - Salarié avec 7 ans d'ancienneté",
+        "status": "resolved"
+      },
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": true,
+        "requestId": "REQ-002",
+        "requestStatus": "resolved"
+      }
+    },
+    {
+      "id": "msg-7",
+      "type": "hrConfirmation",
+      "content": "Bonjour Sophie, après vérification de votre bulletin de paie, le calcul de votre prime d'ancienneté est correct. Vous êtes en position 2.3 (coefficient 115), ce qui correspond à un salaire minimum conventionnel de 2500€. Avec 7 ans d'ancienneté, vous bénéficiez de 6% soit 150€. Votre prime est donc bien calculée.",
+      "timestamp": "2025-01-05T16:30:00Z",
+      "author": "hr",
+      "confirmationStatus": "confirmed",
+      "hrConfirmation": {
+        "confirmedBy": "user-007",
+        "confirmedByName": "Luc Moreau",
+        "confirmedAt": "2025-01-05T16:30:00Z",
+        "comment": "Calcul vérifié et conforme à la CCN Syntec"
+      },
+      "hasNewUpdate": true
+    }
+  ],
+  "request": {
+    "id": "REQ-002",
+    "conversationId": "conv-002",
+    "userId": "user-001",
+    "userName": "Sophie Leclerc",
+    "createdAt": "2025-01-05T14:20:00Z",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "Paie",
+    "title": "Prime d'ancienneté - Calcul",
+    "reformulatedRequest": "Vérification du calcul de la prime d'ancienneté sur le bulletin de paie de décembre 2024 - Salarié avec 7 ans d'ancienneté",
+    "includeFullConversation": true,
+    "userComment": "J'ai 7 ans d'ancienneté. Sur mon bulletin de décembre, la prime est de 150€ mais mon salaire de base est de 2800€. Est-ce normal ?",
+    "assignedTo": "Luc Moreau",
+    "assignedToName": "Luc Moreau",
+    "response": "Bonjour Sophie, après vérification de votre bulletin de paie, le calcul de votre prime d'ancienneté est correct. Vous êtes en position 2.3 (coefficient 115), ce qui correspond à un salaire minimum conventionnel de 2500€. Avec 7 ans d'ancienneté, vous bénéficiez de 6% soit 150€. Votre prime est donc bien calculée.",
+    "resolvedAt": "2025-01-05T16:30:00Z"
+  }
+}

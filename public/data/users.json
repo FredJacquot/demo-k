@@ -1,0 +1,54 @@
+{
+  "users": [
+    {
+      "id": "user-001",
+      "name": "Sophie Leclerc",
+      "email": "sophie.leclerc@entreprise.fr",
+      "role": "employee",
+      "department": "Développement",
+      "position": "Développeur Senior",
+      "company": "Okawai SAS",
+      "convention": "Syntec"
+    },
+    {
+      "id": "user-002",
+      "name": "Jean Dupont",
+      "email": "jean.dupont@entreprise.fr",
+      "role": "employee",
+      "department": "Ressources Humaines",
+      "position": "Responsable RH"
+    },
+    {
+      "id": "user-003",
+      "name": "Claire Rousseau",
+      "email": "claire.rousseau@entreprise.fr",
+      "role": "employee",
+      "department": "Direction",
+      "position": "Directrice des Ressources Humaines"
+    },
+    {
+      "id": "user-004",
+      "name": "Jean Dupont",
+      "email": "jean.dupont@entreprise.fr",
+      "role": "hr",
+      "department": "Ressources Humaines",
+      "position": "Gestionnaire RH"
+    },
+    {
+      "id": "user-006",
+      "name": "Claire Rousseau",
+      "email": "claire.rousseau@entreprise.fr",
+      "role": "drh",
+      "department": "Direction",
+      "position": "Directrice des Ressources Humaines"
+    },
+    {
+      "id": "user-007",
+      "name": "Luc Moreau",
+      "email": "luc.moreau@entreprise.fr",
+      "role": "payroll",
+      "department": "Comptabilité",
+      "position": "Responsable Paie"
+    }
+  ]
+}

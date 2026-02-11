@@ -1,0 +1,167 @@
+{
+  "id": "conv-011",
+  "userId": "user-004",
+  "title": "Entretien professionnel - Modèle",
+  "subtitle": "Trame et obligations",
+  "category": "Gestion RH",
+  "tags": ["entretien professionnel", "bilan", "évolution", "formation"],
+  "complexity": "low",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-02T09:15:00Z",
+  "updatedAt": "2025-01-02T09:45:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quelle trame utiliser pour un entretien professionnel ?",
+      "timestamp": "2025-01-02T09:15:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 94,
+      "content": {
+        "intro": "L'entretien professionnel est obligatoire tous les 2 ans pour tous les salariés. Il doit porter sur les perspectives d'évolution professionnelle du salarié.",
+        "sections": [
+          {
+            "title": "Thèmes à aborder :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Bilan de la période écoulée : missions réalisées, compétences développées",
+                "reference": "Code du travail, L6315-1"
+              },
+              {
+                "number": 2,
+                "text": "Perspectives d'évolution : souhaits de mobilité, changement de poste",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Besoins en formation : formations souhaitées, utilisation du CPF",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Tous les 6 ans : bilan récapitulatif du parcours professionnel",
+                "reference": "Code du travail, L6315-1"
+              }
+            ]
+          },
+          {
+            "title": "Obligations de l'employeur",
+            "type": "warning",
+            "content": "L'entretien professionnel ne porte PAS sur l'évaluation du travail. Il est distinct de l'entretien annuel d'évaluation. Un compte-rendu écrit doit être formalisé et remis au salarié."
+          }
+        ]
+      },
+      "timestamp": "2025-01-02T09:15:04Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "L6315-1",
+            "title": "Entretien professionnel obligatoire",
+            "verifiedDate": "2025-01-02",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-02T09:15:04Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Existe-t-il un modèle de trame dans notre entreprise ?",
+      "timestamp": "2025-01-02T09:20:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Procédure interne",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 70,
+      "content": {
+        "intro": "Je n'ai pas accès à un modèle de trame spécifique de votre entreprise dans ma base documentaire.",
+        "sections": [
+          {
+            "title": "Recommandation",
+            "type": "info",
+            "content": "La plupart des entreprises disposent d'un modèle standardisé d'entretien professionnel. Je vous recommande de contacter le service RH qui pourra vous transmettre la trame officielle utilisée dans votre entreprise."
+          }
+        ]
+      },
+      "timestamp": "2025-01-02T09:20:15Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Procédure interne RH",
+            "article": "EP-2024",
+            "title": "Guide entretien professionnel",
+            "verifiedDate": "2025-01-02",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-02T09:20:15Z"
+      },
+      "suggestsHumanReview": true,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      },
+      "suggestHRTransmission": {
+        "prompt": "Souhaitez-vous que je contacte le service RH pour obtenir le modèle de trame d'entretien professionnel ?",
+        "actions": {
+          "primary": {
+            "label": "Oui, demander la trame",
+            "action": "createRequest"
+          },
+          "secondary": {
+            "label": "Non merci",
+            "action": "dismiss"
+          }
+        }
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Non c'est bon, je vais leur demander directement. Merci !",
+      "timestamp": "2025-01-02T09:45:00Z",
+      "author": "user"
+    }
+  ]
+}

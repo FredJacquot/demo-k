@@ -1,0 +1,228 @@
+{
+  "id": "conv-007",
+  "userId": "user-001",
+  "title": "Demande de congés été 2025",
+  "subtitle": "Procédure et validation",
+  "category": "Congés et absences",
+  "tags": ["congés payés", "été", "procédure", "validation"],
+  "complexity": "low",
+  "createdAt": "2025-01-05T09:10:00Z",
+  "updatedAt": "2025-01-05T10:30:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quelle est la procédure pour poser des congés en juillet ?",
+      "timestamp": "2025-01-05T09:10:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 97,
+      "content": {
+        "intro": "Pour poser des congés payés, vous devez suivre la procédure interne de votre entreprise et respecter certaines règles du Code du travail.",
+        "sections": [
+          {
+            "title": "Procédure générale :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Consulter l'ordre des départs en congés défini par l'employeur",
+                "reference": "Code du travail, L3141-15"
+              },
+              {
+                "number": 2,
+                "text": "Formuler votre demande par écrit (email, formulaire interne) en respectant le délai de prévenance",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Attendre la validation de votre manager",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Une fois validé, les congés ne peuvent être modifiés qu'avec accord des deux parties",
+                "reference": "Code du travail, L3141-16"
+              }
+            ]
+          },
+          {
+            "title": "Délai de prévenance",
+            "type": "info",
+            "content": "L'employeur doit vous informer des dates de congés au moins 1 mois avant le départ. De votre côté, respectez le délai de demande prévu dans votre entreprise (généralement plusieurs semaines à l'avance pour l'été)."
+          }
+        ]
+      },
+      "timestamp": "2025-01-05T09:10:04Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "L3141-15",
+            "title": "Ordre des départs en congés",
+            "verifiedDate": "2025-01-04",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-05T09:10:04Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Quel est le délai dans notre entreprise ? Et est-ce que je peux poser 3 semaines d'affilée ?",
+      "timestamp": "2025-01-05T09:15:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 85,
+      "content": {
+        "intro": "Concernant les 3 semaines consécutives, c'est possible sous certaines conditions.",
+        "sections": [
+          {
+            "title": "Durée des congés :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Le congé principal doit être de 12 jours ouvrables minimum (2 semaines)",
+                "reference": "Code du travail, L3141-18"
+              },
+              {
+                "number": 2,
+                "text": "Vous pouvez demander jusqu'à 24 jours ouvrables d'affilée (4 semaines)",
+                "reference": "Code du travail, L3141-17"
+              },
+              {
+                "number": 3,
+                "text": "L'employeur peut fractionner le reste de vos congés",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Délai de demande",
+            "type": "warning",
+            "content": "Pour le délai de demande spécifique à votre entreprise, je vous recommande de contacter directement votre manager ou le service RH qui pourront vous indiquer la procédure exacte et les dates limites."
+          }
+        ]
+      },
+      "timestamp": "2025-01-05T09:15:30Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Code du travail",
+            "article": "L3141-17",
+            "title": "Fractionnement des congés payés",
+            "verifiedDate": "2025-01-04",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-05T09:15:30Z"
+      },
+      "suggestsHumanReview": true,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "OK, peux-tu transmettre ma demande aux RH ? Je souhaite poser du 14 juillet au 4 août.",
+      "timestamp": "2025-01-05T09:20:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "transmission",
+      "content": "J'ai bien transmis votre demande au service RH.",
+      "timestamp": "2025-01-05T09:21:00Z",
+      "author": "kalia",
+      "transmissionDetails": {
+        "requestId": "REQ-005",
+        "category": "Congés et absences",
+        "priority": "Low",
+        "summary": "Demande de congés payés du 14 juillet au 4 août 2025 (3 semaines)",
+        "status": "resolved"
+      },
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": true,
+        "requestId": "REQ-005",
+        "requestStatus": "resolved"
+      }
+    },
+    {
+      "id": "msg-7",
+      "type": "hrConfirmation",
+      "content": "Bonjour Sophie, votre demande de congés du 14 juillet au 4 août 2025 a été validée par votre manager et le service RH. Vous serez absent 15 jours ouvrables. Bonnes vacances !",
+      "timestamp": "2025-01-05T10:30:00Z",
+      "author": "hr",
+      "confirmationStatus": "confirmed",
+      "hrConfirmation": {
+        "confirmedBy": "user-004",
+        "confirmedByName": "Jean Dupont",
+        "confirmedAt": "2025-01-05T10:30:00Z",
+        "comment": "Congés validés"
+      },
+      "hasNewUpdate": true
+    }
+  ],
+  "request": {
+    "id": "REQ-005",
+    "conversationId": "conv-007",
+    "userId": "user-003",
+    "userName": "Sophie Leclerc",
+    "createdAt": "2025-01-05T09:21:00Z",
+    "status": "resolved",
+    "priority": "low",
+    "category": "Congés et absences",
+    "title": "Demande de congés été 2025",
+    "reformulatedRequest": "Demande de congés payés du 14 juillet au 4 août 2025 (3 semaines)",
+    "includeFullConversation": true,
+    "userComment": "Je souhaite poser du 14 juillet au 4 août",
+    "assignedTo": "Jean Dupont",
+    "assignedToName": "Jean Dupont",
+    "response": "Bonjour Sophie, votre demande de congés du 14 juillet au 4 août 2025 a été validée par votre manager et le service RH. Vous serez absent 15 jours ouvrables. Bonnes vacances !",
+    "resolvedAt": "2025-01-05T10:30:00Z"
+  }
+}

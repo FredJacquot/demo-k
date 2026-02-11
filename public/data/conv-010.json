@@ -1,0 +1,185 @@
+{
+  "id": "conv-010",
+  "userId": "user-004",
+  "title": "DPAE - Procédure embauche",
+  "subtitle": "Déclaration préalable",
+  "category": "Recrutement",
+  "tags": ["DPAE", "embauche", "déclaration", "URSSAF"],
+  "complexity": "low",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-04T15:20:00Z",
+  "updatedAt": "2025-01-04T15:50:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quelle est la procédure pour effectuer une DPAE ?",
+      "timestamp": "2025-01-04T15:20:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        },
+        {
+          "name": "URSSAF",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 98,
+      "content": {
+        "intro": "La Déclaration Préalable À l'Embauche (DPAE) est une formalité obligatoire qui doit être effectuée avant toute embauche d'un salarié.",
+        "sections": [
+          {
+            "title": "Procédure DPAE :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Se connecter sur le site net-entreprises.fr avec les identifiants de l'entreprise",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Remplir le formulaire avec les informations du salarié (état civil, numéro de sécurité sociale, poste, rémunération)",
+                "reference": "Code du travail, R1221-1"
+              },
+              {
+                "number": 3,
+                "text": "Effectuer la déclaration au plus tôt 8 jours avant l'embauche et au plus tard avant la prise de fonction",
+                "reference": "Code du travail, L1221-10"
+              },
+              {
+                "number": 4,
+                "text": "Conserver l'accusé de réception délivré immédiatement par l'URSSAF",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Point important",
+            "type": "warning",
+            "content": "La DPAE vaut également affiliation à la sécurité sociale, demande d'immatriculation, demande d'adhésion à un service de santé au travail et déclaration d'une première embauche pour les entreprises nouvelles. Toute absence de DPAE est sanctionnée."
+          }
+        ]
+      },
+      "timestamp": "2025-01-04T15:20:05Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "L1221-10",
+            "title": "Déclaration préalable à l'embauche",
+            "verifiedDate": "2025-01-04",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-04T15:20:05Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Et si le salarié n'a pas encore de numéro de sécurité sociale ?",
+      "timestamp": "2025-01-04T15:25:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "URSSAF",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 94,
+      "content": {
+        "intro": "Si le salarié n'a pas encore de numéro de sécurité sociale, la procédure est légèrement différente.",
+        "sections": [
+          {
+            "title": "Cas sans numéro de sécurité sociale :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Effectuer la DPAE sans le numéro de sécurité sociale",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Indiquer uniquement l'état civil complet du salarié",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "La CPAM attribuera un numéro provisoire puis définitif",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Compléter le dossier une fois le numéro définitif obtenu",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Situations concernées",
+            "type": "info",
+            "content": "Cette situation concerne notamment les primo-arrivants en France, les jeunes n'ayant jamais travaillé, ou les personnes ayant perdu leur numéro de sécurité sociale."
+          }
+        ]
+      },
+      "timestamp": "2025-01-04T15:25:30Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "URSSAF",
+            "article": "Guide DPAE",
+            "title": "DPAE sans numéro de sécurité sociale",
+            "verifiedDate": "2025-01-04",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-04T15:25:30Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": true,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Parfait, merci pour ces précisions !",
+      "timestamp": "2025-01-04T15:50:00Z",
+      "author": "user"
+    }
+  ]
+}

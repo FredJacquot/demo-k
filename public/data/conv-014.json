@@ -1,0 +1,269 @@
+{
+  "id": "conv-014",
+  "userId": "user-004",
+  "title": "Accident du travail - Déclaration",
+  "subtitle": "Procédure et délais",
+  "category": "Santé et sécurité",
+  "tags": ["accident du travail", "déclaration", "CPAM", "délais"],
+  "complexity": "medium",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-03T16:00:00Z",
+  "updatedAt": "2025-01-03T16:35:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quelle est la procédure pour déclarer un accident du travail ?",
+      "timestamp": "2025-01-03T16:00:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        },
+        {
+          "name": "Sécurité sociale",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 97,
+      "content": {
+        "intro": "La déclaration d'un accident du travail est une obligation légale de l'employeur qui doit être effectuée dans des délais stricts.",
+        "sections": [
+          {
+            "title": "Procédure de déclaration :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Le salarié informe l'employeur de l'accident dans les 24 heures",
+                "reference": "Code du travail, L441-1"
+              },
+              {
+                "number": 2,
+                "text": "L'employeur déclare l'accident à la CPAM dans les 48 heures (hors dimanche et jours fériés)",
+                "reference": "Code de la sécurité sociale, L441-2"
+              },
+              {
+                "number": 3,
+                "text": "Déclaration sur net-entreprises.fr ou formulaire Cerfa 14463*03",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Remettre une feuille d'accident au salarié pour la prise en charge des soins",
+                "reference": ""
+              },
+              {
+                "number": 5,
+                "text": "Conserver un exemplaire et envoyer la déclaration à la CPAM et à l'inspection du travail (si arrêt > 24h)",
+                "reference": "Code du travail, R441-11"
+              }
+            ]
+          },
+          {
+            "title": "Sanctions en cas de non-déclaration",
+            "type": "warning",
+            "content": "Le défaut de déclaration ou la déclaration hors délai constitue un délit d'obstacle puni d'une amende de 750 € (10 000 € en cas de récidive) et peut engager la responsabilité de l'employeur."
+          }
+        ]
+      },
+      "timestamp": "2025-01-03T16:00:06Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code de la sécurité sociale",
+            "article": "L441-2",
+            "title": "Déclaration d'accident du travail par l'employeur",
+            "verifiedDate": "2025-01-03",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-03T16:00:06Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Que se passe-t-il si le salarié ne prévient pas dans les 24h ?",
+      "timestamp": "2025-01-03T16:05:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code de la sécurité sociale",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 94,
+      "content": {
+        "intro": "Le délai de 24 heures pour le salarié n'est pas absolu et peut être dépassé dans certaines circonstances.",
+        "sections": [
+          {
+            "title": "Souplesse du délai :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Le délai de 24h est indicatif pour le salarié, pas sanctionné pénalement",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Un retard peut être justifié (état de santé, impossibilité matérielle)",
+                "reference": "Cass. Soc."
+              },
+              {
+                "number": 3,
+                "text": "Le salarié dispose de 2 ans pour faire reconnaître l'accident du travail",
+                "reference": "Code de la sécurité sociale, L431-2"
+              },
+              {
+                "number": 4,
+                "text": "L'employeur doit tout de même déclarer dès qu'il en a connaissance",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Point important",
+            "type": "info",
+            "content": "Même si le salarié prévient tardivement, cela ne dispense pas l'employeur de son obligation de déclaration dans les 48h suivant la connaissance de l'accident."
+          }
+        ]
+      },
+      "timestamp": "2025-01-03T16:05:30Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Code de la sécurité sociale",
+            "article": "L431-2",
+            "title": "Prescription de l'action en reconnaissance d'accident du travail",
+            "verifiedDate": "2025-01-03",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-03T16:05:30Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Et si l'employeur conteste le caractère professionnel de l'accident ?",
+      "timestamp": "2025-01-03T16:10:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code de la sécurité sociale",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 95,
+      "content": {
+        "intro": "L'employeur peut émettre des réserves sur le caractère professionnel de l'accident lors de la déclaration.",
+        "sections": [
+          {
+            "title": "Procédure de contestation :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Déclarer l'accident dans les délais même en cas de doute",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Formuler des réserves motivées sur la déclaration ou par courrier séparé à la CPAM",
+                "reference": "Code de la sécurité sociale, R441-11"
+              },
+              {
+                "number": 3,
+                "text": "La CPAM dispose de 30 jours pour instruire le dossier (90 jours si enquête complémentaire)",
+                "reference": "Code de la sécurité sociale, R441-14"
+              },
+              {
+                "number": 4,
+                "text": "La CPAM statue sur le caractère professionnel après instruction",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Point de vigilance",
+            "type": "warning",
+            "content": "Les réserves doivent être précises et motivées. L'employeur ne peut pas refuser de déclarer un accident au motif qu'il conteste son caractère professionnel."
+          }
+        ]
+      },
+      "timestamp": "2025-01-03T16:10:50Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-3",
+            "name": "Code de la sécurité sociale",
+            "article": "R441-11",
+            "title": "Réserves de l'employeur sur la déclaration d'accident",
+            "verifiedDate": "2025-01-03",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-03T16:10:50Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": true,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-7",
+      "type": "question",
+      "content": "Très complet, merci beaucoup !",
+      "timestamp": "2025-01-03T16:35:00Z",
+      "author": "user"
+    }
+  ]
+}

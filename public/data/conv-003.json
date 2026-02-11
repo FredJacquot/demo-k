@@ -1,0 +1,162 @@
+{
+  "id": "conv-003",
+  "userId": "user-001",
+  "title": "Télétravail - Remboursement frais",
+  "subtitle": "Indemnités et forfait",
+  "category": "Conditions de travail",
+  "tags": ["télétravail", "remboursement", "frais professionnels", "forfait"],
+  "complexity": "low",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-03T09:30:00Z",
+  "updatedAt": "2025-01-03T09:45:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Quels sont les frais remboursés pour le télétravail ?",
+      "timestamp": "2025-01-03T09:30:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Accord télétravail",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 91,
+      "content": {
+        "intro": "L'entreprise peut prévoir le remboursement ou la prise en charge de certains frais liés au télétravail, selon l'accord d'entreprise ou la charte en vigueur.",
+        "sections": [
+          {
+            "title": "Frais généralement pris en charge :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Allocation forfaitaire mensuelle pour frais professionnels (internet, électricité)",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Matériel informatique fourni par l'employeur",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Abonnement internet professionnel si nécessaire",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Point d'attention",
+            "type": "warning",
+            "content": "Les modalités exactes dépendent de l'accord d'entreprise. Il est recommandé de vérifier votre accord spécifique ou de contacter le service RH."
+          }
+        ]
+      },
+      "timestamp": "2025-01-03T09:30:04Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "L1222-9",
+            "title": "Télétravail - Prise en charge des coûts",
+            "verifiedDate": "2025-01-02",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-03T09:30:04Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Quel est le montant du forfait dans notre entreprise ?",
+      "timestamp": "2025-01-03T09:35:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Accord télétravail",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 75,
+      "content": {
+        "intro": "Je n'ai pas accès aux détails spécifiques du forfait télétravail de votre entreprise dans ma base documentaire.",
+        "sections": [
+          {
+            "title": "Information générale",
+            "type": "info",
+            "content": "Les forfaits télétravail varient généralement entre 10€ et 50€ par mois selon les entreprises et le nombre de jours télétravaillés. Pour connaître le montant exact applicable dans votre cas, je vous recommande de contacter le service RH."
+          }
+        ]
+      },
+      "timestamp": "2025-01-03T09:35:15Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "URSSAF",
+            "article": "Exonération forfait télétravail",
+            "title": "Limites d'exonération des allocations forfaitaires télétravail",
+            "verifiedDate": "2025-01-02",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-03T09:35:15Z"
+      },
+      "suggestsHumanReview": true,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      },
+      "suggestHRTransmission": {
+        "prompt": "Souhaitez-vous transmettre cette question au service RH pour obtenir des informations spécifiques à votre situation ?",
+        "actions": {
+          "primary": {
+            "label": "Envoyer aux RH",
+            "action": "createRequest"
+          },
+          "secondary": {
+            "label": "Non merci",
+            "action": "dismiss"
+          }
+        }
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Non c'est bon, je vais vérifier sur mon bulletin de paie. Merci !",
+      "timestamp": "2025-01-03T09:45:00Z",
+      "author": "user"
+    }
+  ]
+}

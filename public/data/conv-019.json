@@ -1,0 +1,59 @@
+{
+  "id": "conv-019",
+  "userId": "user-001",
+  "title": "Formation anglais professionnel",
+  "subtitle": "Demande CPF",
+  "category": "formation",
+  "tags": ["formation", "CPF", "anglais"],
+  "complexity": "medium",
+  "createdAt": "2024-12-28T09:20:00Z",
+  "updatedAt": "2024-12-30T14:15:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Je souhaite suivre une formation en anglais professionnel dans le cadre de mon CPF. Est-ce possible et quelles sont les démarches ?",
+      "timestamp": "2024-12-28T09:20:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "transmission",
+      "content": "J'ai bien transmis votre demande au service RH.",
+      "timestamp": "2024-12-28T09:20:30Z",
+      "author": "kalia",
+      "transmissionDetails": {
+        "requestId": "REQ-008",
+        "category": "formation",
+        "priority": "medium",
+        "summary": "Je souhaite suivre une formation en anglais professionnel dans le cadre de mon CPF. Est-ce possible et quelles sont les démarches ?",
+        "status": "resolved"
+      },
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": true,
+        "requestId": "REQ-008",
+        "requestStatus": "resolved"
+      }
+    }
+  ],
+  "request": {
+    "id": "REQ-008",
+    "conversationId": "conv-019",
+    "userId": "user-003",
+    "userName": "Sophie Leclerc",
+    "createdAt": "2024-12-28T09:20:00Z",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "formation",
+    "title": "Formation anglais professionnel",
+    "reformulatedRequest": "Je souhaite suivre une formation en anglais professionnel dans le cadre de mon CPF. Est-ce possible et quelles sont les démarches ?",
+    "includeFullConversation": false,
+    "userComment": "Pour améliorer mes échanges avec clients internationaux",
+    "assignedTo": "Jean Dupont",
+    "response": "Votre demande de formation CPF est acceptée. J'ai identifié un organisme certifié. Formation de 30h en distanciel, démarrage possible en février 2025. Je vous contacte demain pour finaliser l'inscription.",
+    "resolvedAt": "2024-12-30T14:15:00Z"
+  }
+}

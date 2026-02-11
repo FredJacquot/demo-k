@@ -1,0 +1,803 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-rtt-solde",
+      "keywords": ["combien", "RTT", "droit", "cette", "congés", "délai"],
+      "category": "Temps de travail",
+      "conversation": {
+        "title": "Gestion des jours RTT",
+        "subtitle": "Droits, solde et délais d'utilisation",
+        "messages": [
+          {
+            "type": "answer",
+            "confidence": 96,
+            "sources": [
+              {
+                "name": "Accord 2024-08",
+                "type": "accord",
+                "color": "green"
+              },
+              {
+                "name": "Code du travail",
+                "type": "code",
+                "color": "blue"
+              }
+            ],
+            "content": {
+              "intro": "D'après l'accord d'entreprise sur l'aménagement du temps de travail en vigueur dans notre organisation, vos droits à jours de RTT sont les suivants :",
+              "sections": [
+                {
+                  "title": "Nombre de jours RTT",
+                  "type": "info",
+                  "content": "Vous bénéficiez de 12 jours de RTT par an, acquis au rythme d'1 jour par mois travaillé complet.",
+                  "reference": "Accord 2024-08, Article 4.2 - Modalités d'acquisition des jours de RTT"
+                },
+                {
+                  "title": "Précisions",
+                  "type": "detail",
+                  "content": "Ces jours sont acquis progressivement tout au long de l'année. En cas d'entrée ou de sortie en cours d'année, le nombre de RTT est calculé au prorata du temps de présence."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Accord d'entreprise - Aménagement du temps de travail",
+                  "article": "Article 4.2",
+                  "title": "Organisation du temps de travail • Forfaits jours, horaires variables et RTT - Modalités d'acquisition des jours de RTT",
+                  "verifiedDate": "2025-01-14",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Code du travail - Durée du travail",
+                  "article": "Articles L3121-1 à L3123-38",
+                  "title": "Durée légale, heures supplémentaires, aménagement du temps de travail",
+                  "verifiedDate": "2025-01-14",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire RH - Accord d'entreprise sur l'aménagement du temps de travail (Réf. Accord 2024-08, décembre 2024)",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-14T09:15:22Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 99,
+            "sources": [
+              {
+                "name": "SIRH Lucca",
+                "type": "system",
+                "color": "orange"
+              }
+            ],
+            "content": {
+              "intro": "J'ai consulté votre compteur personnel dans le SIRH. Vous disposez actuellement de 5 jours de RTT restants sur votre compteur.",
+              "sections": [
+               {
+                  "title": "Détail",
+                  "type": "info",
+                  "content": "Sur les 12 jours acquis cette année, vous en avez déjà utilisé 7."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-2",
+                  "name": "SIRH Lucca",
+                  "article": "Compteur individuel",
+                  "title": "Solde des jours RTT au 14/01/2026",
+                  "verifiedDate": "2025-01-14",
+                  "status": "valid"
+                }
+              ],
+              "context": "Données extraites en temps réel du système d'information RH",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-14T09:16:45Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 95,
+            "sources": [
+              {
+                "name": "Accord d'entreprise sur le temps de travail",
+                "type": "accord",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "L'accord d'entreprise fixe effectivement une limite d'utilisation des jours RTT :",
+              "sections": [
+                {
+                  "title": "Date limite d'utilisation",
+                  "type": "warning",
+                  "content": "Les jours RTT acquis au cours d'une année doivent impérativement être pris avant le 31 janvier de l'année suivante.",
+                  "reference": "Accord d'entreprise sur le temps de travail, Article 3.4"
+                },
+                {
+                  "title": "Point d'attention",
+                  "type": "info",
+                  "content": "Au-delà de cette date, les jours RTT non pris sont perdus, sauf dispositions exceptionnelles prévues par l'accord ou décision de la direction."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "Accord d'entreprise sur le temps de travail",
+                  "article": "Art. 3.4",
+                  "title": "Période d'utilisation et expiration des jours RTT",
+                  "verifiedDate": "2025-01-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire - Accord d'entreprise sur le temps de travail",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-14T09:17:58Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 72,
+            "sources": [
+              {
+                "name": "Accord d'entreprise sur le temps de travail",
+                "type": "accord",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "Votre question concerne une situation particulière qui pourrait nécessiter une dérogation aux règles habituelles.",
+              "sections": [
+                {
+                  "title": "Ce que prévoient les textes",
+                  "type": "info",
+                  "content": "L'Accord d'entreprise sur le temps de travail stipule que les RTT doivent être pris avant le 31 janvier et ne prévoit pas de report automatique. Toutefois, des cas exceptionnels peuvent exister (maladie prolongée, contraintes opérationnelles, etc.)."
+                },
+                {
+                  "title": "Recommandation",
+                  "type": "warning",
+                  "content": "Votre situation nécessite une analyse personnalisée et une décision du service RH. Il est important de les contacter rapidement pour étudier les possibilités de report ou d'aménagement dans votre cas spécifique."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "Accord d'entreprise XXX",
+                  "article": "Art. 3.4",
+                  "title": "Période d'utilisation et expiration des jours RTT",
+                  "verifiedDate": "2025-01-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire - Absence de clause explicite sur les reports exceptionnels",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-14T09:19:12Z"
+            },
+            "suggestHRTransmission": {
+              "prompt": "Souhaitez-vous que je transmette votre demande au service RH pour qu'ils étudient votre situation ?",
+              "context": "Demande de report exceptionnel de 6 jours RTT au-delà du 31 janvier",
+              "actions": {
+                "primary": {
+                  "label": "Oui, contacter les RH",
+                  "action": "createRequest"
+                },
+                "secondary": {
+                  "label": "Non, je vais les contacter moi-même",
+                  "action": "dismiss"
+                }
+              }
+            },
+            "suggestsHumanReview": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "scenario-acompte-salaire",
+      "keywords": [ "demander", "acompte", "salaire"],
+      "category": "Rémunération",
+      "conversation": {
+        "title": "Demande d'acompte sur salaire",
+        "subtitle": "Conditions et procédure",
+        "messages": [
+          {
+            "type": "answer",
+            "confidence": 97,
+            "sources": [
+              {
+                "name": "Code du travail",
+                "type": "code",
+                "color": "blue"
+              },
+              {
+                "name": "Accord 2024-01",
+                "type": "accord",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "Oui, vous avez tout à fait le droit de demander un acompte sur salaire. C'est un droit prévu par le Code du travail et encadré par notre accord d'entreprise.",
+              "sections": [
+                {
+                  "title": "Cadre légal",
+                  "type": "info",
+                  "content": "Selon l'article L3242-1 du Code du travail, tout salarié peut demander le versement d'un acompte correspondant au travail déjà effectué. L'employeur est tenu d'accepter cette demande, à condition que le travail ait été réellement accompli.",
+                  "reference": "Code du travail, Article L3242-1"
+                },
+                {
+                  "title": "Modalités dans notre entreprise",
+                  "type": "steps",
+                  "items": [
+                    {
+                      "number": 1,
+                      "text": "Montant maximum : L'acompte ne peut pas dépasser le salaire déjà acquis (calculé au prorata du temps de travail effectué dans le mois)",
+                      "reference": "Code du travail, L3242-1"
+                    },
+                    {
+                      "number": 2,
+                      "text": "Délai de traitement : Les demandes sont traitées sous 48h ouvrées et le versement intervient sous 3 à 5 jours ouvrés",
+                      "reference": "Accord 2024-01, Article 5.3"
+                    },
+                    {
+                      "number": 3,
+                      "text": "Fréquence : Vous pouvez demander un acompte une fois par mois, sauf circonstances exceptionnelles validées par les RH",
+                      "reference": "Accord 2024-01, Article 5.4"
+                    }
+                  ]
+                },
+                {
+                  "title": "Point d'attention",
+                  "type": "warning",
+                  "content": "L'acompte sera automatiquement déduit de votre salaire lors de la prochaine paie. Il ne s'agit pas d'une avance mais d'un versement anticipé de votre rémunération déjà acquise."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Code du travail - Rémunération",
+                  "article": "Article L3242-1",
+                  "title": "Salaire minimum, paiement du salaire, égalité salariale - Droit à l'acompte",
+                  "verifiedDate": "2025-01-14",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Accord d'entreprise - Intéressement et Participation",
+                  "article": "Articles 5.3 et 5.4",
+                  "title": "Dispositifs d'intéressement et de participation aux résultats • Modalités de calcul et de répartition - Procédure de demande d'acompte",
+                  "verifiedDate": "2025-01-14",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire RH - Code du travail et Accord d'entreprise 2024-01",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-14T10:22:18Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 95,
+            "sources": [
+              {
+                "name": "Code du travail",
+                "type": "code",
+                "color": "blue"
+              },
+              {
+                "name": "Accord 2024-01",
+                "type": "accord",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "Parfait, votre demande d'acompte de 400€ peut être transmise au service RH.",
+              "sections": [
+                {
+                  "title": "Procédure",
+                  "type": "info",
+                  "content": "Le service paie vérifiera que le montant demandé correspond bien au salaire que vous avez déjà acquis ce mois-ci. Une fois validé, l'acompte sera versé sous 3 à 5 jours ouvrés sur votre compte bancaire habituel."
+                },
+                {
+                  "title": "Important à savoir",
+                  "type": "warning",
+                  "content": "Le montant de 400€ sera automatiquement déduit de votre salaire de janvier 2026. Assurez-vous que cette déduction ne pose pas de difficulté pour votre budget de fin de mois."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Code du travail - Rémunération",
+                  "article": "Article L3242-1",
+                  "title": "Droit à l'acompte sur salaire",
+                  "verifiedDate": "2025-01-14",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Accord d'entreprise - Intéressement et Participation",
+                  "article": "Article 5.3",
+                  "title": "Modalités de versement et déduction des acomptes sur salaire",
+                  "verifiedDate": "2025-01-14",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire RH - Code du travail et Accord d'entreprise 2024-01",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-14T10:24:35Z"
+            },
+            "suggestHRTransmission": {
+              "prompt": "Souhaitez-vous transmettre votre demande d'acompte de 400€ au service RH ?",
+              "context": "Demande d'acompte sur salaire de 400€",
+              "preFilledData": {
+                "amount": 400,
+                "currency": "EUR",
+                "requestDate": "2026-01-14",
+                "estimatedProcessingTime": "3-5 jours ouvrés"
+              },
+              "actions": {
+                "primary": {
+                  "label": "Transmettre aux RH",
+                  "action": "createRequest",
+                  "metadata": {
+                    "subject": "Demande d'acompte sur salaire",
+                    "amount": 400,
+                    "priority": "normal",
+                    "requestType": "advance_payment"
+                  }
+                },
+                "secondary": {
+                  "label": "Annuler",
+                  "action": "dismiss"
+                }
+              }
+            },
+            "suggestsHumanReview": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "scenario-index-egalite",
+      "keywords": ["index", "égalité", "femmes-hommes", "calcul", "publication"],
+      "category": "Égalité professionnelle",
+      "conversation": {
+        "title": "Index égalité femmes-hommes",
+        "subtitle": "Calcul et publication 2025",
+        "messages": [
+          {
+            "type": "answer",
+            "confidence": 95,
+            "sources": [
+              {
+                "name": "Code du travail",
+                "type": "loi",
+                "color": "red"
+              }
+            ],
+            "content": {
+              "intro": "L'index de l'égalité professionnelle entre les femmes et les hommes doit être calculé chaque année par toutes les entreprises d'au moins 50 salariés et publié avant le 1er mars.",
+              "sections": [
+                {
+                  "title": "Les 5 indicateurs de l'index (sur 100 points)",
+                  "type": "steps",
+                  "items": [
+                    {
+                      "number": 1,
+                      "text": "Écart de rémunération entre femmes et hommes (40 points max)",
+                      "reference": "Code du travail, R1142-2"
+                    },
+                    {
+                      "number": 2,
+                      "text": "Écart de répartition des augmentations individuelles (20 points max pour +250 salariés, 35 points pour 50-250)",
+                      "reference": "Code du travail, R1142-2"
+                    },
+                    {
+                      "number": 3,
+                      "text": "Écart de répartition des promotions (15 points max, uniquement pour +250 salariés)",
+                      "reference": "Code du travail, R1142-2"
+                    },
+                    {
+                      "number": 4,
+                      "text": "Pourcentage de salariées augmentées au retour de congé maternité (15 points max)",
+                      "reference": "Code du travail, R1142-2"
+                    },
+                    {
+                      "number": 5,
+                      "text": "Nombre de personnes du sexe sous-représenté parmi les 10 plus hautes rémunérations (10 points max)",
+                      "reference": "Code du travail, R1142-2"
+                    }
+                  ]
+                },
+                {
+                  "title": "Obligations de l'employeur",
+                  "type": "warning",
+                  "content": "Si l'index est inférieur à 75 points, l'entreprise doit mettre en place des mesures correctives dans les 3 ans. Si l'index est inférieur à 85 points, il faut publier les résultats détaillés par indicateur. La publication doit être faite sur le site du ministère du Travail."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Code du travail",
+                  "article": "R1142-2",
+                  "title": "Index de l'égalité professionnelle - Modalités de calcul",
+                  "verifiedDate": "2025-01-05",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire RH - Code du travail",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-06T09:00:07Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 93,
+            "sources": [
+              {
+                "name": "Code du travail",
+                "type": "loi",
+                "color": "red"
+              },
+              {
+                "name": "Décret 2019-15",
+                "type": "decret",
+                "color": "orange"
+              }
+            ],
+            "content": {
+              "intro": "Le calcul de l'indicateur relatif aux écarts de rémunération est le plus complexe et représente 40% de la note totale.",
+              "sections": [
+                {
+                  "title": "Méthodologie de calcul",
+                  "type": "steps",
+                  "items": [
+                    {
+                      "number": 1,
+                      "text": "Regrouper les salariés par catégories socioprofessionnelles (CSP) et tranches d'âge",
+                      "reference": "Décret 2019-15, Art. 3"
+                    },
+                    {
+                      "number": 2,
+                      "text": "Calculer la rémunération moyenne annuelle des femmes et des hommes dans chaque groupe",
+                      "reference": "Décret 2019-15, Art. 3"
+                    },
+                    {
+                      "number": 3,
+                      "text": "Calculer l'écart de rémunération pour chaque groupe",
+                      "reference": "Décret 2019-15, Art. 3"
+                    },
+                    {
+                      "number": 4,
+                      "text": "Appliquer une pondération selon l'effectif de chaque groupe",
+                      "reference": "Décret 2019-15, Art. 3"
+                    },
+                    {
+                      "number": 5,
+                      "text": "Le résultat final donne un écart en % qui est converti en points (40 points si écart ≤ 1%)",
+                      "reference": "Décret 2019-15, Art. 3"
+                    }
+                  ]
+                },
+                {
+                  "title": "Éléments de rémunération à inclure",
+                  "type": "info",
+                  "content": "Sont pris en compte : salaire de base, primes, avantages en nature. Sont exclus : heures supplémentaires, indemnités de licenciement, indemnités de congés payés."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-2",
+                  "name": "Décret 2019-15",
+                  "article": "Art. 3",
+                  "title": "Modalités de calcul de l'indicateur écart de rémunération",
+                  "verifiedDate": "2025-01-05",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire RH - Décret 2019-15",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-06T09:10:45Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 97,
+            "sources": [
+              {
+                "name": "Ministère du Travail",
+                "type": "procedure",
+                "color": "blue"
+              }
+            ],
+            "content": {
+              "intro": "Oui, le ministère du Travail met à disposition un simulateur-calculateur officiel pour faciliter le calcul de l'index.",
+              "sections": [
+                {
+                  "title": "Utilisation du simulateur",
+                  "type": "steps",
+                  "items": [
+                    {
+                      "number": 1,
+                      "text": "Accéder au simulateur sur index-egapro.travail.gouv.fr",
+                      "reference": "Ministère du Travail - Simulateur Index Egapro"
+                    },
+                    {
+                      "number": 2,
+                      "text": "Saisir les données de l'entreprise (effectif, période de référence)",
+                      "reference": "Ministère du Travail - Simulateur Index Egapro"
+                    },
+                    {
+                      "number": 3,
+                      "text": "Renseigner les données pour chaque indicateur",
+                      "reference": "Ministère du Travail - Simulateur Index Egapro"
+                    },
+                    {
+                      "number": 4,
+                      "text": "Le simulateur calcule automatiquement la note et génère un récapitulatif",
+                      "reference": "Ministère du Travail - Simulateur Index Egapro"
+                    },
+                    {
+                      "number": 5,
+                      "text": "Publier directement les résultats depuis le simulateur",
+                      "reference": "Ministère du Travail - Simulateur Index Egapro"
+                    }
+                  ]
+                },
+                {
+                  "title": "Avantages",
+                  "type": "info",
+                  "content": "Le simulateur officiel garantit l'exactitude des calculs, facilite la publication obligatoire et conserve l'historique de vos index pour le suivi pluriannuel."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "Ministère du Travail",
+                  "article": "Simulateur Index Egapro",
+                  "title": "Outil de calcul et de déclaration de l'index égalité",
+                  "verifiedDate": "2025-01-05",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire RH - Ressources ministère du Travail",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-06T09:20:35Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 100,
+            "content": {
+              "intro": "Ravi de vous aider !",
+              "sections": [
+                {
+                  "title": "N'hésitez pas à revenir vers moi si vous avez d'autres questions sur l'index égalité ou tout autre sujet RH.",
+                  "type": "info"
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Code du travail",
+                  "article": "R1142-2",
+                  "title": "Index de l'égalité professionnelle - Modalités de calcul",
+                  "verifiedDate": "2025-01-05",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire RH - Code du travail",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-06T09:00:07Z"
+            },
+            "suggestsHumanReview": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "scenario-default",
+      "keywords": [],
+      "category": "Information RH",
+      "conversation": {
+        "title": "Information RH générale",
+        "subtitle": "Conversation avec Kalia",
+        "messages": [
+          {
+            "type": "answer",
+            "confidence": 92,
+            "sources": [
+              {
+                "name": "Guide RH",
+                "type": "procedure",
+                "color": "blue"
+              },
+              {
+                "name": "Règlement intérieur",
+                "type": "convention",
+                "color": "purple"
+              }
+            ],
+            "content": {
+              "intro": "Voici les informations concernant votre demande.",
+              "sections": [
+                {
+                  "title": "Étapes à suivre :",
+                  "type": "steps",
+                  "items": [
+                    {
+                      "number": 1,
+                      "text": "Discuter avec votre manager pour valider le besoin",
+                      "reference": ""
+                    },
+                    {
+                      "number": 2,
+                      "text": "Préparer un dossier complet avec les justificatifs nécessaires",
+                      "reference": ""
+                    },
+                    {
+                      "number": 3,
+                      "text": "Soumettre votre demande au service RH via le formulaire dédié",
+                      "reference": ""
+                    }
+                  ]
+                },
+                {
+                  "title": "Point d'attention",
+                  "type": "warning",
+                  "content": "N'oubliez pas de vérifier les délais applicables à votre situation. Certaines demandes doivent être soumises dans des périodes spécifiques."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Guide RH",
+                  "article": "Art. 3.1",
+                  "title": "Procédures de demandes RH",
+                  "verifiedDate": "2025-01-05",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recherche effectuée dans la base documentaire RH",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-07T10:25:05Z"
+            },
+            "suggestsHumanReview": false
+          },
+{
+        "type": "answer",
+        "confidence": 91,
+        "sources": [
+          {
+            "name": "SIRH Lucca",
+            "type": "system",
+            "color": "orange"
+          },
+          {
+            "name": "Accord 2024-01",
+            "type": "accord",
+            "color": "green"
+          }
+        ],
+        "content": {
+          "intro": "J'ai vérifié votre situation dans le SIRH pour valider la faisabilité de votre demande d'acompte de 400€.",
+          "sections": [
+            {
+              "title": "Validation de la demande",
+              "type": "success",
+              "content": "Votre demande d'acompte de **400€** est compatible avec votre salaire acquis au prorata du temps de travail effectué ce mois-ci. Vous pouvez procéder à la demande.",
+              "metadata": {
+                "requestedAmount": "400€",
+                "calculatedEligibility": "Éligible",
+                "workDaysCompleted": "9 jours sur 21",
+                "estimatedGrossSalary": "~1 200€ acquis"
+              }
+            },
+            {
+              "title": "Prochaines étapes",
+              "type": "info",
+              "content": "Une fois votre demande transmise au service RH :\n\n• **Validation** : Le service paie vérifiera le montant sous 48h ouvrées\n• **Versement** : Si validé, l'acompte sera versé sous 3 à 5 jours ouvrés sur votre compte bancaire habituel\n• **Déduction** : Le montant de 400€ sera automatiquement déduit de votre salaire de janvier 2026"
+            },
+            {
+              "title": "Information importante",
+              "type": "alert",
+              "content": "Cet acompte sera déduit de votre prochain bulletin de salaire. Assurez-vous que cela n'impacte pas votre budget pour la fin du mois."
+            }
+          ]
+        },
+        "traceability": {
+          "sources": [
+            {
+              "id": "source-3",
+              "name": "SIRH Lucca - Module Paie",
+              "article": "Calcul temps de travail effectué",
+              "title": "Vérification du salaire acquis au prorata pour demande d'acompte",
+              "verifiedDate": "2025-01-14",
+              "status": "valid"
+            },
+            {
+              "id": "source-4",
+              "name": "Accord d'entreprise - Intéressement et Participation",
+              "article": "Article 5.5",
+              "title": "Modalités de versement et déduction des acomptes sur salaire",
+              "verifiedDate": "2025-01-14",
+              "status": "valid"
+            }
+          ],
+          "context": "Calcul effectué sur la base du temps de travail réel au 14 janvier 2026 - Données SIRH en temps réel",
+          "validatedBy": "Système automatique",
+          "validatedAt": "2025-01-14T10:24:35Z"
+        },
+        "suggestHRTransmission": {
+          "prompt": "Votre demande est prête à être transmise. Souhaitez-vous confirmer votre demande d'acompte de 400€ ?",
+          "context": "Demande d'acompte sur salaire de 400€ - Montant vérifié et éligible selon le temps de travail effectué",
+          "preFilledData": {
+            "amount": 400,
+            "currency": "EUR",
+            "requestDate": "2026-01-14",
+            "workDaysCompleted": 9,
+            "estimatedProcessingTime": "3-5 jours ouvrés"
+          },
+          "actions": {
+            "primary": {
+              "label": "Confirmer et transmettre aux RH",
+              "action": "createRequest",
+              "metadata": {
+                "subject": "Demande d'acompte sur salaire",
+                "amount": 400,
+                "priority": "normal",
+                "requestType": "advance_payment"
+              }
+            },
+            "secondary": {
+              "label": "Modifier le montant",
+              "action": "edit"
+            },
+            "tertiary": {
+              "label": "Annuler",
+              "action": "dismiss"
+            }
+          }
+        },
+        "suggestsHumanReview": false,
+        "automatedValidation": {
+          "eligibilityCheck": "passed",
+          "amountCheck": "passed",
+          "frequencyCheck": "passed",
+          "readyForSubmission": true
+        }
+      }
+        ]
+      }
+    }
+  ],
+  "defaultScenarioId": "scenario-default"
+}

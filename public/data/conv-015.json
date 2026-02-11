@@ -1,0 +1,274 @@
+{
+  "id": "conv-015",
+  "userId": "user-006",
+  "title": "Index égalité femmes-hommes",
+  "subtitle": "Calcul et publication 2025",
+  "category": "Égalité professionnelle",
+  "tags": ["index égalité", "femmes-hommes", "indicateurs", "publication"],
+  "complexity": "high",
+  "linkedRequest": null,
+  "linkedRequestStatus": null,
+  "createdAt": "2025-01-06T09:00:00Z",
+  "updatedAt": "2025-01-06T09:40:00Z",
+  "messages": [
+    {
+      "id": "msg-1",
+      "type": "question",
+      "content": "Comment calculer l'index égalité femmes-hommes 2025 ?",
+      "timestamp": "2025-01-06T09:00:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-2",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 95,
+      "content": {
+        "intro": "L'index de l'égalité professionnelle entre les femmes et les hommes doit être calculé chaque année par toutes les entreprises d'au moins 50 salariés et publié avant le 1er mars.",
+        "sections": [
+          {
+            "title": "Les 5 indicateurs de l'index (sur 100 points) :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Écart de rémunération entre femmes et hommes (40 points max)",
+                "reference": "Code du travail, R1142-2"
+              },
+              {
+                "number": 2,
+                "text": "Écart de répartition des augmentations individuelles (20 points max pour +250 salariés, 35 points pour 50-250)",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Écart de répartition des promotions (15 points max, uniquement pour +250 salariés)",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Pourcentage de salariées augmentées au retour de congé maternité (15 points max)",
+                "reference": ""
+              },
+              {
+                "number": 5,
+                "text": "Nombre de personnes du sexe sous-représenté parmi les 10 plus hautes rémunérations (10 points max)",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Obligations de l'employeur",
+            "type": "warning",
+            "content": "Si l'index est inférieur à 75 points, l'entreprise doit mettre en place des mesures correctives dans les 3 ans. Si l'index est inférieur à 85 points, il faut publier les résultats détaillés par indicateur. La publication doit être faite sur le site du ministère du Travail."
+          }
+        ]
+      },
+      "timestamp": "2025-01-06T09:00:07Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-1",
+            "name": "Code du travail",
+            "article": "R1142-2",
+            "title": "Index de l'égalité professionnelle - Modalités de calcul",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-06T09:00:07Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-3",
+      "type": "question",
+      "content": "Comment calcule-t-on précisément l'indicateur sur les écarts de rémunération ?",
+      "timestamp": "2025-01-06T09:10:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-4",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Code du travail",
+          "type": "loi",
+          "color": "red"
+        }
+      ],
+      "confidence": 93,
+      "content": {
+        "intro": "Le calcul de l'indicateur relatif aux écarts de rémunération est le plus complexe et représente 40% de la note totale.",
+        "sections": [
+          {
+            "title": "Méthodologie de calcul :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Regrouper les salariés par catégories socioprofessionnelles (CSP) et tranches d'âge",
+                "reference": "Décret 2019-15, Art. 3"
+              },
+              {
+                "number": 2,
+                "text": "Calculer la rémunération moyenne annuelle des femmes et des hommes dans chaque groupe",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Calculer l'écart de rémunération pour chaque groupe",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Appliquer une pondération selon l'effectif de chaque groupe",
+                "reference": ""
+              },
+              {
+                "number": 5,
+                "text": "Le résultat final donne un écart en % qui est converti en points (40 points si écart ≤ 1%)",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Éléments de rémunération à inclure",
+            "type": "info",
+            "content": "Sont pris en compte : salaire de base, primes, avantages en nature. Sont exclus : heures supplémentaires, indemnités de licenciement, indemnités de congés payés."
+          }
+        ]
+      },
+      "timestamp": "2025-01-06T09:10:45Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-2",
+            "name": "Décret 2019-15",
+            "article": "Art. 3",
+            "title": "Modalités de calcul de l'indicateur écart de rémunération",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-06T09:10:45Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": false,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-5",
+      "type": "question",
+      "content": "Existe-t-il un outil de calcul automatique ?",
+      "timestamp": "2025-01-06T09:20:00Z",
+      "author": "user"
+    },
+    {
+      "id": "msg-6",
+      "type": "answer",
+      "sources": [
+        {
+          "name": "Ministère du Travail",
+          "type": "procedure",
+          "color": "blue"
+        }
+      ],
+      "confidence": 97,
+      "content": {
+        "intro": "Oui, le ministère du Travail met à disposition un simulateur-calculateur officiel pour faciliter le calcul de l'index.",
+        "sections": [
+          {
+            "title": "Utilisation du simulateur :",
+            "type": "steps",
+            "items": [
+              {
+                "number": 1,
+                "text": "Accéder au simulateur sur index-egapro.travail.gouv.fr",
+                "reference": ""
+              },
+              {
+                "number": 2,
+                "text": "Saisir les données de l'entreprise (effectif, période de référence)",
+                "reference": ""
+              },
+              {
+                "number": 3,
+                "text": "Renseigner les données pour chaque indicateur",
+                "reference": ""
+              },
+              {
+                "number": 4,
+                "text": "Le simulateur calcule automatiquement la note et génère un récapitulatif",
+                "reference": ""
+              },
+              {
+                "number": 5,
+                "text": "Publier directement les résultats depuis le simulateur",
+                "reference": ""
+              }
+            ]
+          },
+          {
+            "title": "Avantages",
+            "type": "info",
+            "content": "Le simulateur officiel garantit l'exactitude des calculs, facilite la publication obligatoire et conserve l'historique de vos index pour le suivi pluriannuel."
+          }
+        ]
+      },
+      "timestamp": "2025-01-06T09:20:35Z",
+      "author": "kalia",
+      "traceability": {
+        "sources": [
+          {
+            "id": "source-3",
+            "name": "Ministère du Travail",
+            "article": "Simulateur Index Egapro",
+            "title": "Outil de calcul et de déclaration de l'index égalité",
+            "verifiedDate": "2025-01-05",
+            "status": "valid"
+          }
+        ],
+        "context": "Recherche effectuée dans la base documentaire RH",
+        "validatedBy": "Système automatique",
+        "validatedAt": "2025-01-06T09:20:35Z"
+      },
+      "suggestsHumanReview": false,
+      "actions": {
+        "useful": true,
+        "needsImprovement": false,
+        "validated": false,
+        "requestCreated": false
+      }
+    },
+    {
+      "id": "msg-7",
+      "type": "question",
+      "content": "Excellent, merci pour ces informations précises !",
+      "timestamp": "2025-01-06T09:40:00Z",
+      "author": "user"
+    }
+  ]
+}
