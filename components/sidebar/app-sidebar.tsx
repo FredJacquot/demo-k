@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   Ticket,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -41,6 +42,7 @@ import { hasAccess, getRoleLabel, getRoleBadgeClass } from "@/lib/permissions";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { signOut } from "next-auth/react";
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -150,7 +152,7 @@ export function AppSidebar() {
               className="w-full !bg-gradient-to-r !from-blue-500 !to-purple-600 !text-white !font-normal hover:!from-blue-600 hover:!to-purple-700 hover:!text-white"
               tooltip="Nouvelle conversation"
             >
-              <Link href="/conversation/new">
+              <Link href="/conversation/new?mock">
                 <Plus />
                 <span>Nouvelle conversation</span>
               </Link>
@@ -377,31 +379,15 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>Changer d&apos;utilisateur</DropdownMenuLabel>
+                  <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  {users.map((user) => (
-                    <DropdownMenuItem
-                      key={user.id}
-                      onClick={() => setCurrentUser(user)}
-                      className="cursor-pointer"
-                      disabled={user.id === currentUser.id}
-                    >
-                      <div className="flex items-center gap-2 w-full">
-                        <Avatar className="h-6 w-6">
-                          <AvatarFallback className="text-xs">
-                            {user.name.split(" ").map(n => n[0]).join("").toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col flex-1 min-w-0">
-                          <span className="text-sm font-medium truncate">{user.name}</span>
-                          <span className="text-xs text-muted-foreground truncate">{user.position}</span>
-                        </div>
-                        <Badge variant="outline" className={`text-[9px] px-1 py-0 h-4 ${getRoleBadgeClass(user.role)}`}>
-                          {getRoleLabel(user.role)}
-                        </Badge>
-                      </div>
-                    </DropdownMenuItem>
-                  ))}
+                  <DropdownMenuItem
+                    onClick={() => signOut({ callbackUrl: "/login" })}
+                    className="cursor-pointer text-red-600 focus:text-red-600"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Déconnexion</span>
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (

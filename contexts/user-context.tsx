@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useSession } from "next-auth/react";
 
 export type UserRole = "employee" | "hr" | "drh" | "payroll";
 
@@ -25,9 +26,8 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUserState] = useState<User | null>(null);
+  const { data: session, status } = useSession();
   const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Load users from JSON
   useEffect(() => {
@@ -36,38 +36,32 @@ export function UserProvider({ children }: { children: ReactNode }) {
         const response = await fetch("/data/users.json");
         const data = await response.json();
         setUsers(data.users);
-
-        // Check localStorage for saved user
-        const savedUserId = localStorage.getItem("currentUserId");
-        
-        if (savedUserId) {
-          const savedUser = data.users.find((u: User) => u.id === savedUserId);
-          if (savedUser) {
-            setCurrentUserState(savedUser);
-          } else {
-            // If saved user not found, default to first user
-            setCurrentUserState(data.users[0]);
-          }
-        } else {
-          // Default to first user (user-001)
-          setCurrentUserState(data.users[0]);
-        }
       } catch (error) {
         console.error("Error loading users:", error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
     loadUsers();
   }, []);
 
+  // Derive currentUser from session instead of storing in state
+  const currentUser: User | null = session?.user ? {
+    id: session.user.id,
+    email: session.user.email,
+    name: session.user.name,
+    role: session.user.role as UserRole,
+    department: session.user.department,
+    position: session.user.position,
+    company: session.user.company,
+    convention: session.user.convention,
+  } : null;
+
+  const isLoading = status === "loading";
+
   const setCurrentUser = (user: User) => {
-    setCurrentUserState(user);
-    localStorage.setItem("currentUserId", user.id);
-    
-    // Redirect to home page when user changes
-    window.location.href = "/";
+    // This is now handled by NextAuth session
+    // Keep the function for backward compatibility but it's a no-op
+    console.log("setCurrentUser called but is now handled by NextAuth", user);
   };
 
   return (

@@ -11,22 +11,6 @@
       "convention": "Syntec"
     },
     {
-      "id": "user-002",
-      "name": "Jean Dupont",
-      "email": "jean.dupont@entreprise.fr",
-      "role": "employee",
-      "department": "Ressources Humaines",
-      "position": "Responsable RH"
-    },
-    {
-      "id": "user-003",
-      "name": "Claire Rousseau",
-      "email": "claire.rousseau@entreprise.fr",
-      "role": "employee",
-      "department": "Direction",
-      "position": "Directrice des Ressources Humaines"
-    },
-    {
       "id": "user-004",
       "name": "Jean Dupont",
       "email": "jean.dupont@entreprise.fr",
