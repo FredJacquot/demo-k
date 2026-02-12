@@ -44,14 +44,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         try {
-          // Load users from JSON
-          const response = await fetch(`${process.env.NEXTAUTH_URL || "http://localhost:3000"}/data/users.json`);
+          // Load users from JSON - using relative path that works in both dev and production
+          const response = await fetch('/data/users.json');
+          
+          if (!response.ok) {
+            console.error("Failed to fetch users.json:", response.status, response.statusText);
+            return null;
+          }
+          
           const data = await response.json();
           
           // Find user by email
           const user = data.users.find((u: { email: string }) => u.email === credentials.email);
           
           if (!user) {
+            console.error("User not found:", credentials.email);
             return null;
           }
 
@@ -60,6 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const isValidPassword = credentials.password === "demo123";
           
           if (!isValidPassword) {
+            console.error("Invalid password for user:", credentials.email);
             return null;
           }
 
