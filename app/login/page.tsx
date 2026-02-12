@@ -36,7 +36,11 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError("Email ou mot de passe incorrect");
+        if (result.error === "CredentialsSignin") {
+          setError("Email ou mot de passe incorrect");
+        } else {
+          setError("Erreur de configuration/authentification serveur. Contactez l'administrateur.");
+        }
         setIsLoading(false);
       } else {
         router.push("/");
@@ -56,7 +60,7 @@ export default function LoginPage() {
             Kalia - Assistant Paie & RH
           </CardTitle>
           <CardDescription className="text-center">
-            Connectez-vous pour accéder à l'application
+            Connectez-vous pour accéder à l&apos;application
           </CardDescription>
         </CardHeader>
         <CardContent>
