@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import type { User as NextAuthUser } from "next-auth";
+import usersData from "@/public/data/users.json";
 
 // Extend the built-in session types
 declare module "next-auth" {
@@ -43,49 +44,34 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        try {
-          // Load users from JSON - using relative path that works in both dev and production
-          const response = await fetch('/data/users.json');
-          
-          if (!response.ok) {
-            console.error("Failed to fetch users.json:", response.status, response.statusText);
-            return null;
-          }
-          
-          const data = await response.json();
-          
-          // Find user by email
-          const user = data.users.find((u: { email: string }) => u.email === credentials.email);
-          
-          if (!user) {
-            console.error("User not found:", credentials.email);
-            return null;
-          }
-
-          // For demo purposes, password is "demo123" for all users
-          // In production, you should store hashed passwords
-          const isValidPassword = credentials.password === "demo123";
-          
-          if (!isValidPassword) {
-            console.error("Invalid password for user:", credentials.email);
-            return null;
-          }
-
-          // Return user object that will be stored in the session
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role,
-            department: user.department,
-            position: user.position,
-            company: user.company,
-            convention: user.convention,
-          } as NextAuthUser;
-        } catch (error) {
-          console.error("Error during authentication:", error);
+        // Find user by email from imported JSON data
+        const user = usersData.users.find((u: { email: string }) => u.email === credentials.email);
+        
+        if (!user) {
+          console.error("User not found:", credentials.email);
           return null;
         }
+
+        // For demo purposes, password is "demo123" for all users
+        // In production, you should store hashed passwords
+        const isValidPassword = credentials.password === "demo123";
+        
+        if (!isValidPassword) {
+          console.error("Invalid password for user:", credentials.email);
+          return null;
+        }
+
+        // Return user object that will be stored in the session
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          department: user.department,
+          position: user.position,
+          company: user.company,
+          convention: user.convention,
+        } as NextAuthUser;
       }
     })
   ],
