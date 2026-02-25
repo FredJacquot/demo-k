@@ -183,7 +183,7 @@
         "validated": false,
         "requestCreated": true,
         "requestId": "REQ-006",
-        "requestStatus": "pending"
+        "requestStatus": "resolved"
       }
     }
   ],
@@ -193,7 +193,7 @@
     "userId": "user-003",
     "userName": "Sophie Leclerc",
     "createdAt": "2025-01-03T13:41:00Z",
-    "status": "pending",
+    "status": "resolved",
     "priority": "low",
     "category": "Paie",
     "title": "Note de frais - Validation",

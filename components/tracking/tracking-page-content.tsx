@@ -215,13 +215,13 @@ export default function TrackingPageContent() {
       const { updateRequestAndSyncConversation } = await import("@/lib/requests-storage")
       updateRequestAndSyncConversation(selectedRequest.id, {
         status: "in_progress",
-        assignedTo: currentUser.id,
+        assignedTo: currentUser.name,
         assignedToName: currentUser.name,
       })
 
       const updatedRequests = allRequests.map((req) =>
         req.id === selectedRequest.id
-          ? { ...req, status: "in_progress" as const, assignedTo: currentUser.id, assignedToName: currentUser.name }
+          ? { ...req, status: "in_progress" as const, assignedTo: currentUser.name, assignedToName: currentUser.name }
           : req,
       )
       setAllRequests(updatedRequests)

@@ -622,6 +622,44 @@
       }
     },
     {
+      "id": "scenario-hors-sujet-recette",
+      "keywords": ["recette", "tarte", "pommes", "cuisine", "gâteau"],
+      "category": "Hors sujet",
+      "conversation": {
+        "title": "Demande hors périmètre RH",
+        "subtitle": "Question sans lien avec les ressources humaines",
+        "messages": [
+          {
+            "type": "answer",
+            "confidence": 99,
+            "sources": [],
+            "content": {
+              "intro": "Je suis désolé, mais votre question ne concerne pas les ressources humaines.",
+              "sections": [
+                {
+                  "title": "Périmètre de compétence",
+                  "type": "warning",
+                  "content": "Je ne peux répondre qu'aux questions liées aux RH : congés, paie, contrat de travail, formation, temps de travail, avantages sociaux, etc."
+                },
+                {
+                  "title": "Suggestion",
+                  "type": "info",
+                  "content": "N'hésitez pas à me poser une question sur un sujet RH, je serai ravi de vous aider !"
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [],
+              "context": "Détection automatique d'une requête hors périmètre RH (thème identifié : cuisine / recette)",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-14T10:42:03Z"
+            },
+            "suggestsHumanReview": false
+          }
+        ]
+      }
+    },
+    {
       "id": "scenario-default",
       "keywords": [],
       "category": "Information RH",
