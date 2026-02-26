@@ -7,6 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { ThumbsUp, AlertCircle, FileText, Send, CheckCircle2, Forward, Paperclip, X, Image as ImageIcon, FileSpreadsheet } from "lucide-react";
 import type { Message, Conversation } from "@/types/conversation";
 import type { Attachment } from "@/types/request";
+import { useState } from "react";
 
 interface AnswerMessageProps {
   message: Message;
@@ -22,6 +23,7 @@ interface AnswerMessageProps {
   onFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemoveAttachment: (attachmentId: string) => void;
   onCreateRequest: () => void;
+  onEscalateRequest: () => void;
   onDismiss: () => void;
   uploadingForMessage: boolean;
   fileInputRef: React.RefObject<HTMLInputElement>;
@@ -41,11 +43,14 @@ export function AnswerMessage({
   onFileSelect,
   onRemoveAttachment,
   onCreateRequest,
+  onEscalateRequest,
   onDismiss,
   uploadingForMessage,
   fileInputRef,
 }: AnswerMessageProps) {
   if (typeof message.content !== "object") return null;
+
+  const [feedbackVote, setFeedbackVote] = useState<"up" | "down" | null>(null);
 
   const getFileIcon = (type: string) => {
     if (type.startsWith("image/")) {
@@ -121,13 +126,13 @@ export function AnswerMessage({
                     </div>
                   )}
 
-                  {section.type === "info" && (
+                  {(section.type === "info" || section.type === "warning") && (
                     <div className="text-sm">
                       <h4 className="font-semibold">{section.title}</h4>
                       <p>{section.content}</p>
                     </div>
                   )}
-
+{/* 
                   {section.type === "warning" && (
                     <Alert variant="destructive" className="bg-orange-50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800">
                       <AlertCircle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
@@ -138,7 +143,7 @@ export function AnswerMessage({
                         {section.content}
                       </AlertDescription>
                     </Alert>
-                  )}
+                  )} */}
                 </div>
               ))}
 
@@ -288,7 +293,19 @@ export function AnswerMessage({
           <div className="flex items-center gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`gap-2 border transition-colors ${
+                    feedbackVote === "up"
+                      ? "bg-green-100 text-green-700 border-green-300 hover:bg-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800"
+                      : "border-transparent"
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setFeedbackVote((prev) => (prev === "up" ? null : "up"));
+                  }}
+                >
                   <ThumbsUp className="w-4 h-4" />
                   Utile
                 </Button>
@@ -299,13 +316,46 @@ export function AnswerMessage({
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`gap-2 border transition-colors ${
+                    feedbackVote === "down"
+                      ? "bg-red-100 text-red-700 border-red-300 hover:bg-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800"
+                      : "border-transparent"
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setFeedbackVote((prev) => (prev === "down" ? null : "down"));
+                  }}
+                >
                   <ThumbsUp className="w-4 h-4 rotate-180" />
                   Pas utile
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Cette réponse nécessite des améliorations</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEscalateRequest();
+                  }}
+                  disabled={requestAlreadyCreated}
+                >
+                  <Send className="w-4 h-4" />
+                  {requestAlreadyCreated ? "Demande créée" : "Créer une demande"}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Créer une demande RH depuis cette réponse</p>
               </TooltipContent>
             </Tooltip>
           </div>

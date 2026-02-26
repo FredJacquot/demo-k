@@ -286,30 +286,6 @@ export function AppSidebar() {
           </>
         )}
 
-        {/* Gestion de la paie - Only visible for payroll */}
-        {currentUser && hasAccess(currentUser.role, "gestion-paie") && (
-          <>
-            <SidebarSeparator className="!w-[calc(100%-1rem)]" />
-
-
-            <SidebarGroup>
-              <SidebarGroupLabel>Gestion de la paie</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild isActive={pathname === "/payroll"} tooltip="Gestion de la paie">
-                      <Link href="/payroll">
-                        <BarChart3 />
-                        <span>Gestion de la paie</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </>
-        )}
-
         {/* Administration - Only visible for drh */}
         {currentUser && hasAccess(currentUser.role, "administration") && (
           <>

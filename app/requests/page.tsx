@@ -11,19 +11,9 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { FileText, CheckCircle2, Clock, AlertCircle, Bot, Paperclip, Download, Image as ImageIcon, FileSpreadsheet } from "lucide-react";
+import { FileText, CheckCircle2, Clock, AlertCircle, Bot, Paperclip, Download, Image as ImageIcon, FileSpreadsheet, X } from "lucide-react";
 import { MobileSidebarTrigger } from "@/components/mobile-sidebar-trigger";
-
-// Type for simplified conversation messages in the panel
-interface ConversationMessage {
-  role: "user" | "assistant";
-  content: string;
-  timestamp: string;
-  metadata?: {
-    intent?: string;
-    confidence?: number;
-  };
-}
+import type { Message } from "@/types/conversation";
 
 function RequestsPageContent() {
   const router = useRouter();
@@ -36,7 +26,7 @@ function RequestsPageContent() {
   const [loading, setLoading] = useState(true);
   const [initialStatusFilter, setInitialStatusFilter] = useState<string | null>(null);
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
-  const [conversationMessages, setConversationMessages] = useState<ConversationMessage[]>([]);
+  const [conversationMessages, setConversationMessages] = useState<Message[]>([]);
 
   const selectedRequest = allRequests.find((req) => req.id === selectedRequestId) || null;
 
@@ -108,52 +98,42 @@ function RequestsPageContent() {
     loadData();
   }, [currentUser]);
 
-  // Load conversation messages when a request is selected
+  // Load real conversation messages when a request is selected
   useEffect(() => {
-    if (selectedRequest) {
-      console.log("[Requests] Selected request:", selectedRequest);
+    const loadConversation = async () => {
+      if (!selectedRequest || !selectedRequest.conversationId) {
+        setConversationMessages([]);
+        return;
+      }
 
-      // Create mock conversation based on the request
-      const mockConversation: ConversationMessage[] = [
-        {
-          role: "user",
-          content: "Bonjour, j'ai une question concernant mes droits.",
-          timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-        },
-        {
-          role: "assistant",
-          content:
-            "Bonjour ! Je suis là pour vous aider. Que souhaitez-vous savoir ?",
-          timestamp: new Date(Date.now() - 1000 * 60 * 28).toISOString(),
-          metadata: {
-            intent: selectedRequest.category === "paie" ? "Calcul paie" : 
-                    selectedRequest.category === "conges" ? "Gestion des congés" :
-                    selectedRequest.category === "formation" ? "Formation" : "Support RH",
-            confidence: 96,
-          },
-        },
-        {
-          role: "user",
-          content: selectedRequest.title || "Ma question",
-          timestamp: new Date(Date.now() - 1000 * 60 * 25).toISOString(),
-        },
-        {
-          role: "assistant",
-          content:
-            selectedRequest.reformulatedRequest || "Je comprends votre demande. Je vais transmettre cela au service RH.",
-          timestamp: new Date(Date.now() - 1000 * 60 * 23).toISOString(),
-          metadata: {
-            intent: selectedRequest.category === "paie" ? "Calcul paie" : 
-                    selectedRequest.category === "conges" ? "Gestion des congés" :
-                    selectedRequest.category === "formation" ? "Formation" : "Support RH",
-            confidence: 94,
-          },
-        },
-      ];
+      try {
+        const { getConversationById } = await import("@/lib/conversations-storage");
+        let conversation = getConversationById(selectedRequest.conversationId);
 
-      setConversationMessages(mockConversation);
-      console.log("[Requests] Mock conversation loaded:", mockConversation.length, "messages");
-    }
+        if (!conversation) {
+          try {
+            const response = await fetch(`/data/${selectedRequest.conversationId}.json`);
+            if (response.ok) {
+              conversation = await response.json();
+            }
+          } catch (fetchError) {
+            console.error("Error fetching conversation from file:", fetchError);
+          }
+        }
+
+        if (!conversation) {
+          setConversationMessages([]);
+          return;
+        }
+
+        setConversationMessages(conversation.messages);
+      } catch (error) {
+        console.error("Error loading conversation:", error);
+        setConversationMessages([]);
+      }
+    };
+
+    loadConversation();
   }, [selectedRequest]);
 
   const formatDate = (dateString: string) => {
@@ -212,10 +192,14 @@ function RequestsPageContent() {
     router.push(`/conversation/${conversationId}`);
   };
 
+  const handleToggleRequestPanel = (requestId: string) => {
+    setSelectedRequestId((currentId) => (currentId === requestId ? null : requestId));
+  };
+
   // Action handlers for the data table (employees can only view details and conversation)
   const actionHandlers: ColumnActionHandlers = {
     onViewDetails: (request) => {
-      setSelectedRequestId(request.id);
+      handleToggleRequestPanel(request.id);
     },
     onViewConversation: handleViewConversation,
     // No HR actions for employees: onTakeCharge, onResolve, onReopen
@@ -273,7 +257,7 @@ function RequestsPageContent() {
             <DataTable 
               columns={columns} 
               data={allRequests}
-              onRowClick={(request) => setSelectedRequestId(request.id)}
+              onRowClick={(request) => handleToggleRequestPanel(request.id)}
               meta={{ actionHandlers, users }}
               initialStatusFilter={initialStatusFilter}
             />
@@ -282,9 +266,9 @@ function RequestsPageContent() {
 
         {/* Panel on the right */}
         {selectedRequest && (
-          <div className="w-[40%] flex flex-col">
+          <div className="w-[40%] flex flex-col min-h-0">
             {/* Panel Header */}
-            <div className="border-b p-4">
+            <div className="border-b p-4 shrink-0 px-2">
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -302,73 +286,128 @@ function RequestsPageContent() {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  {selectedRequest.conversationId && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => router.push(`/conversation/${selectedRequest.conversationId}`)}
-                    >
-                      <FileText className="w-4 h-4 mr-2" />
-                      Conversation
-                    </Button>
-                  )}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setSelectedRequestId(null)}
+                    aria-label="Fermer le panneau"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
                 </div>
               </div>
             </div>
 
             {/* Panel Content */}
-            <ScrollArea className="flex-1 p-6">
-              <div className="space-y-4">
+            <ScrollArea className="flex-1 min-h-0 px-2">
+              <div className="p-6 space-y-4">
                 {/* Conversation History */}
                 <div className="text-xs text-muted-foreground uppercase tracking-wide mb-2">
                   Historique de la conversation
                 </div>
-                {conversationMessages.map((message, index) => (
-                  <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
+                {conversationMessages.map((message, index) => {
+                  const isUserMessage = message.author === "user";
+
+                  return (
+                  <div key={index} className={`flex ${isUserMessage ? "justify-end" : "justify-start"}`}>
                     <div
-                      className={`max-w-[85%] ${message.role === "user" ? "items-end" : "items-start"} flex flex-col gap-2`}
+                      className={`${isUserMessage ? "max-w-[75%] mr-2" : "max-w-[78%]"} ${isUserMessage ? "items-end" : "items-start"} flex flex-col gap-2 overflow-hidden`}
                     >
-                      {message.role === "assistant" && (
+                      {!isUserMessage && (
                         <div className="flex items-center gap-2">
                           <Avatar className="w-6 h-6">
                             <AvatarFallback className="text-xs bg-blue-100 text-blue-700">
                               <Bot className="w-3 h-3" />
                             </AvatarFallback>
                           </Avatar>
-                          <span className="text-xs font-medium">Kalia</span>
+                          <span className="text-xs font-medium">
+                            {message.author === "hr" ? "RH" : "Kalia"}
+                          </span>
                         </div>
                       )}
 
                       <div
                         className={`rounded-2xl px-4 py-3 ${
-                          message.role === "user"
+                          isUserMessage
                             ? "bg-primary text-primary-foreground rounded-tr-sm"
                             : "bg-background border shadow-sm rounded-tl-sm"
                         }`}
                       >
-                        <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                        {isUserMessage && (
+                          <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                            {message.content as string}
+                          </p>
+                        )}
 
-                        {message.role === "assistant" && message.metadata && (
+                        {!isUserMessage && (
+                          <div className="space-y-3">
+                            {typeof message.content === "string" ? (
+                              <p className="text-sm leading-relaxed">{message.content}</p>
+                            ) : typeof message.content === "object" && "intro" in message.content ? (
+                              <>
+                                <p className="text-sm leading-relaxed">{message.content.intro}</p>
+
+                                {message.content.sections.map((section, idx) => (
+                                  <div key={idx} className="space-y-2">
+                                    {section.type === "steps" && section.items && (
+                                      <div>
+                                        <h4 className="text-sm font-semibold mb-2">{section.title}</h4>
+                                        <ol className="space-y-1.5 text-sm">
+                                          {section.items.map((item) => (
+                                            <li key={item.number} className="flex gap-2">
+                                              <span className="font-semibold text-primary">{item.number}.</span>
+                                              <span>{item.text}</span>
+                                            </li>
+                                          ))}
+                                        </ol>
+                                      </div>
+                                    )}
+
+                                    {section.type === "info" && (
+                                      <div className="bg-blue-50 dark:bg-blue-950/20 rounded p-2.5 border border-blue-200 dark:border-blue-800">
+                                        <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-1">
+                                          {section.title}
+                                        </h4>
+                                        <p className="text-sm text-blue-800 dark:text-blue-300">{section.content}</p>
+                                      </div>
+                                    )}
+
+                                    {section.type === "warning" && (
+                                      <div className="bg-orange-50 dark:bg-orange-950/20 rounded p-2.5 border border-orange-200 dark:border-orange-800">
+                                        <h4 className="text-sm font-semibold text-orange-900 dark:text-orange-200 mb-1">
+                                          ⚠️ {section.title}
+                                        </h4>
+                                        <p className="text-sm text-orange-800 dark:text-orange-300">{section.content}</p>
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </>
+                            ) : null}
+
+                            {message.traceability && (
                           <div className="mt-3 pt-3 border-t border-border/50">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              {message.metadata.intent && (
-                                <Badge variant="outline" className="text-xs">
-                                  {message.metadata.intent}
-                                </Badge>
-                              )}
+                            <div className="flex items-center gap-3 flex-wrap text-xs text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <FileText className="w-3 h-3" />
+                                {message.traceability.sources.length} sources
+                              </span>
                             </div>
+                          </div>
+                        )}
                           </div>
                         )}
                       </div>
 
-                      {message.role === "user" && (
+                      {isUserMessage && (
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-muted-foreground">{selectedRequest.userName}</span>
                         </div>
                       )}
                     </div>
                   </div>
-                ))}
+                  );
+                })}
 
                 <Separator className="my-6" />
 
@@ -386,7 +425,7 @@ function RequestsPageContent() {
                 {/* User Comment */}
                 {selectedRequest.userComment && (
                   <div className="flex justify-end">
-                    <div className="max-w-[80%]">
+                    <div className="max-w-[76%] overflow-hidden">
                       <div className="bg-primary text-primary-foreground rounded-2xl rounded-tr-sm px-4 py-3">
                         <p className="text-sm leading-relaxed">{selectedRequest.userComment}</p>
                       </div>
@@ -493,7 +532,7 @@ function RequestsPageContent() {
                   <>
                     <Separator className="my-4" />
                     <div className="flex justify-start">
-                      <div className="max-w-[80%]">
+                      <div className="max-w-[76%] overflow-hidden">
                         <div className="flex items-center gap-2 mb-2">
                           <Avatar className="w-6 h-6">
                             <AvatarFallback className="text-xs bg-purple-100 text-purple-700">RH</AvatarFallback>

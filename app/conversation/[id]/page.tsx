@@ -17,6 +17,7 @@ import {
   AnswerMessage, 
   TransmissionMessage, 
   HRConfirmationMessage,
+  RequestPromptMessage,
   TypingIndicator 
 } from "@/components/conversation/messages";
 import type { Message, Conversation, Request } from "@/types/conversation";
@@ -338,6 +339,29 @@ export default function ConversationDetailPage({ params }: { params: Promise<{ i
     setDismissedSuggestions(prev => new Set([...prev, messageId]));
   };
 
+  const handleEscalateRequest = (messageId: string) => {
+    if (!conversation) return;
+
+    const requestAlreadyCreated = conversation.messages.some((m) => m.type === "transmission");
+    const promptAlreadyExists = conversation.messages.some((m) => m.type === "requestPrompt");
+
+    if (requestAlreadyCreated || promptAlreadyExists) return;
+
+    const requestPromptMessage: Message = {
+      id: `msg-${conversation.messages.length + 1}`,
+      type: "requestPrompt",
+      content: "Je peux créer une demande RH à partir de cette réponse. Cliquez sur le bloc de transmission ci-dessus pour continuer.",
+      timestamp: new Date().toISOString(),
+      author: "kalia",
+    };
+
+    setConversation({
+      ...conversation,
+      messages: [...conversation.messages, requestPromptMessage],
+      updatedAt: new Date().toISOString(),
+    });
+  };
+
   const handleSendNewMessage = async (message: string) => {
     if (!currentUser || !conversation) return;
 
@@ -466,7 +490,7 @@ export default function ConversationDetailPage({ params }: { params: Promise<{ i
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{showContext ? "Masquer" : "Afficher"} les sources et la traçabilité</p>
+                    <p>{showContext ? "Masquer" : "Afficher"} les sources</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -536,9 +560,21 @@ export default function ConversationDetailPage({ params }: { params: Promise<{ i
                         onFileSelect={(e) => handleFileSelect(message.id, e)}
                         onRemoveAttachment={(attachmentId) => handleRemoveAttachment(message.id, attachmentId)}
                         onCreateRequest={() => handleCreateRequest(message.id)}
+                        onEscalateRequest={() => handleEscalateRequest(message.id)}
                         onDismiss={() => handleDismiss(message.id)}
                         uploadingForMessage={uploadingForMessage === message.id}
                         fileInputRef={fileInputRef}
+                      />
+                    );
+                  }
+
+                  // REQUEST PROMPT MESSAGE
+                  if (message.type === "requestPrompt") {
+                    return (
+                      <RequestPromptMessage
+                        key={message.id}
+                        message={message}
+                        formatDate={formatDate}
                       />
                     );
                   }

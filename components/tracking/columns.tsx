@@ -50,38 +50,6 @@ const formatDate = (dateString: string) => {
   });
 };
 
-const getPriorityBadge = (priority: string) => {
-  const configs = {
-    urgent: {
-      label: "Urgent",
-      emoji: "🔴",
-      className: "bg-red-100 text-red-700 border-red-300 dark:bg-red-900 dark:text-red-300 dark:border-red-700"
-    },
-    high: {
-      label: "High",
-      emoji: "🟠",
-      className: "bg-orange-100 text-orange-700 border-orange-300 dark:bg-orange-900 dark:text-orange-300 dark:border-orange-700"
-    },
-    medium: {
-      label: "Medium",
-      emoji: "🟡",
-      className: "bg-yellow-100 text-yellow-700 border-yellow-300 dark:bg-yellow-900 dark:text-yellow-300 dark:border-yellow-700"
-    },
-    low: {
-      label: "Low",
-      emoji: "🟢",
-      className: "bg-green-100 text-green-700 border-green-300 dark:bg-green-900 dark:text-green-300 dark:border-green-700"
-    }
-  };
-
-  const config = configs[priority as keyof typeof configs];
-  return (
-    <Badge variant="outline" className={config.className}>
-      <span className="mr-1">{config.emoji}</span>
-      {config.label}
-    </Badge>
-  );
-};
 
 const getCategoryBadge = (category: string) => {
   const configs = {
@@ -217,26 +185,6 @@ export const columns: ColumnDef<Request>[] = [
     },
     cell: ({ row }) => {
       return getStatusBadge(row.getValue("status"));
-    },
-    filterFn: (row: Row<Request>, id: string, value: string[]) => {
-      return value.includes(row.getValue(id));
-    },
-  } as ColumnDef<Request>,
-  {
-    accessorKey: "priority",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Priorité
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      return getPriorityBadge(row.getValue("priority"));
     },
     filterFn: (row: Row<Request>, id: string, value: string[]) => {
       return value.includes(row.getValue(id));

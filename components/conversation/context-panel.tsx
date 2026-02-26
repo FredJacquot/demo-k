@@ -52,9 +52,9 @@ export function ConversationContextPanel({ selectedMessage, conversation, showCo
   return (
     <aside className="w-96 border-l bg-background flex flex-col">
       <div className="p-6 border-b">
-        <h2 className="text-lg font-semibold mb-1">Contexte & Traçabilité</h2>
+        <h2 className="text-lg font-semibold mb-1">Sources</h2>
         <p className="text-xs text-muted-foreground">
-          Sources et raisonnement de Kalia
+          Sources de Kalia
         </p>
       </div>
 
@@ -66,18 +66,6 @@ export function ConversationContextPanel({ selectedMessage, conversation, showCo
             className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
           >
             Sources
-          </TabsTrigger>
-          <TabsTrigger 
-            value="traceability"
-            className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-          >
-            Traçabilité
-          </TabsTrigger>
-          <TabsTrigger 
-            value="context"
-            className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-          >
-            Contexte
           </TabsTrigger>
         </TabsList>
 

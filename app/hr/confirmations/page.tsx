@@ -15,13 +15,16 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useUser } from "@/contexts/user-context";
 import { hasAccess } from "@/lib/permissions";
-import type { Request } from "@/types/request";
-import type { Message, MessageContent } from "@/types/conversation";
+import type { Request as ApiRequest } from "@/types/request";
+import type { Conversation, Message, MessageContent, Request as ConversationRequest } from "@/types/conversation";
+import { updateRequestAndSyncConversation } from "@/lib/requests-storage";
+import { getConversationById, saveConversation } from "@/lib/conversations-storage";
 
-interface ConfirmationRequest extends Request {
+interface ConfirmationRequest extends ApiRequest {
+  assignedToName?: string;
   hrConfirmationData: {
     originalMessageId: string;
-    kaliaResponse: string | object;
+    kaliaResponse: string | MessageContent;
     kaliaConfidence: number;
     questionAsked: string;
   };
@@ -54,7 +57,7 @@ export default function HRConfirmationsPage() {
         const data = await response.json();
         
         // Extract requests from conversations
-        const allRequestsFromConvs: Request[] = [];
+        const allRequestsFromConvs: ApiRequest[] = [];
         
         for (const conv of data.conversations) {
           if (conv.request) {
@@ -64,7 +67,7 @@ export default function HRConfirmationsPage() {
         
         // Filter only hr_confirmation requests (should already be filtered by API, but double check)
         const confirmationRequests = allRequestsFromConvs.filter(
-          (req: Request) => req.category === 'hr_confirmation'
+          (req: ApiRequest) => req.category === 'hr_confirmation'
         ) as ConfirmationRequest[];
         
         setRequests(confirmationRequests);
@@ -97,23 +100,188 @@ export default function HRConfirmationsPage() {
   const handleConfirm = () => {
     if (!selectedRequest || !currentUser) return;
 
-    toast.success(
-      actionType === 'confirm' 
-        ? "Réponse confirmée avec succès" 
-        : "Réponse corrigée avec succès"
-    );
-    
-    // Update request status
-    setRequests(prev => 
-      prev.map(req => 
-        req.id === selectedRequest.id 
-          ? { ...req, status: 'resolved' as const, resolvedAt: new Date().toISOString(), assignedTo: currentUser.name }
-          : req
-      )
-    );
-    
-    setDialogOpen(false);
-    setSelectedRequest(null);
+    const resolvedAt = new Date().toISOString();
+
+    const normalizeStructuredContentToText = (content: string | MessageContent): string => {
+      if (typeof content === "string") return content;
+
+      const parsed = content as MessageContent;
+      if (!parsed?.intro) {
+        return JSON.stringify(content, null, 2);
+      }
+
+      const sectionsText = parsed.sections
+        .map((section) => {
+          if (section.type === "steps" && section.items?.length) {
+            const steps = section.items.map((item) => `${item.number}. ${item.text}`).join("\n");
+            return `${section.title}\n${steps}`;
+          }
+
+          if (section.content) {
+            return `${section.title}\n${section.content}`;
+          }
+
+          return section.title;
+        })
+        .join("\n\n");
+
+      return [parsed.intro, sectionsText].filter(Boolean).join("\n\n");
+    };
+
+    const parseCorrectedContent = (value: string): string | MessageContent => {
+      const trimmed = value.trim();
+      if (!trimmed) return value;
+
+      // Tentative de parsing JSON pour permettre une correction structurée.
+      if (trimmed.startsWith("{")) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (parsed && typeof parsed === "object") {
+            return parsed as MessageContent;
+          }
+        } catch {
+          // Si ce n'est pas du JSON valide, on garde la valeur texte telle quelle.
+        }
+      }
+
+      return value;
+    };
+
+    const originalResponse = selectedRequest.hrConfirmationData.kaliaResponse;
+    const resolvedResponseContent =
+      actionType === "correct" ? parseCorrectedContent(correctedContent) : originalResponse;
+    const resolvedResponseText = normalizeStructuredContentToText(resolvedResponseContent);
+
+    try {
+      // 1) Persister la demande et synchroniser le champ request dans la conversation
+      updateRequestAndSyncConversation(selectedRequest.id, {
+        status: "resolved",
+        resolvedAt,
+        response: resolvedResponseText,
+        assignedTo: currentUser.id,
+        assignedToName: currentUser.name,
+      });
+
+      // 2) Ajouter un message RH dans la timeline de conversation
+      if (selectedRequest.conversationId) {
+        let conversation = getConversationById(selectedRequest.conversationId);
+
+        // Si la conversation n'est pas encore en localStorage, la charger depuis /public/data
+        // pour pouvoir ensuite la persister localement avec les mises à jour RH.
+        if (!conversation) {
+          // Note: on reste dans un handler synchrone côté UI; on utilise une IIFE async
+          // pour éviter de réécrire toute la fonction en async.
+          const syncFromFile = async (): Promise<Conversation | null> => {
+            try {
+              const response = await fetch(`/data/${selectedRequest.conversationId}.json`);
+              if (!response.ok) return null;
+              return (await response.json()) as Conversation;
+            } catch {
+              return null;
+            }
+          };
+
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          syncFromFile().then((loadedConversation) => {
+            if (!loadedConversation) return;
+            if (!loadedConversation.request) return;
+
+            const updatedRequest: ConversationRequest = {
+              ...loadedConversation.request,
+              status: "resolved",
+              resolvedAt,
+              response: resolvedResponseText,
+              assignedTo: currentUser.id,
+              assignedToName: currentUser.name,
+            };
+
+            const hrConfirmationMessage: Message = {
+              id: `msg-${Date.now()}`,
+              type: "hrConfirmation",
+              content: resolvedResponseContent,
+              timestamp: resolvedAt,
+              author: "hr",
+              confirmationStatus: actionType === "correct" ? "corrected" : "confirmed",
+              hrConfirmation: {
+                confirmedBy: currentUser.id,
+                confirmedByName: currentUser.name,
+                confirmedAt: resolvedAt,
+                comment: hrComment.trim() || undefined,
+                correctedContent: actionType === "correct" ? resolvedResponseContent : undefined,
+              },
+              hasNewUpdate: true,
+            };
+
+            saveConversation({
+              ...loadedConversation,
+              request: updatedRequest,
+              messages: [...loadedConversation.messages, hrConfirmationMessage],
+              updatedAt: resolvedAt,
+            });
+          });
+        }
+
+        if (conversation) {
+          if (!conversation.request) return;
+
+          const updatedRequest: ConversationRequest = {
+            ...conversation.request,
+            status: "resolved",
+            resolvedAt,
+            response: resolvedResponseText,
+            assignedTo: currentUser.id,
+            assignedToName: currentUser.name,
+          };
+
+          const hrConfirmationMessage: Message = {
+            id: `msg-${Date.now()}`,
+            type: "hrConfirmation",
+            content: resolvedResponseContent,
+            timestamp: resolvedAt,
+            author: "hr",
+            confirmationStatus: actionType === "correct" ? "corrected" : "confirmed",
+            hrConfirmation: {
+              confirmedBy: currentUser.id,
+              confirmedByName: currentUser.name,
+              confirmedAt: resolvedAt,
+              comment: hrComment.trim() || undefined,
+              correctedContent: actionType === "correct" ? resolvedResponseContent : undefined,
+            },
+            hasNewUpdate: true,
+          };
+
+          saveConversation({
+            ...conversation,
+            request: updatedRequest,
+            messages: [...conversation.messages, hrConfirmationMessage],
+            updatedAt: resolvedAt,
+          });
+        }
+      }
+
+      // 3) Mise à jour immédiate de l'UI locale
+      setRequests((prev) =>
+        prev.map((req) =>
+          req.id === selectedRequest.id
+            ? {
+                ...req,
+                status: "resolved" as const,
+                resolvedAt,
+                response: resolvedResponseText,
+                assignedTo: currentUser.id,
+                assignedToName: currentUser.name,
+              }
+            : req,
+        ),
+      );
+
+      toast.success(actionType === "confirm" ? "Réponse confirmée avec succès" : "Réponse corrigée avec succès");
+      setDialogOpen(false);
+      setSelectedRequest(null);
+    } catch (error) {
+      console.error("Error confirming/correcting HR response:", error);
+      toast.error("Erreur lors de la validation de la réponse");
+    }
   };
 
 
@@ -335,7 +503,7 @@ export default function HRConfirmationsPage() {
                                 </span>
                                 <span className="flex items-center gap-1">
                                   <CheckCircle2 className="w-3 h-3" />
-                                  Traité par {request.assignedTo}
+                                  Traité par {request.assignedToName || request.assignedTo}
                                 </span>
                                 {request.resolvedAt && (
                                   <span className="flex items-center gap-1">

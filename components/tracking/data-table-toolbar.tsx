@@ -14,6 +14,7 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = (table.getState() as any).columnFilters?.length > 0;
+  const searchColumn = table.getColumn("id");
 
   const statusOptions = [
     {
@@ -29,29 +30,6 @@ export function DataTableToolbar<TData>({
     {
       label: "Résolue",
       value: "resolved",
-      icon: "🟢",
-    },
-  ];
-
-  const priorityOptions = [
-    {
-      label: "Urgent",
-      value: "urgent",
-      icon: "🔴",
-    },
-    {
-      label: "High",
-      value: "high",
-      icon: "🟠",
-    },
-    {
-      label: "Medium",
-      value: "medium",
-      icon: "🟡",
-    },
-    {
-      label: "Low",
-      value: "low",
       icon: "🟢",
     },
   ];
@@ -93,10 +71,10 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Rechercher par titre, ID, utilisateur..."
-          value={((table.getColumn("title") as any)?.getFilterValue() as string) ?? ""}
+          placeholder="Rechercher par ID..."
+          value={((searchColumn as any)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            (table.getColumn("title") as any)?.setFilterValue(event.target.value)
+            (searchColumn as any)?.setFilterValue(event.target.value)
           }
           className="h-8 w-[250px] lg:w-[350px]"
         />
@@ -105,13 +83,6 @@ export function DataTableToolbar<TData>({
             column={table.getColumn("status") as any}
             title="Statut"
             options={statusOptions}
-          />
-        )}
-        {table.getColumn("priority") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("priority") as any}
-            title="Priorité"
-            options={priorityOptions}
           />
         )}
         {table.getColumn("category") && (

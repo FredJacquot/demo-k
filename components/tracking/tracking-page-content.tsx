@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { ShieldAlert, CheckCircle2, Clock, AlertCircle, Send, FileText, Bot } from "lucide-react"
+import { ShieldAlert, CheckCircle2, Clock, AlertCircle, Send, FileText, Bot, X } from "lucide-react"
 import { useUser } from "@/contexts/user-context"
 import { canViewRequest } from "@/lib/permissions"
 import { Badge } from "@/components/ui/badge"
@@ -305,10 +305,15 @@ export default function TrackingPageContent() {
     }
   }
 
+  const handleToggleRequestPanel = (requestId: string, response?: string | null) => {
+    const isClosingCurrentPanel = selectedRequestId === requestId
+    setSelectedRequestId(isClosingCurrentPanel ? null : requestId)
+    setHrResponse(isClosingCurrentPanel ? "" : response || "")
+  }
+
   const actionHandlers: ColumnActionHandlers = {
     onViewDetails: (request) => {
-      setSelectedRequestId(request.id)
-      setHrResponse(request.response || "")
+      handleToggleRequestPanel(request.id, request.response)
     },
     onTakeCharge: handleTakeCharge,
     onResolve: handleResolve,
@@ -371,8 +376,7 @@ export default function TrackingPageContent() {
               columns={columns}
               data={allRequests}
               onRowClick={(request) => {
-                setSelectedRequestId(request.id)
-                setHrResponse(request.response || "")
+                handleToggleRequestPanel(request.id, request.response)
               }}
               meta={{ actionHandlers, usersData }}
               initialStatusFilter={statusFilter}
@@ -400,6 +404,17 @@ export default function TrackingPageContent() {
                   </p>
                 </div>
                 <div className="flex gap-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setSelectedRequestId(null)
+                      setHrResponse("")
+                    }}
+                    aria-label="Fermer le panneau"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
                   {selectedRequest.status === "pending" && (
                     <Button onClick={handleTakeCharge} disabled={isSubmitting} size="sm">
                       Prendre en charge
@@ -408,16 +423,6 @@ export default function TrackingPageContent() {
                   {selectedRequest.status === "resolved" && (
                     <Button onClick={handleReopen} disabled={isSubmitting} variant="outline" size="sm">
                       Rouvrir
-                    </Button>
-                  )}
-                  {selectedRequest.conversationId && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => actionHandlers.onViewConversation?.(selectedRequest.conversationId!)}
-                    >
-                      <FileText className="w-4 h-4 mr-2" />
-                      Conversation
                     </Button>
                   )}
                 </div>

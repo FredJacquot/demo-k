@@ -1,12 +1,11 @@
 "use client";
 
-import { ColumnDef, Row } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { 
   MessageSquare,
   Calendar,
   ArrowUpDown,
-  Sparkles,
-  Ticket
+  Sparkles
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -57,35 +56,6 @@ const getSourceBadge = (isFromLocalStorage: boolean) => {
   return (
     <Badge variant="outline" className="text-xs">
       Serveur
-    </Badge>
-  );
-};
-
-const getRequestStatusBadge = (status: string) => {
-  const configs = {
-    pending: {
-      label: "En attente",
-      className: "bg-amber-500/10 text-amber-700 border-amber-500/30 dark:bg-amber-500/20 dark:text-amber-400 dark:border-amber-500/50"
-    },
-    in_progress: {
-      label: "En cours",
-      className: "bg-blue-500/10 text-blue-700 border-blue-500/30 dark:bg-blue-500/20 dark:text-blue-400 dark:border-blue-500/50"
-    },
-    resolved: {
-      label: "Résolue",
-      className: "bg-green-500/10 text-green-700 border-green-500/30 dark:bg-green-500/20 dark:text-green-400 dark:border-green-500/50"
-    },
-    rejected: {
-      label: "Rejetée",
-      className: "bg-gray-500/10 text-gray-700 border-gray-500/30 dark:bg-gray-500/20 dark:text-gray-400 dark:border-gray-500/50"
-    }
-  };
-
-  const config = configs[status as keyof typeof configs];
-  return (
-    <Badge variant="outline" className={`text-xs ${config.className}`}>
-      <Ticket className="w-3 h-3 mr-1" />
-      {config.label}
     </Badge>
   );
 };
@@ -163,23 +133,6 @@ export const columns: ColumnDef<ConversationColumn>[] = [
       );
     },
   },
-  {
-    id: "request",
-    accessorFn: (row) => row.request ? "with_request" : "without_request",
-    header: "Demande",
-    cell: ({ row }) => {
-      const request = row.original.request;
-      if (!request) {
-        return <span className="text-muted-foreground text-sm">—</span>;
-      }
-      return getRequestStatusBadge(request.status);
-    },
-    filterFn: (row: Row<ConversationColumn>, id: string, value: string[]) => {
-      const hasRequest = !!row.original.request;
-      const filterValue = hasRequest ? "with_request" : "without_request";
-      return value.includes(filterValue);
-    },
-  } as ColumnDef<ConversationColumn>,
   {
     id: "actions",
     cell: ({ row, table }) => {

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -68,9 +69,15 @@ export function TransmissionMessage({ message, formatDate, onSelect }: Transmiss
                   <Badge className="bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800">
                     En attente de traitement
                   </Badge>
-                  <Button variant="link" size="sm" className="h-auto p-0 text-blue-600 dark:text-blue-400">
-                    <ExternalLink className="w-3 h-3 mr-1" />
-                    Voir la demande
+                  <Button variant="link" size="sm" className="h-auto p-0 text-blue-600 dark:text-blue-400" asChild>
+                    <Link
+                      href={`/requests?requestId=${encodeURIComponent(message.transmissionDetails.requestId)}`}
+                      onClick={(e) => e.stopPropagation()}
+                      aria-label={`Voir la demande ${message.transmissionDetails.requestId}`}
+                    >
+                      <ExternalLink className="w-3 h-3 mr-1" />
+                      Voir la demande
+                    </Link>
                   </Button>
                 </div>
               </div>
