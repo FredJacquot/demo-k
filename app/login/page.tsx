@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginAction } from "./actions";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -19,18 +18,20 @@ const DEMO_USERS = [
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email) {
+      setError("Veuillez sélectionner un utilisateur");
+      return;
+    }
     setError("");
     setIsLoading(true);
 
     try {
-      const result = await loginAction(email, password);
-
+      const result = await loginAction(email);
       if (!result.success) {
         setError(result.error ?? "Une erreur s'est produite");
         setIsLoading(false);
@@ -38,7 +39,7 @@ export default function LoginPage() {
         router.push("/");
         router.refresh();
       }
-    } catch (error) {
+    } catch {
       setError("Une erreur s'est produite");
       setIsLoading(false);
     }
@@ -52,13 +53,13 @@ export default function LoginPage() {
             Kalia - Assistant Paie & RH
           </CardTitle>
           <CardDescription className="text-center">
-            Connectez-vous pour accéder à l&apos;application
+            Sélectionnez un utilisateur pour accéder à l&apos;application
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Utilisateur</Label>
               <Select value={email} onValueChange={setEmail}>
                 <SelectTrigger id="email">
                   <SelectValue placeholder="Sélectionnez un utilisateur" />
@@ -73,30 +74,13 @@ export default function LoginPage() {
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Mot de passe</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Entrez le mot de passe"
-                required
-              />
-            </div>
-
             {error && (
               <div className="text-sm text-red-500 text-center">{error}</div>
             )}
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Connexion..." : "Se connecter"}
+            <Button type="submit" className="w-full" disabled={isLoading || !email}>
+              {isLoading ? "Connexion..." : "Accéder à l'application"}
             </Button>
-
-            <div className="text-xs text-muted-foreground text-center mt-4 space-y-1">
-              <p className="font-semibold">Pour la démo :</p>
-              <p>Mot de passe : <code className="bg-muted px-2 py-1 rounded">demo123</code></p>
-            </div>
           </form>
         </CardContent>
       </Card>
