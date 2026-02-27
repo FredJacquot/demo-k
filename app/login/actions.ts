@@ -1,0 +1,23 @@
+"use server";
+
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
+
+export async function loginAction(email: string, password: string) {
+  try {
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof AuthError) {
+      if (error.type === "CredentialsSignin") {
+        return { success: false, error: "Email ou mot de passe incorrect" };
+      }
+      return { success: false, error: "Erreur d'authentification. Contactez l'administrateur." };
+    }
+    throw error;
+  }
+}

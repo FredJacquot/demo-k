@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { loginAction } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,18 +29,10 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      const result = await loginAction(email, password);
 
-      if (result?.error) {
-        if (result.error === "CredentialsSignin") {
-          setError("Email ou mot de passe incorrect");
-        } else {
-          setError("Erreur de configuration/authentification serveur. Contactez l'administrateur.");
-        }
+      if (!result.success) {
+        setError(result.error ?? "Une erreur s'est produite");
         setIsLoading(false);
       } else {
         router.push("/");
