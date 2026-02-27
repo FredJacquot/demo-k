@@ -43,7 +43,7 @@ import { hasAccess, getRoleLabel, getRoleBadgeClass } from "@/lib/permissions";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { logoutAction } from "@/app/login/actions";
+
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -450,8 +450,8 @@ export function AppSidebar() {
                   <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    onClick={async () => {
-                      await logoutAction();
+                    onClick={() => {
+                      localStorage.removeItem("demo_user_id");
                       window.location.href = "/login";
                     }}
                     className="cursor-pointer text-red-600 focus:text-red-600"

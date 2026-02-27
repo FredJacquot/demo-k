@@ -32,16 +32,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [usersRes, meRes] = await Promise.all([
-          fetch("/data/users.json"),
-          fetch("/api/me"),
-        ]);
+        const usersRes = await fetch("/data/users.json");
         const usersData = await usersRes.json();
-        const meData = await meRes.json();
-
         setUsers(usersData.users);
-        if (meData.user) {
-          setCurrentUser(meData.user);
+
+        const storedUserId = localStorage.getItem("demo_user_id");
+        if (storedUserId) {
+          const found = usersData.users.find((u: User) => u.id === storedUserId) ?? null;
+          setCurrentUser(found);
         }
       } catch (error) {
         console.error("Error loading user data:", error);

@@ -1,45 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { loginAction } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const DEMO_USERS = [
-  { email: "sophie.leclerc@entreprise.fr", name: "Sophie Leclerc", role: "Employé" },
-  { email: "jean.dupont@entreprise.fr", name: "Jean Dupont", role: "RH" },
-  { email: "claire.rousseau@entreprise.fr", name: "Claire Rousseau", role: "DRH" },
-  { email: "luc.moreau@entreprise.fr", name: "Luc Moreau", role: "Paie" },
+  { id: "user-001", email: "sophie.leclerc@entreprise.fr", name: "Sophie Leclerc", role: "Employé" },
+  { id: "user-004", email: "jean.dupont@entreprise.fr", name: "Jean Dupont", role: "RH" },
+  { id: "user-006", email: "claire.rousseau@entreprise.fr", name: "Claire Rousseau", role: "DRH" },
+  { id: "user-007", email: "luc.moreau@entreprise.fr", name: "Luc Moreau", role: "Paie" },
 ];
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) {
-      setError("Veuillez sélectionner un utilisateur");
-      return;
-    }
-    setError("");
+    if (!userId) return;
     setIsLoading(true);
-
-    try {
-      const result = await loginAction(email);
-      if (!result.success) {
-        setError(result.error ?? "Une erreur s'est produite");
-        setIsLoading(false);
-      } else {
-        window.location.href = "/";
-      }
-    } catch {
-      setError("Une erreur s'est produite");
-      setIsLoading(false);
-    }
+    localStorage.setItem("demo_user_id", userId);
+    window.location.href = "/";
   };
 
   return (
@@ -56,14 +39,14 @@ export default function LoginPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Utilisateur</Label>
-              <Select value={email} onValueChange={setEmail}>
-                <SelectTrigger id="email">
+              <Label htmlFor="user">Utilisateur</Label>
+              <Select value={userId} onValueChange={setUserId}>
+                <SelectTrigger id="user">
                   <SelectValue placeholder="Sélectionnez un utilisateur" />
                 </SelectTrigger>
                 <SelectContent>
                   {DEMO_USERS.map((user) => (
-                    <SelectItem key={user.email} value={user.email}>
+                    <SelectItem key={user.id} value={user.id}>
                       {user.name} ({user.role})
                     </SelectItem>
                   ))}
@@ -71,11 +54,7 @@ export default function LoginPage() {
               </Select>
             </div>
 
-            {error && (
-              <div className="text-sm text-red-500 text-center">{error}</div>
-            )}
-
-            <Button type="submit" className="w-full" disabled={isLoading || !email}>
+            <Button type="submit" className="w-full" disabled={isLoading || !userId}>
               {isLoading ? "Connexion..." : "Accéder à l'application"}
             </Button>
           </form>
