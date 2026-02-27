@@ -15,6 +15,7 @@ import {
   Ticket,
   ChevronRight,
   LogOut,
+  Wallet,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -273,6 +274,97 @@ export function AppSidebar() {
                                     {inProgressCount}
                                   </Badge>
                                 )}
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </SidebarMenuItem>
+                  </Collapsible>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </>
+        )}
+
+        {/* Gestion de la paie - visible pour payroll et drh */}
+        {currentUser && hasAccess(currentUser.role, "gestion-paie") && (
+          <>
+            <SidebarSeparator className="!w-[calc(100%-1rem)]" />
+
+            <SidebarGroup>
+              <SidebarGroupLabel>Gestion de la paie</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <Collapsible asChild defaultOpen className="group/collapsible">
+                    <SidebarMenuItem>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton tooltip="Gestion de la paie">
+                          <Wallet />
+                          <span>Gestion de la paie</span>
+                          <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton asChild isActive={pathname === "/payroll"}>
+                              <Link href="/payroll">
+                                <span>Changements à répercuter</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton asChild isActive={pathname === "/payroll/calendar"}>
+                              <Link href="/payroll/calendar">
+                                <span>Calendrier de paie</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton asChild isActive={pathname === "/payroll/timeline-lanes"}>
+                              <Link href="/payroll/timeline-lanes">
+                                <span>Calendrier Timeline lane</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === "/payroll/roadmap-swimlanes-v2"}
+                            >
+                              <Link href="/payroll/roadmap-swimlanes-v2">
+                                <span>Roadmap swimlanes v2</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === "/payroll/pipeline-mensuel-v3"}
+                            >
+                              <Link href="/payroll/pipeline-mensuel-v3">
+                                <span>Pipeline mensuel v3</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === "/payroll/pipeline-mensuel-v4"}
+                            >
+                              <Link href="/payroll/pipeline-mensuel-v4">
+                                <span>Pipeline mensuel v4</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === "/payroll/pipeline-mensuel-v5"}
+                            >
+                              <Link href="/payroll/pipeline-mensuel-v5">
+                                <span>Pipeline mensuel v5</span>
                               </Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
