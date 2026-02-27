@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CheckCircle2, AlertTriangle, Clock, Circle, ChevronRight, CalendarDays } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { CheckCircle2, AlertTriangle, Clock, Circle, CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type MilestoneStatus = "Validé" | "Sous vigilance" | "En cours" | "En attente" | "À venir";
@@ -151,62 +150,72 @@ const milestones: Milestone[] = [
 // ─── Status helpers ────────────────────────────────────────────────────────────
 
 const statusDot: Record<MilestoneStatus, string> = {
-  "Validé": "bg-emerald-400",
-  "Sous vigilance": "bg-amber-400",
-  "En cours": "bg-blue-400",
-  "En attente": "bg-violet-400",
-  "À venir": "bg-slate-500",
+  "Validé": "bg-emerald-500",
+  "Sous vigilance": "bg-amber-500",
+  "En cours": "bg-blue-500",
+  "En attente": "bg-violet-500",
+  "À venir": "bg-muted-foreground/40",
 };
 
 const statusIcon = (status: MilestoneStatus, size = 14) => {
-  const cls = `shrink-0`;
-  if (status === "Validé") return <CheckCircle2 size={size} className={cn(cls, "text-emerald-400")} />;
-  if (status === "Sous vigilance") return <AlertTriangle size={size} className={cn(cls, "text-amber-400")} />;
-  if (status === "En cours") return <Clock size={size} className={cn(cls, "text-blue-400")} />;
-  if (status === "En attente") return <Circle size={size} className={cn(cls, "text-violet-400")} />;
-  return <Circle size={size} className={cn(cls, "text-slate-500")} />;
+  if (status === "Validé")       return <CheckCircle2 size={size} className="shrink-0 text-emerald-500" />;
+  if (status === "Sous vigilance") return <AlertTriangle size={size} className="shrink-0 text-amber-500" />;
+  if (status === "En cours")     return <Clock size={size} className="shrink-0 text-blue-500" />;
+  if (status === "En attente")   return <Circle size={size} className="shrink-0 text-violet-500" />;
+  return <Circle size={size} className="shrink-0 text-muted-foreground/40" />;
 };
 
-const milestoneRingClass: Record<MilestoneStatus, string> = {
-  "Validé": "ring-emerald-500/50",
-  "Sous vigilance": "ring-amber-500/50",
-  "En cours": "ring-blue-500/50",
-  "En attente": "ring-violet-500/40",
-  "À venir": "ring-slate-600/40",
+// Node ring colour per status
+const nodeRing: Record<MilestoneStatus, string> = {
+  "Validé":          "ring-emerald-500/40",
+  "Sous vigilance":  "ring-amber-500/40",
+  "En cours":        "ring-blue-500/40",
+  "En attente":      "ring-violet-500/30",
+  "À venir":         "ring-border",
 };
 
-const milestoneActiveGlow: Record<MilestoneStatus, string> = {
-  "Validé": "shadow-[0_0_40px_-8px_rgba(52,211,153,0.25)]",
-  "Sous vigilance": "shadow-[0_0_40px_-8px_rgba(251,191,36,0.25)]",
-  "En cours": "shadow-[0_0_40px_-8px_rgba(96,165,250,0.25)]",
-  "En attente": "shadow-[0_0_40px_-8px_rgba(167,139,250,0.20)]",
-  "À venir": "shadow-[0_0_40px_-8px_rgba(100,116,139,0.15)]",
+// Active card glow per status (light subtle / dark pronounced)
+const activeGlow: Record<MilestoneStatus, string> = {
+  "Validé":          "shadow-[0_0_40px_-8px_rgba(16,185,129,0.15)] dark:shadow-[0_0_40px_-8px_rgba(52,211,153,0.25)]",
+  "Sous vigilance":  "shadow-[0_0_40px_-8px_rgba(245,158,11,0.15)] dark:shadow-[0_0_40px_-8px_rgba(251,191,36,0.25)]",
+  "En cours":        "shadow-[0_0_40px_-8px_rgba(59,130,246,0.15)] dark:shadow-[0_0_40px_-8px_rgba(96,165,250,0.25)]",
+  "En attente":      "shadow-[0_0_40px_-8px_rgba(139,92,246,0.12)] dark:shadow-[0_0_40px_-8px_rgba(167,139,250,0.20)]",
+  "À venir":         "shadow-none",
 };
 
-const stepBadgeClass: Record<StepStatus, string> = {
-  "Validé": "bg-emerald-400/10 text-emerald-300 ring-1 ring-emerald-400/25",
-  "En cours": "bg-blue-400/10 text-blue-300 ring-1 ring-blue-400/25",
-  "Erreur": "bg-red-400/10 text-red-300 ring-1 ring-red-400/30 font-semibold",
-  "En attente": "bg-violet-400/10 text-violet-300 ring-1 ring-violet-400/20",
+// Step row badge
+const stepBadge: Record<StepStatus, string> = {
+  "Validé":    "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-400/10 dark:text-emerald-300 dark:ring-emerald-400/25",
+  "En cours":  "bg-blue-50 text-blue-700 ring-1 ring-blue-200 dark:bg-blue-400/10 dark:text-blue-300 dark:ring-blue-400/25",
+  "Erreur":    "bg-red-50 text-red-700 ring-1 ring-red-200 font-semibold dark:bg-red-400/10 dark:text-red-300 dark:ring-red-400/30",
+  "En attente":"bg-violet-50 text-violet-700 ring-1 ring-violet-200 dark:bg-violet-400/10 dark:text-violet-300 dark:ring-violet-400/20",
 };
 
 const stepDot: Record<StepStatus, string> = {
-  "Validé": "bg-emerald-400",
-  "En cours": "bg-blue-400 animate-pulse",
-  "Erreur": "bg-red-400",
-  "En attente": "bg-violet-400/50",
+  "Validé":    "bg-emerald-500",
+  "En cours":  "bg-blue-500 animate-pulse",
+  "Erreur":    "bg-red-500",
+  "En attente":"bg-violet-400/50",
+};
+
+// Collapsed status pill
+const collapsedPill: Record<MilestoneStatus, string> = {
+  "Validé":          "bg-emerald-50 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300",
+  "Sous vigilance":  "bg-amber-50 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300",
+  "En cours":        "bg-blue-50 text-blue-700 dark:bg-blue-400/10 dark:text-blue-300",
+  "En attente":      "bg-violet-50 text-violet-700 dark:bg-violet-400/10 dark:text-violet-300",
+  "À venir":         "bg-muted text-muted-foreground",
 };
 
 // ─── Progress bar ──────────────────────────────────────────────────────────────
 
-function CycleProgressBar({ milestones, activeIndex }: { milestones: Milestone[]; activeIndex: number }) {
-  const progressPct = ((activeIndex) / (milestones.length - 1)) * 100;
-
+function CycleProgressBar({ total, activeIndex }: { total: number; activeIndex: number }) {
+  const pct = (activeIndex / (total - 1)) * 100;
   return (
-    <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
+    <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-border">
       <div
-        className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-blue-500 to-emerald-400 transition-all duration-500"
-        style={{ width: `${progressPct}%` }}
+        className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-blue-500 to-emerald-500 transition-all duration-500"
+        style={{ width: `${pct}%` }}
       />
     </div>
   );
@@ -218,22 +227,22 @@ function SummaryChips({ summary }: { summary: NonNullable<Milestone["summary"]> 
   return (
     <div className="flex flex-wrap gap-1.5">
       {summary.validated > 0 && (
-        <span className="rounded-full bg-emerald-400/10 px-2.5 py-1 text-[11px] text-emerald-300 ring-1 ring-emerald-400/20">
+        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-400/10 dark:text-emerald-300 dark:ring-emerald-400/20">
           {summary.validated} validé{summary.validated > 1 ? "s" : ""}
         </span>
       )}
       {summary.inProgress > 0 && (
-        <span className="rounded-full bg-blue-400/10 px-2.5 py-1 text-[11px] text-blue-300 ring-1 ring-blue-400/20">
+        <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] text-blue-700 ring-1 ring-blue-200 dark:bg-blue-400/10 dark:text-blue-300 dark:ring-blue-400/20">
           {summary.inProgress} en cours
         </span>
       )}
       {summary.errors > 0 && (
-        <span className="rounded-full bg-red-400/10 px-2.5 py-1 text-[11px] font-semibold text-red-300 ring-1 ring-red-400/25">
+        <span className="rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-semibold text-red-700 ring-1 ring-red-200 dark:bg-red-400/10 dark:text-red-300 dark:ring-red-400/25">
           {summary.errors} erreur{summary.errors > 1 ? "s" : ""}
         </span>
       )}
       {summary.waiting > 0 && (
-        <span className="rounded-full bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-300 ring-1 ring-violet-400/20">
+        <span className="rounded-full bg-violet-50 px-2.5 py-1 text-[11px] text-violet-700 ring-1 ring-violet-200 dark:bg-violet-400/10 dark:text-violet-300 dark:ring-violet-400/20">
           {summary.waiting} en attente
         </span>
       )}
@@ -248,37 +257,39 @@ export default function PayrollPipelineMensuelV7Page() {
   const active = useMemo(() => milestones[activeIndex], [activeIndex]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#0d1117] font-sans text-slate-100">
+    <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
       {/* Page header */}
-      <div className="border-b border-slate-800 px-8 py-6">
+      <div className="border-b border-border px-8 py-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Gestion de la paie</p>
-            <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-100">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+              Gestion de la paie
+            </p>
+            <h1 className="mt-1 text-2xl font-semibold tracking-tight text-foreground">
               Cycle de paie — Mars 2026
             </h1>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-muted-foreground">
               Pilotage opérationnel du cycle piloté par Kalia
             </p>
           </div>
-          <div className="flex items-center gap-2 rounded-lg border border-amber-500/25 bg-amber-500/10 px-3 py-2">
-            <AlertTriangle size={14} className="text-amber-400" />
-            <span className="text-xs font-medium text-amber-300">
+          <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 dark:border-amber-500/25 dark:bg-amber-500/10">
+            <AlertTriangle size={14} className="text-amber-500 dark:text-amber-400" />
+            <span className="text-xs font-medium text-amber-700 dark:text-amber-300">
               Sous vigilance — 3 jalons nécessitent attention
             </span>
           </div>
         </div>
 
-        {/* Mini progress */}
+        {/* Progress bar */}
         <div className="mt-5 space-y-2">
-          <div className="flex items-center justify-between text-[11px] text-slate-500">
+          <div className="flex items-center justify-between text-[11px] text-muted-foreground">
             <span className="uppercase tracking-[0.15em]">Début du cycle</span>
-            <span className="font-medium text-slate-400">
+            <span className="font-medium text-foreground">
               Étape {activeIndex + 1} / {milestones.length} — {active.name}
             </span>
             <span className="uppercase tracking-[0.15em]">Fin du cycle</span>
           </div>
-          <CycleProgressBar milestones={milestones} activeIndex={activeIndex} />
+          <CycleProgressBar total={milestones.length} activeIndex={activeIndex} />
         </div>
       </div>
 
@@ -288,7 +299,7 @@ export default function PayrollPipelineMensuelV7Page() {
 
           {/* Timeline connector line */}
           <div
-            className="pointer-events-none absolute left-0 right-0 top-[52px] h-px bg-slate-800"
+            className="pointer-events-none absolute left-0 right-0 top-[52px] h-px bg-border"
             aria-hidden
           />
 
@@ -296,7 +307,6 @@ export default function PayrollPipelineMensuelV7Page() {
             const isActive = index === activeIndex;
             const isCompleted = milestone.status === "Validé";
             const isPast = index < activeIndex;
-            const connector = isPast || isCompleted;
 
             return (
               <div
@@ -315,20 +325,20 @@ export default function PayrollPipelineMensuelV7Page() {
                 >
                   <div
                     className={cn(
-                      "flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 transition-all duration-200",
+                      "flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 bg-background transition-all duration-200",
                       isActive
-                        ? cn("border-current scale-110 ring-4 ring-offset-2 ring-offset-[#0d1117]", milestoneRingClass[milestone.status])
-                        : "border-slate-700 bg-[#0d1117] group-hover:border-slate-500",
-                      isCompleted && !isActive && "border-emerald-500/60 bg-emerald-500/10",
+                        ? cn("scale-110 ring-4 ring-offset-2 ring-offset-background border-transparent", nodeRing[milestone.status])
+                        : "border-border group-hover:border-muted-foreground",
+                      isCompleted && !isActive && "border-emerald-300 bg-emerald-50 dark:border-emerald-500/60 dark:bg-emerald-500/10",
+                      isPast && !isCompleted && "border-border/60",
                     )}
                   >
                     <span className={cn("h-2.5 w-2.5 rounded-full", statusDot[milestone.status])} />
                   </div>
-                  {/* Step number label */}
                   <span
                     className={cn(
                       "mt-2 text-[10px] font-medium uppercase tracking-widest transition-colors",
-                      isActive ? "text-slate-300" : "text-slate-600 group-hover:text-slate-400",
+                      isActive ? "text-foreground" : "text-muted-foreground/50 group-hover:text-muted-foreground",
                     )}
                   >
                     {String(index + 1).padStart(2, "0")}
@@ -340,11 +350,8 @@ export default function PayrollPipelineMensuelV7Page() {
                   className={cn(
                     "mt-3 flex flex-1 cursor-pointer flex-col overflow-hidden rounded-xl border transition-all duration-300 ease-out",
                     isActive
-                      ? cn(
-                          "border-slate-700 bg-[#161b22] p-5",
-                          milestoneActiveGlow[milestone.status],
-                        )
-                      : "border-slate-800 bg-[#0d1117] hover:border-slate-700 hover:bg-slate-900/50",
+                      ? cn("border-border bg-card p-5", activeGlow[milestone.status])
+                      : "border-border bg-card/40 hover:border-border hover:bg-card/70",
                   )}
                   onClick={() => setActiveIndex(index)}
                   role="button"
@@ -355,42 +362,40 @@ export default function PayrollPipelineMensuelV7Page() {
                     /* ── Expanded panel ── */
                     <div className="flex h-full flex-col gap-4">
                       {/* Header */}
-                      <div className="flex items-start justify-between gap-3 border-b border-slate-800 pb-4">
+                      <div className="flex items-start justify-between gap-3 border-b border-border pb-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
                             {statusIcon(milestone.status, 15)}
-                            <span className="text-[11px] uppercase tracking-[0.18em] text-slate-500">
+                            <span className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                               Jalon actif
                             </span>
                           </div>
-                          <h2 className="mt-1.5 text-lg font-semibold leading-tight text-slate-100">
+                          <h2 className="mt-1.5 text-lg font-semibold leading-tight text-card-foreground">
                             {milestone.name}
                           </h2>
                           {milestone.targetDate && (
-                            <div className="mt-1.5 flex items-center gap-1.5 text-xs text-slate-500">
+                            <div className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
                               <CalendarDays size={12} />
                               <span>Date cible : {milestone.targetDate}</span>
                             </div>
                           )}
                         </div>
-                        {milestone.summary && (
-                          <SummaryChips summary={milestone.summary} />
-                        )}
+                        {milestone.summary && <SummaryChips summary={milestone.summary} />}
                       </div>
 
                       {/* Steps grid */}
                       {milestone.steps && (
-                        <ul className="grid flex-1 gap-2 auto-rows-min sm:grid-cols-2">
+                        <ul className="grid flex-1 auto-rows-min gap-2 sm:grid-cols-2">
                           {milestone.steps.map((step) => (
                             <li
                               key={step.label}
-                              className="flex items-center justify-between gap-3 rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2.5"
+                              className="flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2.5 dark:bg-muted/20"
                             >
-                              <div className="flex items-center gap-2.5 min-w-0">
+                              <div className="flex min-w-0 items-center gap-2.5">
                                 <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", stepDot[step.status])} />
-                                <span className="truncate text-sm text-slate-300">{step.label}</span>
+                                <span className="truncate text-sm text-foreground">{step.label}</span>
                               </div>
-                              <span className={cn("shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium", stepBadgeClass[step.status])}>
+                              <span className={cn("shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium", stepBadge[step.status])}>
                                 {step.status}
                               </span>
                             </li>
@@ -401,26 +406,20 @@ export default function PayrollPipelineMensuelV7Page() {
                   ) : (
                     /* ── Collapsed panel ── */
                     <div className="flex h-full flex-col justify-between gap-3 p-3">
-                      <div className="flex flex-col gap-1.5">
-                        <p className="text-[11px] font-semibold leading-snug text-slate-400 line-clamp-3">
-                          {milestone.name}
-                        </p>
-                      </div>
+                      <p className="line-clamp-3 text-[11px] font-semibold leading-snug text-muted-foreground">
+                        {milestone.name}
+                      </p>
                       <div className="space-y-1">
                         <span
                           className={cn(
                             "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium",
-                            milestone.status === "Validé" && "bg-emerald-400/10 text-emerald-300",
-                            milestone.status === "Sous vigilance" && "bg-amber-400/10 text-amber-300",
-                            milestone.status === "En cours" && "bg-blue-400/10 text-blue-300",
-                            milestone.status === "En attente" && "bg-violet-400/10 text-violet-300",
-                            milestone.status === "À venir" && "bg-slate-700/60 text-slate-400",
+                            collapsedPill[milestone.status],
                           )}
                         >
                           <span className={cn("h-1.5 w-1.5 rounded-full", statusDot[milestone.status])} />
                           {milestone.status}
                         </span>
-                        <p className="text-[10px] text-slate-600">{milestone.compactSummary}</p>
+                        <p className="text-[10px] text-muted-foreground/60">{milestone.compactSummary}</p>
                       </div>
                     </div>
                   )}
@@ -430,8 +429,7 @@ export default function PayrollPipelineMensuelV7Page() {
           })}
         </div>
 
-        {/* Navigation hint */}
-        <p className="mt-4 text-xs text-slate-600">
+        <p className="mt-4 text-xs text-muted-foreground/50">
           Cliquez sur un jalon pour afficher le détail des étapes.
         </p>
       </div>
