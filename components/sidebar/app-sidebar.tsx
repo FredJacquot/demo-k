@@ -59,18 +59,18 @@ export function AppSidebar() {
       if (!currentUser || (currentUser.role !== "hr" && currentUser.role !== "drh")) {
         return;
       }
-      
+
       try {
         // Load requests from localStorage
         const { getRequests } = await import('@/lib/requests-storage');
         const localStorageRequests = getRequests();
-        
+
         // Try to load from API as well
-        const apiRequests: Array<{id: string; status: string}> = [];
+        const apiRequests: Array<{ id: string; status: string }> = [];
         try {
           const response = await fetch(`/api/conversations?role=${currentUser.role}&full=true`);
           const data = await response.json();
-          
+
           // Extract requests from conversations
           for (const conv of data.conversations) {
             if (conv.request) {
@@ -80,7 +80,7 @@ export function AppSidebar() {
         } catch (apiError) {
           console.log("API not available, using only localStorage");
         }
-        
+
         // Merge localStorage and API requests
         const allRequestsMap = new Map();
         localStorageRequests.forEach(req => allRequestsMap.set(req.id, req));
@@ -89,11 +89,11 @@ export function AppSidebar() {
             allRequestsMap.set(req.id, req);
           }
         });
-        
+
         // Count requests by status
         let pending = 0;
         let inProgress = 0;
-        
+
         allRequestsMap.forEach((request) => {
           if (request.status === "pending") {
             pending++;
@@ -101,7 +101,7 @@ export function AppSidebar() {
             inProgress++;
           }
         });
-        
+
         setNewRequestsCount(pending);
         setInProgressCount(inProgress);
         setTotalCount(pending + inProgress);
@@ -111,14 +111,14 @@ export function AppSidebar() {
     };
 
     loadRequestsCounts();
-    
+
     // Écouter les événements de mise à jour des demandes
     const handleRequestsUpdated = () => {
       loadRequestsCounts();
     };
-    
+
     window.addEventListener("requestsUpdated", handleRequestsUpdated);
-    
+
     // Nettoyer l'écouteur d'événement
     return () => {
       window.removeEventListener("requestsUpdated", handleRequestsUpdated);
@@ -148,8 +148,8 @@ export function AppSidebar() {
       <div className="p-4 border-b">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton 
-              asChild 
+            <SidebarMenuButton
+              asChild
               className="w-full !bg-gradient-to-r !from-blue-500 !to-purple-600 !text-white !font-normal hover:!from-blue-600 hover:!to-purple-700 hover:!text-white"
               tooltip="Nouvelle conversation"
             >
@@ -365,6 +365,26 @@ export function AppSidebar() {
                             >
                               <Link href="/payroll/pipeline-mensuel-v5">
                                 <span>Pipeline mensuel v5</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === "/payroll/pipeline-mensuel-v6"}
+                            >
+                              <Link href="/payroll/pipeline-mensuel-v6">
+                                <span>Pipeline mensuel v6</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === "/payroll/pipeline-mensuel-v7"}
+                            >
+                              <Link href="/payroll/pipeline-mensuel-v7">
+                                <span>Pipeline mensuel v7</span>
                               </Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
