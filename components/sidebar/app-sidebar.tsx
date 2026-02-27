@@ -43,7 +43,7 @@ import { hasAccess, getRoleLabel, getRoleBadgeClass } from "@/lib/permissions";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { signOut } from "next-auth/react";
+import { logoutAction } from "@/app/login/actions";
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -450,7 +450,10 @@ export function AppSidebar() {
                   <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    onClick={() => signOut({ callbackUrl: "/login" })}
+                    onClick={async () => {
+                      await logoutAction();
+                      window.location.href = "/login";
+                    }}
                     className="cursor-pointer text-red-600 focus:text-red-600"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
