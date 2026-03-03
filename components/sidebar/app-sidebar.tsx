@@ -16,6 +16,7 @@ import {
   ChevronRight,
   LogOut,
   Wallet,
+  Workflow,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -281,6 +282,32 @@ export function AppSidebar() {
                       </CollapsibleContent>
                     </SidebarMenuItem>
                   </Collapsible>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </>
+        )}
+
+        {/* Kalia ADP */}
+        {currentUser && hasAccess(currentUser.role, "espace-rh") && (
+          <>
+            <SidebarSeparator className="!w-[calc(100%-1rem)]" />
+            <SidebarGroup>
+              <SidebarGroupLabel>Kalia ADP</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/adp"}
+                      tooltip="Workflows administratifs"
+                    >
+                      <Link href="/adp">
+                        <Workflow />
+                        <span>Workflows administratifs</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
