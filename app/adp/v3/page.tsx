@@ -302,7 +302,7 @@ function WorkflowOrb({
     const t = (performance.now() - startTime.current) / 1000;
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
-    const radius = Math.min(cx, cy) * 0.88;
+    const radius = Math.min(cx, cy) * 0.92;
 
     const dimmed = isAnySelected && !isSelected;
     const scale = dimmed ? 0.75 : isSelected ? 1.05 : 1.0;
@@ -326,16 +326,6 @@ function WorkflowOrb({
     const mixR = (rr * blockedN + ar * warningN + dr * doneN + or2 * okN) / total;
     const mixG = (rg * blockedN + ag * warningN + dg * doneN + og2 * okN) / total;
     const mixB = (rb * blockedN + ab * warningN + db * doneN + ob2 * okN) / total;
-
-    // Core sphere
-    const coreGrad = ctx.createRadialGradient(-radius * 0.08, -radius * 0.08, 0, 0, 0, radius * 0.22);
-    coreGrad.addColorStop(0, `rgba(${Math.round(mixR)},${Math.round(mixG)},${Math.round(mixB)},0.95)`);
-    coreGrad.addColorStop(0.6, `rgba(${Math.round(mixR)},${Math.round(mixG)},${Math.round(mixB)},0.6)`);
-    coreGrad.addColorStop(1, `rgba(${Math.round(mixR)},${Math.round(mixG)},${Math.round(mixB)},0.15)`);
-    ctx.beginPath();
-    ctx.arc(0, 0, radius * 0.22, 0, Math.PI * 2);
-    ctx.fillStyle = coreGrad;
-    ctx.fill();
 
     // Rotation
     const rotY = t * 0.14;
@@ -609,8 +599,8 @@ export default function ADPv3Page() {
               isSelected={activeType === type}
               isAnySelected={activeType !== null}
               onClick={() => setActiveType(prev => prev === type ? null : type)}
-              width={160}
-              height={160}
+              width={220}
+              height={220}
             />
           ))}
         </div>
@@ -628,7 +618,16 @@ export default function ADPv3Page() {
         )}
       </div>
 
-      {/* Case list */}
+      {/* Case list — visible only when a workflow is selected */}
+      {activeType === null ? (
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 text-muted-foreground">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-muted/30">
+            <ArrowLeft size={20} className="rotate-[135deg]" />
+          </div>
+          <p className="text-sm font-medium">Cliquez sur une sphère pour voir les dossiers</p>
+          <p className="text-xs opacity-60">Chaque sphère représente un workflow actif</p>
+        </div>
+      ) : (
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         {/* Toolbar */}
         <div className="flex items-center justify-between gap-2 border-b border-border px-4 py-2 flex-wrap">
@@ -706,6 +705,7 @@ export default function ADPv3Page() {
           {statusFilter !== "all" && ` · ${statusTabs.find(t => t.key === statusFilter)?.label}`}
         </div>
       </div>
+      )}
     </div>
   );
 }
