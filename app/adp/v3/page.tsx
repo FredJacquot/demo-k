@@ -302,40 +302,36 @@ function WorkflowOrb({
     const t = (performance.now() - startTime.current) / 1000;
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
-    const radius = Math.min(cx, cy) * 0.72;
+    const radius = Math.min(cx, cy) * 0.88;
 
     const dimmed = isAnySelected && !isSelected;
-    const scale = dimmed ? 0.7 : isSelected ? 1.08 : 1.0;
-    const pulse = isSelected ? 1 + Math.sin(t * 3.2) * 0.03 : 1;
-    const finalScale = scale * pulse;
+    const scale = dimmed ? 0.75 : isSelected ? 1.05 : 1.0;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
     ctx.translate(cx, cy);
-    ctx.scale(finalScale, finalScale);
+    ctx.scale(scale, scale);
     ctx.globalAlpha = dimmed ? 0.35 : 1;
 
-    // Outer glow
-    const glowColor = healthColor[globalHealth];
-    const [gr, gg, gb] = hexToRgb(glowColor);
-    const glowIntensity = globalHealth === "blocked"
-      ? 0.12 + Math.sin(t * 2.5) * 0.08
-      : 0.06 + Math.sin(t * 0.9) * 0.02;
-    const grad = ctx.createRadialGradient(0, 0, radius * 0.3, 0, 0, radius * 1.4);
-    grad.addColorStop(0, `rgba(${gr},${gg},${gb},${glowIntensity * 2})`);
-    grad.addColorStop(0.5, `rgba(${gr},${gg},${gb},${glowIntensity})`);
-    grad.addColorStop(1, `rgba(${gr},${gg},${gb},0)`);
-    ctx.beginPath();
-    ctx.arc(0, 0, radius * 1.4, 0, Math.PI * 2);
-    ctx.fillStyle = grad;
-    ctx.fill();
+    // Blended core color based on health proportions
+    const total = cases.length || 1;
+    const blockedN = cases.filter(c => getHealth(c) === "blocked").length;
+    const warningN = cases.filter(c => getHealth(c) === "warning").length;
+    const doneN   = cases.filter(c => getHealth(c) === "done").length;
+    const okN     = total - blockedN - warningN - doneN;
+    const [rr, rg, rb] = hexToRgb("#ef4444");
+    const [ar, ag, ab] = hexToRgb("#f59e0b");
+    const [dr, dg, db] = hexToRgb("#22c55e");
+    const [or2, og2, ob2] = hexToRgb(typeConfig[workflowType].baseColor);
+    const mixR = (rr * blockedN + ar * warningN + dr * doneN + or2 * okN) / total;
+    const mixG = (rg * blockedN + ag * warningN + dg * doneN + og2 * okN) / total;
+    const mixB = (rb * blockedN + ab * warningN + db * doneN + ob2 * okN) / total;
 
     // Core sphere
     const coreGrad = ctx.createRadialGradient(-radius * 0.08, -radius * 0.08, 0, 0, 0, radius * 0.22);
-    const [cr, cg, cb] = hexToRgb(glowColor);
-    coreGrad.addColorStop(0, `rgba(${cr},${cg},${cb},0.95)`);
-    coreGrad.addColorStop(0.6, `rgba(${cr},${cg},${cb},0.7)`);
-    coreGrad.addColorStop(1, `rgba(${cr},${cg},${cb},0.3)`);
+    coreGrad.addColorStop(0, `rgba(${Math.round(mixR)},${Math.round(mixG)},${Math.round(mixB)},0.95)`);
+    coreGrad.addColorStop(0.6, `rgba(${Math.round(mixR)},${Math.round(mixG)},${Math.round(mixB)},0.6)`);
+    coreGrad.addColorStop(1, `rgba(${Math.round(mixR)},${Math.round(mixG)},${Math.round(mixB)},0.15)`);
     ctx.beginPath();
     ctx.arc(0, 0, radius * 0.22, 0, Math.PI * 2);
     ctx.fillStyle = coreGrad;
@@ -370,7 +366,7 @@ function WorkflowOrb({
       y = ny; z = nz2;
 
       const depthFactor = (z / radius + 1) / 2; // 0 = back, 1 = front
-      const col = p.isEmployee ? healthColor[p.health] : glowColor;
+      const col = p.isEmployee ? healthColor[p.health] : `rgb(${Math.round(mixR)},${Math.round(mixG)},${Math.round(mixB)})`;
       const [pr, pg, pb] = hexToRgb(col);
       const alpha = 0.2 + depthFactor * 0.75;
 
