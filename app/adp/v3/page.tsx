@@ -1,9 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useState, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Html, Text } from "@react-three/drei";
-import * as THREE from "three";
+import { useRef, useMemo, useState, useEffect, useCallback } from "react";
 import {
   UserPlus, UserMinus, FileText, CalendarOff, FolderOpen,
   CheckCircle2, Clock, XCircle, Zap, ShieldCheck, Hand,
@@ -61,7 +58,7 @@ const allCases: EmployeeCase[] = [
     mode: "full-auto", updatedAt: "il y a 30 min",
     steps: [
       { id: "s1", label: "Dossier initialisé", status: "ok", by: "kalia" },
-      { id: "s2", label: "Données Core HR récupérées", status: "blocked", detail: "Date de naissance incohérente entre 2 sources" },
+      { id: "s2", label: "Données Core HR récupérées", status: "blocked", detail: "Date de naissance incohérente" },
       { id: "s3", label: "Pièces d'identité reçues", status: "pending" },
       { id: "s4", label: "Création dans le SIRH", status: "pending" },
       { id: "s5", label: "Envoi des accès et contrat", status: "pending" },
@@ -181,17 +178,20 @@ const allCases: EmployeeCase[] = [
 const typeConfig: Record<WorkflowType, {
   icon: React.ElementType;
   label: string;
-  color: string;
-  hexOk: string;
-  hexBlocked: string;
-  hexWarning: string;
-  hexDone: string;
+  baseColor: string; // hex for canvas
 }> = {
-  onboarding:  { icon: UserPlus,    label: "Onboarding",   color: "text-blue-500",   hexOk: "#3b82f6", hexBlocked: "#ef4444", hexWarning: "#f59e0b", hexDone: "#22c55e" },
-  offboarding: { icon: UserMinus,   label: "Offboarding",  color: "text-orange-500", hexOk: "#f97316", hexBlocked: "#ef4444", hexWarning: "#f59e0b", hexDone: "#22c55e" },
-  document:    { icon: FileText,    label: "Documents RH", color: "text-violet-500", hexOk: "#8b5cf6", hexBlocked: "#ef4444", hexWarning: "#f59e0b", hexDone: "#22c55e" },
-  absence:     { icon: CalendarOff, label: "Absences",     color: "text-amber-500",  hexOk: "#f59e0b", hexBlocked: "#ef4444", hexWarning: "#f59e0b", hexDone: "#22c55e" },
-  completude:  { icon: FolderOpen,  label: "Complétude",   color: "text-rose-500",   hexOk: "#f43f5e", hexBlocked: "#ef4444", hexWarning: "#f59e0b", hexDone: "#22c55e" },
+  onboarding:  { icon: UserPlus,    label: "Onboarding",   baseColor: "#3b82f6" },
+  offboarding: { icon: UserMinus,   label: "Offboarding",  baseColor: "#f97316" },
+  document:    { icon: FileText,    label: "Documents RH", baseColor: "#8b5cf6" },
+  absence:     { icon: CalendarOff, label: "Absences",     baseColor: "#f59e0b" },
+  completude:  { icon: FolderOpen,  label: "Complétude",   baseColor: "#f43f5e" },
+};
+
+const healthColor: Record<Health, string> = {
+  blocked: "#ef4444",
+  warning: "#f59e0b",
+  ok:      "#3b82f6",
+  done:    "#22c55e",
 };
 
 const modeConfig: Record<ExecutionMode, { icon: React.ElementType; label: string }> = {
@@ -216,237 +216,230 @@ function getGlobalHealth(cases: EmployeeCase[]): Health {
   return "ok";
 }
 
-function healthToHex(health: Health, cfg: typeof typeConfig[WorkflowType]): string {
-  return { blocked: cfg.hexBlocked, warning: cfg.hexWarning, done: cfg.hexDone, ok: cfg.hexOk }[health];
+function hexToRgb(hex: string): [number, number, number] {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return [r, g, b];
 }
 
-// ─── 3D: Single Particle Sphere ───────────────────────────────────────────────
+// ─── Canvas Orb ───────────────────────────────────────────────────────────────
 
-type ParticleData = {
+type Particle = {
   theta: number;
   phi: number;
   r: number;
   speed: number;
   offset: number;
-  isUnhealthy: boolean;
+  size: number;
+  isEmployee: boolean;
+  health: Health;
+  chaosAmp: number;
 };
 
-function WorkflowSphere({
+function WorkflowOrb({
   cases,
   workflowType,
   isSelected,
   isAnySelected,
-  position,
   onClick,
+  width,
+  height,
 }: {
   cases: EmployeeCase[];
   workflowType: WorkflowType;
   isSelected: boolean;
   isAnySelected: boolean;
-  position: [number, number, number];
   onClick: () => void;
+  width: number;
+  height: number;
 }) {
-  const groupRef = useRef<THREE.Group>(null);
-  const meshRef = useRef<THREE.Points>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
-
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animRef = useRef<number>(0);
+  const startTime = useRef(performance.now());
   const cfg = typeConfig[workflowType];
   const globalHealth = getGlobalHealth(cases);
-  const mainColor = healthToHex(globalHealth, cfg);
   const blockedCount = cases.filter(c => getHealth(c) === "blocked").length;
-  const totalCount = cases.length;
 
-  // Build particles — one per employee + ambient particles
-  const particles = useMemo<ParticleData[]>(() => {
-    const result: ParticleData[] = [];
-    // Employee particles (larger, more visible)
-    cases.forEach((c, i) => {
+  const particles = useMemo<Particle[]>(() => {
+    const result: Particle[] = [];
+    cases.forEach((c) => {
       const h = getHealth(c);
-      result.push({
-        theta: (i / cases.length) * Math.PI * 2,
-        phi: Math.acos(2 * Math.random() - 1),
-        r: 0.7 + Math.random() * 0.15,
-        speed: 0.3 + Math.random() * 0.4,
-        offset: Math.random() * Math.PI * 2,
-        isUnhealthy: h === "blocked" || h === "warning",
-      });
-    });
-    // Ambient filler particles
-    for (let i = 0; i < 60; i++) {
       result.push({
         theta: Math.random() * Math.PI * 2,
         phi: Math.acos(2 * Math.random() - 1),
-        r: 0.5 + Math.random() * 0.35,
-        speed: 0.1 + Math.random() * 0.2,
+        r: 0.62 + Math.random() * 0.12,
+        speed: 0.25 + Math.random() * 0.35,
         offset: Math.random() * Math.PI * 2,
-        isUnhealthy: false,
+        size: 2.8,
+        isEmployee: true,
+        health: h,
+        chaosAmp: h === "blocked" ? 0.22 : h === "warning" ? 0.1 : 0.02,
+      });
+    });
+    for (let i = 0; i < 80; i++) {
+      result.push({
+        theta: Math.random() * Math.PI * 2,
+        phi: Math.acos(2 * Math.random() - 1),
+        r: 0.4 + Math.random() * 0.38,
+        speed: 0.08 + Math.random() * 0.18,
+        offset: Math.random() * Math.PI * 2,
+        size: 1.2 + Math.random() * 1.0,
+        isEmployee: false,
+        health: globalHealth,
+        chaosAmp: globalHealth === "blocked" ? 0.07 : 0.015,
       });
     }
     return result;
-  }, [cases]);
+  }, [cases, globalHealth]);
 
-  const positionsArray = useMemo(() => new Float32Array(particles.length * 3), [particles]);
-  const colorsArray = useMemo(() => {
-    const arr = new Float32Array(particles.length * 3);
-    const c = new THREE.Color(mainColor);
-    for (let i = 0; i < particles.length; i++) {
-      // Employee particles get a slight variation
-      if (i < cases.length) {
-        const h = getHealth(cases[i]);
-        const col = new THREE.Color(healthToHex(h, cfg));
-        arr[i * 3] = col.r; arr[i * 3 + 1] = col.g; arr[i * 3 + 2] = col.b;
-      } else {
-        arr[i * 3] = c.r * (0.6 + Math.random() * 0.4);
-        arr[i * 3 + 1] = c.g * (0.6 + Math.random() * 0.4);
-        arr[i * 3 + 2] = c.b * (0.6 + Math.random() * 0.4);
-      }
-    }
-    return arr;
-  }, [particles, mainColor, cfg, cases]);
+  const draw = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-  const glowColor = new THREE.Color(mainColor);
+    const t = (performance.now() - startTime.current) / 1000;
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const radius = Math.min(cx, cy) * 0.72;
 
-  useFrame(({ clock }) => {
-    if (!groupRef.current || !meshRef.current) return;
-    const t = clock.getElapsedTime();
+    const dimmed = isAnySelected && !isSelected;
+    const scale = dimmed ? 0.7 : isSelected ? 1.08 : 1.0;
+    const pulse = isSelected ? 1 + Math.sin(t * 3.2) * 0.03 : 1;
+    const finalScale = scale * pulse;
 
-    // Slow global rotation
-    groupRef.current.rotation.y = t * 0.12;
-    groupRef.current.rotation.x = Math.sin(t * 0.07) * 0.15;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(finalScale, finalScale);
+    ctx.globalAlpha = dimmed ? 0.35 : 1;
 
-    // Pulse scale when selected
-    const baseScale = isAnySelected ? (isSelected ? 1.15 : 0.75) : 1.0;
-    const pulse = isSelected ? 1 + Math.sin(t * 3) * 0.04 : 1;
-    groupRef.current.scale.setScalar(baseScale * pulse);
+    // Outer glow
+    const glowColor = healthColor[globalHealth];
+    const [gr, gg, gb] = hexToRgb(glowColor);
+    const glowIntensity = globalHealth === "blocked"
+      ? 0.12 + Math.sin(t * 2.5) * 0.08
+      : 0.06 + Math.sin(t * 0.9) * 0.02;
+    const grad = ctx.createRadialGradient(0, 0, radius * 0.3, 0, 0, radius * 1.4);
+    grad.addColorStop(0, `rgba(${gr},${gg},${gb},${glowIntensity * 2})`);
+    grad.addColorStop(0.5, `rgba(${gr},${gg},${gb},${glowIntensity})`);
+    grad.addColorStop(1, `rgba(${gr},${gg},${gb},0)`);
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 1.4, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
 
-    // Animate particle positions
-    const pos = meshRef.current.geometry.attributes.position;
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      const wobble = p.isUnhealthy
-        ? Math.sin(t * p.speed * 4 + p.offset) * 0.18  // erratic
-        : Math.sin(t * p.speed + p.offset) * 0.04;      // gentle
-      const r = p.r + wobble;
-      const theta = p.theta + t * p.speed * (i < cases.length ? 0.4 : 0.15);
+    // Core sphere
+    const coreGrad = ctx.createRadialGradient(-radius * 0.08, -radius * 0.08, 0, 0, 0, radius * 0.22);
+    const [cr, cg, cb] = hexToRgb(glowColor);
+    coreGrad.addColorStop(0, `rgba(${cr},${cg},${cb},0.95)`);
+    coreGrad.addColorStop(0.6, `rgba(${cr},${cg},${cb},0.7)`);
+    coreGrad.addColorStop(1, `rgba(${cr},${cg},${cb},0.3)`);
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 0.22, 0, Math.PI * 2);
+    ctx.fillStyle = coreGrad;
+    ctx.fill();
+
+    // Rotation
+    const rotY = t * 0.14;
+    const rotX = Math.sin(t * 0.07) * 0.15;
+
+    // Particles
+    const sorted: Array<{ z: number; x2d: number; y2d: number; color: string; size: number }> = [];
+    particles.forEach((p) => {
+      const wobble = p.chaosAmp * Math.sin(t * p.speed * 4 + p.offset);
+      const r = (p.r + wobble) * radius;
+      const theta = p.theta + t * p.speed * 0.4;
       const phi = p.phi + Math.sin(t * 0.3 + p.offset) * 0.1;
-      pos.setXYZ(i, r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
-    }
-    pos.needsUpdate = true;
 
-    // Glow pulse
-    if (glowRef.current) {
-      const glowOpacity = globalHealth === "blocked"
-        ? 0.08 + Math.sin(t * 2) * 0.06
-        : 0.04 + Math.sin(t * 0.8) * 0.02;
-      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = glowOpacity;
-    }
-  });
+      // Sphere coords
+      let x = r * Math.sin(phi) * Math.cos(theta);
+      let y = r * Math.cos(phi);
+      let z = r * Math.sin(phi) * Math.sin(theta);
 
-  const geo = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(positionsArray, 3));
-    g.setAttribute("color", new THREE.BufferAttribute(colorsArray, 3));
-    return g;
-  }, [positionsArray, colorsArray]);
+      // Apply rotations
+      const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+      const nx = x * cosY + z * sinY;
+      const nz = -x * sinY + z * cosY;
+      x = nx; z = nz;
+
+      const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+      const ny = y * cosX - z * sinX;
+      const nz2 = y * sinX + z * cosX;
+      y = ny; z = nz2;
+
+      const depthFactor = (z / radius + 1) / 2; // 0 = back, 1 = front
+      const col = p.isEmployee ? healthColor[p.health] : glowColor;
+      const [pr, pg, pb] = hexToRgb(col);
+      const alpha = 0.2 + depthFactor * 0.75;
+
+      sorted.push({
+        z,
+        x2d: x,
+        y2d: y,
+        color: `rgba(${pr},${pg},${pb},${alpha.toFixed(2)})`,
+        size: p.size * (0.5 + depthFactor * 0.8) * (p.isEmployee ? 1.4 : 1),
+      });
+    });
+
+    // Paint back-to-front
+    sorted.sort((a, b) => a.z - b.z);
+    sorted.forEach(({ x2d, y2d, color, size }) => {
+      ctx.beginPath();
+      ctx.arc(x2d, y2d, size, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+    });
+
+    ctx.restore();
+    animRef.current = requestAnimationFrame(draw);
+  }, [particles, globalHealth, isSelected, isAnySelected]);
+
+  useEffect(() => {
+    animRef.current = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(animRef.current);
+  }, [draw]);
+
+  const Icon = cfg.icon;
 
   return (
-    <group ref={groupRef} position={position} onClick={(e) => { e.stopPropagation(); onClick(); }}>
-      {/* Outer glow sphere */}
-      <mesh ref={glowRef}>
-        <sphereGeometry args={[1.05, 16, 16]} />
-        <meshBasicMaterial color={glowColor} transparent opacity={0.05} side={THREE.BackSide} />
-      </mesh>
-
-      {/* Particles */}
-      <points ref={meshRef} geometry={geo}>
-        <pointsMaterial
-          size={0.045}
-          vertexColors
-          transparent
-          opacity={isAnySelected && !isSelected ? 0.3 : 0.9}
-          sizeAttenuation
-        />
-      </points>
-
-      {/* Core sphere */}
-      <mesh>
-        <sphereGeometry args={[0.28, 24, 24]} />
-        <meshStandardMaterial
-          color={mainColor}
-          emissive={mainColor}
-          emissiveIntensity={globalHealth === "blocked" ? 0.8 : 0.3}
-          transparent
-          opacity={0.85}
-          roughness={0.2}
-          metalness={0.6}
-        />
-      </mesh>
-
-      {/* HTML label */}
-      <Html center position={[0, -1.3, 0]} distanceFactor={5}>
-        <div
-          className={cn(
-            "pointer-events-none select-none text-center transition-all duration-300",
-            isAnySelected && !isSelected ? "opacity-30" : "opacity-100"
-          )}
-        >
-          <div className={cn("text-[11px] font-semibold whitespace-nowrap", cfg.color)}>
-            {cfg.label}
-          </div>
-          <div className="text-[9px] text-muted-foreground mt-0.5">
-            {totalCount} dossier{totalCount > 1 ? "s" : ""}
-            {blockedCount > 0 && <span className="text-red-400 ml-1">· {blockedCount} bloqué{blockedCount > 1 ? "s" : ""}</span>}
-          </div>
+    <button
+      onClick={onClick}
+      className={cn(
+        "relative flex flex-col items-center gap-1 transition-all duration-300 focus:outline-none group",
+        dimmed && "opacity-40",
+      )}
+      style={{ width, height }}
+    >
+      <canvas
+        ref={canvasRef}
+        width={width}
+        height={height - 36}
+        className="cursor-pointer"
+      />
+      <div className={cn(
+        "flex flex-col items-center gap-0.5 transition-all duration-300",
+        isSelected ? "opacity-100" : "opacity-70 group-hover:opacity-100"
+      )}>
+        <div className="flex items-center gap-1 text-[11px] font-semibold text-foreground">
+          <Icon size={10} />
+          {cfg.label}
         </div>
-      </Html>
-    </group>
+        <div className="text-[9px] text-muted-foreground tabular-nums">
+          {cases.length} dossier{cases.length > 1 ? "s" : ""}
+          {blockedCount > 0 && (
+            <span className="ml-1 text-red-500 font-semibold">· {blockedCount} bloqué{blockedCount > 1 ? "s" : ""}</span>
+          )}
+        </div>
+      </div>
+    </button>
   );
 }
 
-// ─── 3D Scene ─────────────────────────────────────────────────────────────────
-
-function Scene({
-  activeType,
-  onSelect,
-}: {
-  activeType: WorkflowType | null;
-  onSelect: (t: WorkflowType) => void;
-}) {
-  const workflowTypes: WorkflowType[] = ["onboarding", "offboarding", "document", "absence", "completude"];
-  const casesByType = useMemo(() =>
-    Object.fromEntries(workflowTypes.map(t => [t, allCases.filter(c => c.workflowType === t)])),
-    []
-  );
-
-  // Spread spheres in an arc
-  const positions: [number, number, number][] = [
-    [-4.2, 0, 0],
-    [-2.1, 0.4, -0.5],
-    [0, 0, 0],
-    [2.1, 0.4, -0.5],
-    [4.2, 0, 0],
-  ];
-
-  return (
-    <>
-      <ambientLight intensity={0.4} />
-      <pointLight position={[0, 4, 4]} intensity={1.5} />
-      <pointLight position={[-6, -2, 2]} intensity={0.5} color="#6366f1" />
-      <pointLight position={[6, -2, 2]} intensity={0.5} color="#06b6d4" />
-
-      {workflowTypes.map((type, i) => (
-        <WorkflowSphere
-          key={type}
-          cases={casesByType[type] ?? []}
-          workflowType={type}
-          isSelected={activeType === type}
-          isAnySelected={activeType !== null}
-          position={positions[i]}
-          onClick={() => onSelect(type)}
-        />
-      ))}
-    </>
-  );
+// Extract dimmed logic outside component to use in JSX
+function OrbWrapper(props: Parameters<typeof WorkflowOrb>[0]) {
+  return <WorkflowOrb {...props} />;
 }
 
 // ─── Progress Dots ────────────────────────────────────────────────────────────
@@ -504,9 +497,9 @@ function CaseRow({
 
   const healthConfig = {
     blocked: { cls: "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-400", label: "Bloqué",     icon: XCircle },
-    warning: { cls: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400", label: "Attente",     icon: Clock },
-    done:    { cls: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400", label: "Terminé",    icon: CheckCircle2 },
-    ok:      { cls: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400", label: "En cours",   icon: Zap },
+    warning: { cls: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400", label: "Attente",  icon: Clock },
+    done:    { cls: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400", label: "Terminé", icon: CheckCircle2 },
+    ok:      { cls: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400", label: "En cours",  icon: Zap },
   }[health];
   const HealthIcon = healthConfig.icon;
 
@@ -518,7 +511,12 @@ function CaseRow({
         </div>
         <div className={cn(
           "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold ring-2",
-          { blocked: "bg-red-50 ring-red-200 dark:bg-red-500/10 dark:ring-red-500/30", warning: "bg-amber-50 ring-amber-200 dark:bg-amber-500/10 dark:ring-amber-500/30", done: "bg-emerald-50 ring-emerald-200 dark:bg-emerald-500/10 dark:ring-emerald-500/30", ok: "bg-blue-50 ring-blue-200 dark:bg-blue-500/10 dark:ring-blue-500/30" }[health]
+          {
+            blocked: "bg-red-50 ring-red-200 dark:bg-red-500/10 dark:ring-red-500/30",
+            warning: "bg-amber-50 ring-amber-200 dark:bg-amber-500/10 dark:ring-amber-500/30",
+            done:    "bg-emerald-50 ring-emerald-200 dark:bg-emerald-500/10 dark:ring-emerald-500/30",
+            ok:      "bg-blue-50 ring-blue-200 dark:bg-blue-500/10 dark:ring-blue-500/30",
+          }[health]
         )}>
           {c.initials}
         </div>
@@ -551,15 +549,16 @@ function CaseRow({
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
+const WORKFLOW_TYPES: WorkflowType[] = ["onboarding", "offboarding", "document", "absence", "completude"];
+
 export default function ADPv3Page() {
   const [activeType, setActiveType] = useState<WorkflowType | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<"all" | "blocked" | "warning" | "ok" | "done">("all");
 
-  const workflowTypes: WorkflowType[] = ["onboarding", "offboarding", "document", "absence", "completude"];
   const casesByType = useMemo(() =>
-    Object.fromEntries(workflowTypes.map(t => [t, allCases.filter(c => c.workflowType === t)])),
+    Object.fromEntries(WORKFLOW_TYPES.map(t => [t, allCases.filter(c => c.workflowType === t)])),
     []
   );
 
@@ -596,40 +595,37 @@ export default function ADPv3Page() {
   return (
     <div className="flex h-full flex-col overflow-hidden">
 
-      {/* 3D Canvas — macro view */}
-      <div className="relative h-56 shrink-0 bg-background border-b border-border overflow-hidden">
-        <Canvas
-          camera={{ position: [0, 0, 8], fov: 55 }}
-          gl={{ antialias: true, alpha: true }}
-          style={{ background: "transparent" }}
-        >
-          <Suspense fallback={null}>
-            <Scene
-              activeType={activeType}
-              onSelect={(t) => setActiveType(prev => prev === t ? null : t)}
-            />
-          </Suspense>
-        </Canvas>
-
-        {/* Overlay: title + hint */}
-        <div className="pointer-events-none absolute inset-x-0 top-3 flex flex-col items-center gap-0.5">
-          <span className="text-xs font-semibold text-foreground/60 tracking-wider uppercase">
-            Workflows ADP
-          </span>
-          <span className="text-[10px] text-muted-foreground">
-            {activeType ? "Cliquez à nouveau pour désélectionner" : "Cliquez sur une sphère pour filtrer"}
+      {/* Orb macro view */}
+      <div className="relative shrink-0 border-b border-border bg-background overflow-hidden">
+        <div className="pointer-events-none absolute inset-x-0 top-2 flex flex-col items-center gap-0.5 z-10">
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+            {activeType ? "Cliquez à nouveau pour voir tout" : "Cliquez sur une sphère pour filtrer"}
           </span>
         </div>
 
-        {/* Active workflow pill */}
+        <div className="flex items-end justify-center gap-1 px-4 pt-6">
+          {WORKFLOW_TYPES.map((type) => (
+            <OrbWrapper
+              key={type}
+              cases={casesByType[type] ?? []}
+              workflowType={type}
+              isSelected={activeType === type}
+              isAnySelected={activeType !== null}
+              onClick={() => setActiveType(prev => prev === type ? null : type)}
+              width={160}
+              height={160}
+            />
+          ))}
+        </div>
+
         {activeType && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2">
+          <div className="flex justify-center pb-2">
             <button
               onClick={() => setActiveType(null)}
-              className="flex items-center gap-1.5 rounded-full border border-border bg-background/90 px-3 py-1 text-xs font-medium text-foreground shadow backdrop-blur-sm hover:bg-muted transition-colors"
+              className="flex items-center gap-1.5 rounded-full border border-border bg-background/90 px-3 py-1 text-xs font-medium text-foreground shadow hover:bg-muted transition-colors"
             >
               <ArrowLeft size={11} />
-              {typeConfig[activeType].label} · voir tout
+              Voir tous les workflows
             </button>
           </div>
         )}
@@ -670,7 +666,7 @@ export default function ADPv3Page() {
               <Button size="sm" variant="outline" className="h-7 gap-1 px-2 text-xs"><RotateCcw size={10} /> Relancer</Button>
               <Button size="sm" variant="outline" className="h-7 gap-1 px-2 text-xs"><Bell size={10} /> Notifier</Button>
               <Button size="sm" variant="outline" className="h-7 gap-1 px-2 text-xs"><Pencil size={10} /> Corriger</Button>
-              <Button size="sm" variant="outline" className="h-7 gap-1 px-2 text-xs text-red-600 hover:text-red-700 dark:text-red-400">
+              <Button size="sm" variant="destructive" className="h-7 gap-1 px-2 text-xs">
                 <AlertCircle size={10} /> Escalader
               </Button>
             </div>
