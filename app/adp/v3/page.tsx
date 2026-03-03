@@ -371,8 +371,7 @@ function WorkflowOrb({
       y = ny; z = nz2;
 
       const depthFactor = (z / radius + 1) / 2; // 0 = back, 1 = front
-      const col = p.isEmployee ? healthColor[p.health] : `rgb(${Math.round(mixR)},${Math.round(mixG)},${Math.round(mixB)})`;
-      const [pr, pg, pb] = hexToRgb(col);
+      const [pr, pg, pb] = hexToRgb(healthColor[p.health]);
       const alpha = 0.2 + depthFactor * 0.75;
 
       sorted.push({
