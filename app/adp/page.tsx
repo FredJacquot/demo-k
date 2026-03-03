@@ -10,563 +10,698 @@ import {
   CheckCircle2,
   Clock,
   AlertTriangle,
-  Circle,
+  XCircle,
   Zap,
   ShieldCheck,
   Hand,
-  ChevronRight,
+  ArrowLeft,
+  Bot,
+  ChevronDown,
+  ChevronUp,
   RotateCcw,
   Play,
-  Eye,
-  ArrowRight,
-  Bot,
-  Paperclip,
-  RefreshCw,
-  Ban,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-// ─── Types ─────────────────────────────────────────────────────────────────────
+// ─── Types ──────────────────────────────────────────────────────────────────────
 
 type ExecutionMode = "full-auto" | "auto-validation" | "assisted";
-type WorkflowStatus = "todo" | "waiting" | "blocked" | "done" | "in-progress";
-type CaseType = "onboarding" | "offboarding" | "document" | "absence" | "completude";
+type StepStatus = "ok" | "pending" | "blocked" | "waiting" | "skipped";
+type WorkflowType = "onboarding" | "offboarding" | "document" | "absence" | "completude";
 
-type ActionLog = {
-  time: string;
-  label: string;
-  by: "kalia" | "human";
-};
-
-type MissingItem = {
-  label: string;
-  from: string;
-};
-
-type Workflow = {
+type ProcessStep = {
   id: string;
-  type: CaseType;
-  subject: string;
-  employee: string;
-  status: WorkflowStatus;
+  label: string;
+  status: StepStatus;
+  detail?: string;
+  by?: "kalia" | "human";
+  time?: string;
+};
+
+type EmployeeCase = {
+  id: string;
+  name: string;
+  initials: string;
+  role: string;
+  steps: ProcessStep[];
   mode: ExecutionMode;
-  priority: "high" | "medium" | "low";
-  nextAction: string;
-  blocker?: string;
-  missing?: MissingItem[];
-  logs: ActionLog[];
   updatedAt: string;
 };
 
-// ─── Mock data ─────────────────────────────────────────────────────────────────
+type WorkflowGroup = {
+  type: WorkflowType;
+  label: string;
+  description: string;
+  cases: EmployeeCase[];
+};
 
-const workflows: Workflow[] = [
+// ─── Mock data ───────────────────────────────────────────────────────────────────
+
+const workflowGroups: WorkflowGroup[] = [
   {
-    id: "wf-001",
     type: "onboarding",
-    subject: "Onboarding administratif",
-    employee: "Sophie Marchand",
-    status: "blocked",
-    mode: "auto-validation",
-    priority: "high",
-    nextAction: "Valider la création dans le SIRH",
-    blocker: "Justificatif d'identité manquant",
-    missing: [
-      { label: "Pièce d'identité", from: "Salarié" },
-      { label: "RIB", from: "Salarié" },
+    label: "Onboarding administratif",
+    description: "Création des dossiers et intégration dans le SIRH",
+    cases: [
+      {
+        id: "ob-1", name: "Sophie Marchand", initials: "SM", role: "Chargée de projet", mode: "auto-validation", updatedAt: "Il y a 2h",
+        steps: [
+          { id: "s1", label: "Dossier initialisé", status: "ok", by: "kalia", time: "09:14" },
+          { id: "s2", label: "Données Core HR récupérées", status: "ok", by: "kalia", time: "09:15", detail: "6/8 champs remplis" },
+          { id: "s3", label: "Pièces d'identité reçues", status: "blocked", by: "kalia", detail: "Relance envoyée x2 — sans réponse" },
+          { id: "s4", label: "Création dans le SIRH", status: "pending" },
+          { id: "s5", label: "Envoi des accès et contrat", status: "pending" },
+        ],
+      },
+      {
+        id: "ob-2", name: "Nathan Leroy", initials: "NL", role: "Développeur", mode: "full-auto", updatedAt: "Il y a 1h",
+        steps: [
+          { id: "s1", label: "Dossier initialisé", status: "ok", by: "kalia", time: "10:00" },
+          { id: "s2", label: "Données Core HR récupérées", status: "ok", by: "kalia", time: "10:01" },
+          { id: "s3", label: "Pièces d'identité reçues", status: "ok", by: "kalia", time: "10:45" },
+          { id: "s4", label: "Création dans le SIRH", status: "ok", by: "kalia", time: "10:46" },
+          { id: "s5", label: "Envoi des accès et contrat", status: "waiting", detail: "En attente signature électronique" },
+        ],
+      },
+      {
+        id: "ob-3", name: "Camille Dubois", initials: "CD", role: "Designer UX", mode: "auto-validation", updatedAt: "Hier",
+        steps: [
+          { id: "s1", label: "Dossier initialisé", status: "ok", by: "kalia" },
+          { id: "s2", label: "Données Core HR récupérées", status: "ok", by: "kalia" },
+          { id: "s3", label: "Pièces d'identité reçues", status: "ok", by: "kalia" },
+          { id: "s4", label: "Création dans le SIRH", status: "waiting", detail: "En attente de validation GP" },
+          { id: "s5", label: "Envoi des accès et contrat", status: "pending" },
+        ],
+      },
+      {
+        id: "ob-4", name: "Pauline Girard", initials: "PG", role: "Responsable marketing", mode: "full-auto", updatedAt: "Il y a 30 min",
+        steps: [
+          { id: "s1", label: "Dossier initialisé", status: "ok", by: "kalia" },
+          { id: "s2", label: "Données Core HR récupérées", status: "blocked", detail: "Date de naissance incohérente entre 2 sources" },
+          { id: "s3", label: "Pièces d'identité reçues", status: "pending" },
+          { id: "s4", label: "Création dans le SIRH", status: "pending" },
+          { id: "s5", label: "Envoi des accès et contrat", status: "pending" },
+        ],
+      },
+      {
+        id: "ob-5", name: "Romain Bernard", initials: "RB", role: "Ingénieur DevOps", mode: "assisted", updatedAt: "Il y a 3h",
+        steps: [
+          { id: "s1", label: "Dossier initialisé", status: "ok", by: "kalia" },
+          { id: "s2", label: "Données Core HR récupérées", status: "ok", by: "kalia" },
+          { id: "s3", label: "Pièces d'identité reçues", status: "ok", by: "kalia" },
+          { id: "s4", label: "Création dans le SIRH", status: "ok", by: "human" },
+          { id: "s5", label: "Envoi des accès et contrat", status: "ok", by: "kalia" },
+        ],
+      },
     ],
-    logs: [
-      { time: "Aujourd'hui 09:14", label: "Dossier initialisé depuis l'embauche confirmée", by: "kalia" },
-      { time: "Aujourd'hui 09:15", label: "Données Core HR récupérées (6/8 champs remplis)", by: "kalia" },
-      { time: "Aujourd'hui 09:16", label: "Relance envoyée à Sophie Marchand pour les pièces manquantes", by: "kalia" },
-      { time: "Aujourd'hui 10:32", label: "Aucune réponse — 2e relance programmée à 14h00", by: "kalia" },
-    ],
-    updatedAt: "Il y a 2h",
   },
   {
-    id: "wf-002",
-    type: "document",
-    subject: "Attestation employeur",
-    employee: "Marc Dupont",
-    status: "in-progress",
-    mode: "full-auto",
-    priority: "low",
-    nextAction: "Génération du document en cours",
-    logs: [
-      { time: "Aujourd'hui 11:00", label: "Demande reçue via Kalia Base", by: "kalia" },
-      { time: "Aujourd'hui 11:01", label: "Contexte salarié chargé depuis le SIRH", by: "kalia" },
-      { time: "Aujourd'hui 11:02", label: "Génération de l'attestation en cours", by: "kalia" },
-    ],
-    updatedAt: "Il y a 45 min",
-  },
-  {
-    id: "wf-003",
-    type: "absence",
-    subject: "Justificatif d'absence",
-    employee: "Léa Fontaine",
-    status: "waiting",
-    mode: "full-auto",
-    priority: "medium",
-    nextAction: "En attente du justificatif médical",
-    missing: [{ label: "Arrêt de travail signé", from: "Salarié" }],
-    logs: [
-      { time: "Hier 16:22", label: "Absence détectée dans la GTA (3 jours non justifiés)", by: "kalia" },
-      { time: "Hier 16:23", label: "Qualification du cas : maladie probable", by: "kalia" },
-      { time: "Hier 16:24", label: "Demande de justificatif envoyée à Léa Fontaine", by: "kalia" },
-      { time: "Aujourd'hui 08:00", label: "Relance automatique J+1 envoyée", by: "kalia" },
-    ],
-    updatedAt: "Hier",
-  },
-  {
-    id: "wf-004",
-    type: "completude",
-    subject: "Complétude du dossier",
-    employee: "Thomas Renard",
-    status: "blocked",
-    mode: "full-auto",
-    priority: "high",
-    nextAction: "Corriger l'incohérence de date avant relance",
-    blocker: "Date de naissance incohérente entre 2 sources",
-    logs: [
-      { time: "Il y a 3j", label: "Contrôle de complétude déclenché automatiquement", by: "kalia" },
-      { time: "Il y a 3j", label: "3 champs manquants détectés — relances envoyées", by: "kalia" },
-      { time: "Il y a 2j", label: "2 champs reçus et mis à jour dans le SIRH", by: "kalia" },
-      { time: "Il y a 1j", label: "Incohérence détectée : date de naissance contradictoire", by: "kalia" },
-      { time: "Il y a 1j", label: "Traitement suspendu — escalade vers gestionnaire ADP", by: "kalia" },
-    ],
-    updatedAt: "Il y a 1j",
-  },
-  {
-    id: "wf-005",
     type: "offboarding",
-    subject: "Offboarding administratif",
-    employee: "Julie Moreau",
-    status: "in-progress",
-    mode: "auto-validation",
-    priority: "high",
-    nextAction: "Valider la mise à jour dans le SIRH",
-    logs: [
-      { time: "Il y a 2j", label: "Départ confirmé pour le 31/03/2026", by: "kalia" },
-      { time: "Il y a 2j", label: "Checklist de sortie générée (8 actions)", by: "kalia" },
-      { time: "Il y a 1j", label: "Accès RH et Badge désactivés via Kalia Connect", by: "kalia" },
-      { time: "Aujourd'hui 08:45", label: "Solde de tout compte préparé — en attente de validation GP", by: "kalia" },
+    label: "Offboarding administratif",
+    description: "Clôture des dossiers et gestion des sorties",
+    cases: [
+      {
+        id: "of-1", name: "Julie Moreau", initials: "JM", role: "Assistante RH", mode: "auto-validation", updatedAt: "Il y a 4h",
+        steps: [
+          { id: "s1", label: "Départ confirmé dans le SIRH", status: "ok", by: "kalia" },
+          { id: "s2", label: "Checklist de sortie générée", status: "ok", by: "kalia", detail: "8 actions identifiées" },
+          { id: "s3", label: "Désactivation des accès", status: "ok", by: "kalia" },
+          { id: "s4", label: "Solde de tout compte préparé", status: "waiting", detail: "En attente de validation GP" },
+          { id: "s5", label: "Attestation employeur générée", status: "pending" },
+          { id: "s6", label: "Archivage du dossier", status: "pending" },
+        ],
+      },
+      {
+        id: "of-2", name: "Pierre Faure", initials: "PF", role: "Commercial", mode: "full-auto", updatedAt: "Il y a 1j",
+        steps: [
+          { id: "s1", label: "Départ confirmé dans le SIRH", status: "ok", by: "kalia" },
+          { id: "s2", label: "Checklist de sortie générée", status: "ok", by: "kalia" },
+          { id: "s3", label: "Désactivation des accès", status: "blocked", detail: "Accès Salesforce non révoqué — droits insuffisants" },
+          { id: "s4", label: "Solde de tout compte préparé", status: "pending" },
+          { id: "s5", label: "Attestation employeur générée", status: "pending" },
+          { id: "s6", label: "Archivage du dossier", status: "pending" },
+        ],
+      },
+      {
+        id: "of-3", name: "Amandine Petit", initials: "AP", role: "Comptable", mode: "auto-validation", updatedAt: "Il y a 2j",
+        steps: [
+          { id: "s1", label: "Départ confirmé dans le SIRH", status: "ok", by: "kalia" },
+          { id: "s2", label: "Checklist de sortie générée", status: "ok", by: "kalia" },
+          { id: "s3", label: "Désactivation des accès", status: "ok", by: "kalia" },
+          { id: "s4", label: "Solde de tout compte préparé", status: "ok", by: "human" },
+          { id: "s5", label: "Attestation employeur générée", status: "ok", by: "kalia" },
+          { id: "s6", label: "Archivage du dossier", status: "ok", by: "kalia" },
+        ],
+      },
     ],
-    updatedAt: "Il y a 4h",
   },
   {
-    id: "wf-006",
-    type: "document",
-    subject: "Changement de RIB",
-    employee: "Karim Benali",
-    status: "done",
-    mode: "full-auto",
-    priority: "low",
-    nextAction: "Traitement terminé",
-    logs: [
-      { time: "Hier 14:10", label: "Nouveau RIB reçu via Kalia Base", by: "kalia" },
-      { time: "Hier 14:11", label: "Contrôle de validité IBAN — OK", by: "kalia" },
-      { time: "Hier 14:12", label: "RIB mis à jour dans le SIRH via Kalia Connect", by: "kalia" },
-      { time: "Hier 14:12", label: "Confirmation envoyée à Karim Benali", by: "kalia" },
+    type: "absence",
+    label: "Gestion des absences",
+    description: "Qualification et suivi des absences non justifiées",
+    cases: [
+      {
+        id: "ab-1", name: "Léa Fontaine", initials: "LF", role: "Analyste data", mode: "full-auto", updatedAt: "Hier",
+        steps: [
+          { id: "s1", label: "Absence détectée (3 jours)", status: "ok", by: "kalia" },
+          { id: "s2", label: "Qualification du cas", status: "ok", by: "kalia", detail: "Maladie probable" },
+          { id: "s3", label: "Demande de justificatif", status: "ok", by: "kalia" },
+          { id: "s4", label: "Justificatif reçu", status: "waiting", detail: "2e relance envoyée — J+1" },
+          { id: "s5", label: "Intégration dans la paie", status: "pending" },
+        ],
+      },
+      {
+        id: "ab-2", name: "Sébastien Roy", initials: "SR", role: "Chef de projet", mode: "full-auto", updatedAt: "Il y a 3h",
+        steps: [
+          { id: "s1", label: "Absence détectée (1 jour)", status: "ok", by: "kalia" },
+          { id: "s2", label: "Qualification du cas", status: "ok", by: "kalia", detail: "Congé non saisi probable" },
+          { id: "s3", label: "Demande de justificatif", status: "ok", by: "kalia" },
+          { id: "s4", label: "Justificatif reçu", status: "ok", by: "kalia", detail: "RTT validé" },
+          { id: "s5", label: "Intégration dans la paie", status: "ok", by: "kalia" },
+        ],
+      },
+      {
+        id: "ab-3", name: "Hélène Martin", initials: "HM", role: "Juriste", mode: "auto-validation", updatedAt: "Il y a 5h",
+        steps: [
+          { id: "s1", label: "Absence détectée (5 jours)", status: "ok", by: "kalia" },
+          { id: "s2", label: "Qualification du cas", status: "ok", by: "kalia", detail: "Longue maladie" },
+          { id: "s3", label: "Demande de justificatif", status: "ok", by: "kalia" },
+          { id: "s4", label: "Justificatif reçu", status: "blocked", detail: "Document illisible — re-demande nécessaire" },
+          { id: "s5", label: "Intégration dans la paie", status: "pending" },
+        ],
+      },
     ],
-    updatedAt: "Hier",
+  },
+  {
+    type: "document",
+    label: "Documents RH",
+    description: "Génération et envoi de documents administratifs",
+    cases: [
+      {
+        id: "doc-1", name: "Marc Dupont", initials: "MD", role: "Ingénieur", mode: "full-auto", updatedAt: "Il y a 45 min",
+        steps: [
+          { id: "s1", label: "Demande reçue", status: "ok", by: "kalia" },
+          { id: "s2", label: "Contexte salarié chargé", status: "ok", by: "kalia" },
+          { id: "s3", label: "Génération du document", status: "waiting", detail: "Attestation employeur en cours" },
+          { id: "s4", label: "Envoi au salarié", status: "pending" },
+        ],
+      },
+      {
+        id: "doc-2", name: "Karim Benali", initials: "KB", role: "Responsable IT", mode: "full-auto", updatedAt: "Hier",
+        steps: [
+          { id: "s1", label: "Demande reçue", status: "ok", by: "kalia" },
+          { id: "s2", label: "Contrôle IBAN", status: "ok", by: "kalia" },
+          { id: "s3", label: "Mise à jour dans le SIRH", status: "ok", by: "kalia" },
+          { id: "s4", label: "Confirmation envoyée", status: "ok", by: "kalia" },
+        ],
+      },
+      {
+        id: "doc-3", name: "Isabelle Morel", initials: "IM", role: "DRH Adjointe", mode: "auto-validation", updatedAt: "Il y a 2h",
+        steps: [
+          { id: "s1", label: "Demande reçue", status: "ok", by: "kalia" },
+          { id: "s2", label: "Contexte salarié chargé", status: "ok", by: "kalia" },
+          { id: "s3", label: "Génération du document", status: "ok", by: "kalia" },
+          { id: "s4", label: "Envoi au salarié", status: "waiting", detail: "En attente de validation GP" },
+        ],
+      },
+      {
+        id: "doc-4", name: "Antoine Blanc", initials: "AB", role: "Technicien", mode: "full-auto", updatedAt: "Il y a 1h",
+        steps: [
+          { id: "s1", label: "Demande reçue", status: "ok", by: "kalia" },
+          { id: "s2", label: "Contexte salarié chargé", status: "blocked", detail: "Salarié introuvable dans le SIRH" },
+          { id: "s3", label: "Génération du document", status: "pending" },
+          { id: "s4", label: "Envoi au salarié", status: "pending" },
+        ],
+      },
+    ],
+  },
+  {
+    type: "completude",
+    label: "Complétude des dossiers",
+    description: "Contrôle et correction des données manquantes",
+    cases: [
+      {
+        id: "co-1", name: "Thomas Renard", initials: "TR", role: "Technicien terrain", mode: "full-auto", updatedAt: "Il y a 1j",
+        steps: [
+          { id: "s1", label: "Contrôle de complétude", status: "ok", by: "kalia", detail: "3 anomalies détectées" },
+          { id: "s2", label: "Relances envoyées", status: "ok", by: "kalia" },
+          { id: "s3", label: "Champs reçus (2/3)", status: "ok", by: "kalia" },
+          { id: "s4", label: "Résolution incohérence", status: "blocked", detail: "Date de naissance contradictoire — escalade GP" },
+          { id: "s5", label: "Mise à jour SIRH", status: "pending" },
+        ],
+      },
+      {
+        id: "co-2", name: "Diane Chevalier", initials: "DC", role: "Assistante ADV", mode: "full-auto", updatedAt: "Il y a 6h",
+        steps: [
+          { id: "s1", label: "Contrôle de complétude", status: "ok", by: "kalia", detail: "1 anomalie détectée" },
+          { id: "s2", label: "Relances envoyées", status: "ok", by: "kalia" },
+          { id: "s3", label: "Champs reçus (1/1)", status: "ok", by: "kalia" },
+          { id: "s4", label: "Résolution incohérence", status: "skipped" },
+          { id: "s5", label: "Mise à jour SIRH", status: "ok", by: "kalia" },
+        ],
+      },
+    ],
   },
 ];
 
-// ─── Config helpers ─────────────────────────────────────────────────────────────
+// ─── Config ──────────────────────────────────────────────────────────────────────
 
-const caseConfig: Record<CaseType, { icon: React.ElementType; label: string; color: string }> = {
-  onboarding:  { icon: UserPlus,   label: "Onboarding",    color: "text-blue-500" },
-  offboarding: { icon: UserMinus,  label: "Offboarding",   color: "text-orange-500" },
-  document:    { icon: FileText,   label: "Document",      color: "text-violet-500" },
-  absence:     { icon: CalendarOff,label: "Absence",       color: "text-amber-500" },
-  completude:  { icon: FolderOpen, label: "Complétude",    color: "text-rose-500" },
+const typeConfig: Record<WorkflowType, { icon: React.ElementType; color: string; bg: string; border: string }> = {
+  onboarding:  { icon: UserPlus,    color: "text-blue-600 dark:text-blue-400",   bg: "bg-blue-50 dark:bg-blue-500/10",   border: "border-blue-200 dark:border-blue-500/20" },
+  offboarding: { icon: UserMinus,   color: "text-orange-600 dark:text-orange-400", bg: "bg-orange-50 dark:bg-orange-500/10", border: "border-orange-200 dark:border-orange-500/20" },
+  document:    { icon: FileText,    color: "text-violet-600 dark:text-violet-400", bg: "bg-violet-50 dark:bg-violet-500/10", border: "border-violet-200 dark:border-violet-500/20" },
+  absence:     { icon: CalendarOff, color: "text-amber-600 dark:text-amber-400",  bg: "bg-amber-50 dark:bg-amber-500/10",  border: "border-amber-200 dark:border-amber-500/20" },
+  completude:  { icon: FolderOpen,  color: "text-rose-600 dark:text-rose-400",   bg: "bg-rose-50 dark:bg-rose-500/10",   border: "border-rose-200 dark:border-rose-500/20" },
 };
 
-const statusConfig: Record<WorkflowStatus, { icon: React.ElementType; label: string; classes: string }> = {
-  todo:        { icon: Circle,        label: "À traiter",  classes: "bg-muted text-muted-foreground" },
-  "in-progress":{ icon: Clock,        label: "En cours",   classes: "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300" },
-  waiting:     { icon: Clock,         label: "En attente", classes: "bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300" },
-  blocked:     { icon: AlertTriangle, label: "Bloqué",     classes: "bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-300" },
-  done:        { icon: CheckCircle2,  label: "Terminé",    classes: "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300" },
+const stepConfig: Record<StepStatus, { icon: React.ElementType; color: string; dot: string; label: string }> = {
+  ok:      { icon: CheckCircle2,  color: "text-emerald-500",                            dot: "bg-emerald-500", label: "Validé" },
+  pending: { icon: Clock,         color: "text-muted-foreground/40",                    dot: "bg-muted-foreground/30", label: "En attente" },
+  blocked: { icon: XCircle,       color: "text-red-500",                                dot: "bg-red-500", label: "Bloqué" },
+  waiting: { icon: Clock,         color: "text-amber-500",                              dot: "bg-amber-500", label: "En cours" },
+  skipped: { icon: CheckCircle2,  color: "text-muted-foreground/30",                    dot: "bg-muted-foreground/20", label: "Non applicable" },
 };
 
 const modeConfig: Record<ExecutionMode, { icon: React.ElementType; label: string; classes: string }> = {
-  "full-auto":       { icon: Zap,         label: "Full auto",       classes: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-500/20" },
-  "auto-validation": { icon: ShieldCheck, label: "Auto + validation",classes: "bg-blue-50 text-blue-700 ring-1 ring-blue-200 dark:bg-blue-500/10 dark:text-blue-300 dark:ring-blue-500/20" },
-  "assisted":        { icon: Hand,        label: "Assisté",          classes: "bg-violet-50 text-violet-700 ring-1 ring-violet-200 dark:bg-violet-500/10 dark:text-violet-300 dark:ring-violet-500/20" },
+  "full-auto":       { icon: Zap,         label: "Full auto",        classes: "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300" },
+  "auto-validation": { icon: ShieldCheck, label: "Auto + validation", classes: "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300" },
+  "assisted":        { icon: Hand,        label: "Assisté",           classes: "bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300" },
 };
 
-const priorityDot: Record<string, string> = {
-  high:   "bg-red-500",
-  medium: "bg-amber-500",
-  low:    "bg-muted-foreground/30",
+// ─── Helpers ─────────────────────────────────────────────────────────────────────
+
+function getCaseHealth(c: EmployeeCase): "ok" | "warning" | "blocked" | "done" {
+  if (c.steps.every(s => s.status === "ok" || s.status === "skipped")) return "done";
+  if (c.steps.some(s => s.status === "blocked")) return "blocked";
+  if (c.steps.some(s => s.status === "waiting")) return "warning";
+  return "ok";
+}
+
+const healthDot: Record<string, string> = {
+  ok:      "bg-blue-400",
+  warning: "bg-amber-400",
+  blocked: "bg-red-500",
+  done:    "bg-emerald-500",
 };
 
-// ─── Stats bar ─────────────────────────────────────────────────────────────────
+const healthRing: Record<string, string> = {
+  ok:      "ring-blue-400/30",
+  warning: "ring-amber-400/30",
+  blocked: "ring-red-500/30",
+  done:    "ring-emerald-500/30",
+};
 
-function StatsBar({ items }: { items: Workflow[] }) {
-  const counts = {
-    blocked:     items.filter(w => w.status === "blocked").length,
-    inProgress:  items.filter(w => w.status === "in-progress").length,
-    waiting:     items.filter(w => w.status === "waiting").length,
-    done:        items.filter(w => w.status === "done").length,
-  };
+// ─── Avatar ───────────────────────────────────────────────────────────────────────
+
+function Avatar({ initials, health, size = "md" }: { initials: string; health: string; size?: "sm" | "md" }) {
+  const sz = size === "sm" ? "h-7 w-7 text-[10px]" : "h-9 w-9 text-xs";
   return (
-    <div className="flex flex-wrap gap-3">
-      {counts.blocked > 0 && (
-        <div className="flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1.5 dark:bg-red-500/10">
-          <AlertTriangle size={12} className="text-red-500" />
-          <span className="text-xs font-medium text-red-700 dark:text-red-300">{counts.blocked} bloqué{counts.blocked > 1 ? "s" : ""}</span>
-        </div>
-      )}
-      {counts.inProgress > 0 && (
-        <div className="flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1.5 dark:bg-blue-500/10">
-          <Clock size={12} className="text-blue-500" />
-          <span className="text-xs font-medium text-blue-700 dark:text-blue-300">{counts.inProgress} en cours</span>
-        </div>
-      )}
-      {counts.waiting > 0 && (
-        <div className="flex items-center gap-1.5 rounded-md bg-amber-50 px-2.5 py-1.5 dark:bg-amber-500/10">
-          <Clock size={12} className="text-amber-500" />
-          <span className="text-xs font-medium text-amber-700 dark:text-amber-300">{counts.waiting} en attente</span>
-        </div>
-      )}
-      {counts.done > 0 && (
-        <div className="flex items-center gap-1.5 rounded-md bg-emerald-50 px-2.5 py-1.5 dark:bg-emerald-500/10">
-          <CheckCircle2 size={12} className="text-emerald-500" />
-          <span className="text-xs font-medium text-emerald-700 dark:text-emerald-300">{counts.done} terminé{counts.done > 1 ? "s" : ""}</span>
-        </div>
-      )}
+    <div className={cn("relative shrink-0", sz)}>
+      <div className={cn(
+        "flex h-full w-full items-center justify-center rounded-full font-semibold ring-2",
+        "bg-muted text-muted-foreground",
+        healthRing[health],
+      )}>
+        {initials}
+      </div>
+      <span className={cn(
+        "absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-background",
+        healthDot[health],
+      )} />
     </div>
   );
 }
 
-// ─── Workflow row (list item) ───────────────────────────────────────────────────
+// ─── Progress bar for a case ─────────────────────────────────────────────────────
 
-function WorkflowRow({
-  workflow,
-  isSelected,
-  onClick,
-}: {
-  workflow: Workflow;
-  isSelected: boolean;
-  onClick: () => void;
-}) {
-  const { icon: CaseIcon, color } = caseConfig[workflow.type];
-  const status = statusConfig[workflow.status];
-  const StatusIcon = status.icon;
-  const mode = modeConfig[workflow.mode];
-  const ModeIcon = mode.icon;
+function CaseProgress({ steps }: { steps: ProcessStep[] }) {
+  return (
+    <div className="flex items-center gap-0.5">
+      {steps.map((s) => (
+        <div
+          key={s.id}
+          className={cn("h-1 flex-1 rounded-full", stepConfig[s.status].dot)}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ─── Workflow card (overview grid) ────────────────────────────────────────────────
+
+function WorkflowCard({ group, onClick }: { group: WorkflowGroup; onClick: () => void }) {
+  const { icon: Icon, color, bg, border } = typeConfig[group.type];
+  const blocked  = group.cases.filter(c => getCaseHealth(c) === "blocked").length;
+  const warning  = group.cases.filter(c => getCaseHealth(c) === "warning").length;
+  const done     = group.cases.filter(c => getCaseHealth(c) === "done").length;
+  const total    = group.cases.length;
 
   return (
     <button
       type="button"
       onClick={onClick}
-      className={cn(
-        "group w-full rounded-lg border p-3.5 text-left transition-all duration-150",
-        isSelected
-          ? "border-primary/30 bg-primary/5 dark:border-primary/20 dark:bg-primary/10"
-          : "border-border bg-card hover:border-border hover:bg-muted/40",
-      )}
+      className="group w-full rounded-xl border border-border bg-card p-5 text-left transition-all duration-150 hover:border-border hover:shadow-sm hover:shadow-black/5 active:scale-[0.99]"
     >
+      {/* Header */}
       <div className="flex items-start gap-3">
-        {/* Priority dot + icon */}
-        <div className="relative mt-0.5 shrink-0">
-          <div className={cn("flex h-8 w-8 items-center justify-center rounded-lg bg-muted", color)}>
-            <CaseIcon size={15} />
-          </div>
-          <span className={cn("absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full ring-2 ring-background", priorityDot[workflow.priority])} />
+        <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border", bg, border, color)}>
+          <Icon size={16} />
         </div>
-
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="truncate text-sm font-medium text-foreground">{workflow.subject}</span>
-          </div>
-          <p className="mt-0.5 truncate text-xs text-muted-foreground">{workflow.employee}</p>
-
-          <div className="mt-2 flex flex-wrap items-center gap-1.5">
-            <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium", status.classes)}>
-              <StatusIcon size={10} />
-              {status.label}
-            </span>
-            <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium", mode.classes)}>
-              <ModeIcon size={10} />
-              {mode.label}
-            </span>
-          </div>
+          <h3 className="text-sm font-semibold text-foreground">{group.label}</h3>
+          <p className="mt-0.5 text-[11px] text-muted-foreground">{group.description}</p>
         </div>
-
-        <ChevronRight
-          size={14}
-          className={cn(
-            "mt-1 shrink-0 text-muted-foreground/40 transition-all",
-            isSelected ? "text-primary" : "group-hover:text-muted-foreground",
-          )}
-        />
       </div>
 
-      {/* Next action */}
-      <div className="mt-2.5 flex items-center gap-1.5 rounded-md bg-muted/50 px-2.5 py-1.5">
-        <ArrowRight size={11} className="shrink-0 text-muted-foreground" />
-        <span className="truncate text-[11px] text-muted-foreground">{workflow.nextAction}</span>
+      {/* Status chips */}
+      <div className="mt-4 flex items-center gap-1.5">
+        <span className="text-xs font-semibold text-foreground">{total}</span>
+        <span className="text-xs text-muted-foreground">en cours</span>
+        <span className="ml-auto flex items-center gap-1.5">
+          {blocked > 0 && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-medium text-red-600 dark:bg-red-500/10 dark:text-red-400">
+              <AlertTriangle size={9} />
+              {blocked} bloqué{blocked > 1 ? "s" : ""}
+            </span>
+          )}
+          {warning > 0 && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
+              <Clock size={9} />
+              {warning}
+            </span>
+          )}
+          {done > 0 && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
+              <CheckCircle2 size={9} />
+              {done}
+            </span>
+          )}
+        </span>
+      </div>
+
+      {/* Avatars strip */}
+      <div className="mt-4 flex items-center gap-1.5">
+        <div className="flex -space-x-1.5">
+          {group.cases.slice(0, 6).map((c) => (
+            <Avatar key={c.id} initials={c.initials} health={getCaseHealth(c)} size="sm" />
+          ))}
+          {group.cases.length > 6 && (
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-muted ring-2 ring-background text-[10px] font-medium text-muted-foreground">
+              +{group.cases.length - 6}
+            </div>
+          )}
+        </div>
+        <span className="ml-2 text-[11px] text-muted-foreground">
+          {group.cases.map(c => c.name.split(" ")[0]).slice(0, 3).join(", ")}
+          {group.cases.length > 3 && ` +${group.cases.length - 3}`}
+        </span>
       </div>
     </button>
   );
 }
 
-// ─── Detail panel ──────────────────────────────────────────────────────────────
+// ─── Employee row in detail view ─────────────────────────────────────────────────
 
-function DetailPanel({ workflow }: { workflow: Workflow }) {
-  const { icon: CaseIcon, label: caseLabel, color } = caseConfig[workflow.type];
-  const status = statusConfig[workflow.status];
-  const StatusIcon = status.icon;
-  const mode = modeConfig[workflow.mode];
+function EmployeeRow({ ec, isExpanded, onToggle }: { ec: EmployeeCase; isExpanded: boolean; onToggle: () => void }) {
+  const health = getCaseHealth(ec);
+  const mode = modeConfig[ec.mode];
   const ModeIcon = mode.icon;
+  const blockedSteps = ec.steps.filter(s => s.status === "blocked");
+  const waitingSteps = ec.steps.filter(s => s.status === "waiting");
+
+  return (
+    <div className={cn(
+      "rounded-lg border transition-all duration-150",
+      isExpanded ? "border-border bg-muted/30" : "border-border bg-card hover:bg-muted/20",
+    )}>
+      {/* Row header */}
+      <button type="button" onClick={onToggle} className="flex w-full items-center gap-3 p-4 text-left">
+        <Avatar initials={ec.initials} health={health} />
+
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm font-medium text-foreground">{ec.name}</span>
+            <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium", mode.classes)}>
+              <ModeIcon size={9} />
+              {mode.label}
+            </span>
+          </div>
+          <p className="mt-0.5 text-[11px] text-muted-foreground">{ec.role}</p>
+        </div>
+
+        {/* Blocker / warning summary */}
+        <div className="flex shrink-0 items-center gap-2">
+          {blockedSteps.length > 0 && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-medium text-red-600 dark:bg-red-500/10 dark:text-red-400">
+              <XCircle size={9} />
+              {blockedSteps.length} blocage{blockedSteps.length > 1 ? "s" : ""}
+            </span>
+          )}
+          {waitingSteps.length > 0 && blockedSteps.length === 0 && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
+              <Clock size={9} />
+              En cours
+            </span>
+          )}
+          {health === "done" && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
+              <CheckCircle2 size={9} />
+              Terminé
+            </span>
+          )}
+          {isExpanded ? <ChevronUp size={14} className="text-muted-foreground" /> : <ChevronDown size={14} className="text-muted-foreground" />}
+        </div>
+      </button>
+
+      {/* Progress bar (always visible) */}
+      <div className="px-4 pb-3">
+        <CaseProgress steps={ec.steps} />
+      </div>
+
+      {/* Expanded steps */}
+      {isExpanded && (
+        <div className="border-t border-border px-4 pb-4 pt-4">
+          <ol className="space-y-2.5">
+            {ec.steps.map((step, i) => {
+              const { icon: StepIcon, color: stepColor } = stepConfig[step.status];
+              return (
+                <li key={step.id} className="flex items-start gap-3">
+                  {/* Connector */}
+                  <div className="flex flex-col items-center gap-0.5">
+                    <StepIcon size={15} className={stepColor} />
+                    {i < ec.steps.length - 1 && (
+                      <div className="h-full w-px bg-border" style={{ minHeight: "12px" }} />
+                    )}
+                  </div>
+
+                  <div className="min-w-0 flex-1 pb-1">
+                    <div className="flex items-center gap-2">
+                      <span className={cn(
+                        "text-xs font-medium",
+                        step.status === "pending" || step.status === "skipped"
+                          ? "text-muted-foreground"
+                          : "text-foreground",
+                      )}>
+                        {step.label}
+                      </span>
+                      {step.time && (
+                        <span className="text-[10px] text-muted-foreground/60">{step.time}</span>
+                      )}
+                      {step.by && (
+                        <span className={cn(
+                          "text-[10px]",
+                          step.by === "kalia" ? "text-primary/70" : "text-emerald-600 dark:text-emerald-400",
+                        )}>
+                          · {step.by === "kalia" ? "Kalia" : "Gestionnaire"}
+                        </span>
+                      )}
+                    </div>
+                    {step.detail && (
+                      <p className={cn(
+                        "mt-0.5 text-[11px]",
+                        step.status === "blocked" ? "text-red-600 dark:text-red-400" : "text-muted-foreground",
+                      )}>
+                        {step.detail}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Quick action on blocked */}
+                  {step.status === "blocked" && (
+                    <Button size="sm" variant="outline" className="h-6 shrink-0 gap-1 px-2 text-[10px]">
+                      <Play size={9} />
+                      Corriger
+                    </Button>
+                  )}
+                  {step.status === "waiting" && ec.mode === "auto-validation" && (
+                    <Button size="sm" className="h-6 shrink-0 gap-1 px-2 text-[10px]">
+                      <CheckCircle2 size={9} />
+                      Valider
+                    </Button>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+
+          {/* Footer actions */}
+          <div className="mt-4 flex items-center gap-2 border-t border-border pt-3">
+            <Button size="sm" variant="outline" className="h-7 gap-1.5 text-xs">
+              <RotateCcw size={11} />
+              Relancer
+            </Button>
+            <Button size="sm" variant="outline" className="h-7 gap-1.5 text-xs">
+              <Bot size={11} />
+              Voir le journal
+            </Button>
+            <span className="ml-auto text-[10px] text-muted-foreground">Mis à jour {ec.updatedAt}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Detail view ─────────────────────────────────────────────────────────────────
+
+function WorkflowDetail({ group, onBack }: { group: WorkflowGroup; onBack: () => void }) {
+  const [expandedId, setExpandedId] = useState<string | null>(
+    group.cases.find(c => getCaseHealth(c) === "blocked")?.id ?? group.cases[0]?.id ?? null,
+  );
+  const [filter, setFilter] = useState<"all" | "blocked" | "warning" | "done">("all");
+  const { icon: Icon, color, bg, border } = typeConfig[group.type];
+
+  const blocked = group.cases.filter(c => getCaseHealth(c) === "blocked").length;
+  const warning = group.cases.filter(c => getCaseHealth(c) === "warning").length;
+  const done    = group.cases.filter(c => getCaseHealth(c) === "done").length;
+
+  const filtered = group.cases.filter(c => {
+    if (filter === "all") return true;
+    return getCaseHealth(c) === filter;
+  });
+
+  const FILTER_TABS: { key: typeof filter; label: string; count: number }[] = [
+    { key: "all",     label: "Tous",      count: group.cases.length },
+    { key: "blocked", label: "Bloqués",   count: blocked },
+    { key: "warning", label: "En cours",  count: warning },
+    { key: "done",    label: "Terminés",  count: done },
+  ];
 
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
-      <div className="border-b border-border p-6">
-        <div className="flex items-start gap-4">
-          <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted", color)}>
-            <CaseIcon size={20} />
+      <div className="shrink-0 border-b border-border bg-background px-6 py-5">
+        <button type="button" onClick={onBack} className="mb-4 flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground">
+          <ArrowLeft size={13} />
+          Tous les workflows
+        </button>
+
+        <div className="flex items-center gap-4">
+          <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border", bg, border, color)}>
+            <Icon size={18} />
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <h2 className="text-base font-semibold text-foreground">{workflow.subject}</h2>
-              <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium", status.classes)}>
-                <StatusIcon size={10} />
-                {status.label}
-              </span>
-            </div>
-            <p className="mt-0.5 text-sm text-muted-foreground">{workflow.employee}</p>
-            <div className="mt-2 flex flex-wrap items-center gap-2">
-              <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium", mode.classes)}>
-                <ModeIcon size={10} />
-                {mode.label}
-              </span>
-              <span className="text-[11px] text-muted-foreground/60">Mis à jour {workflow.updatedAt}</span>
-            </div>
+          <div>
+            <h2 className="text-base font-semibold text-foreground">{group.label}</h2>
+            <p className="text-xs text-muted-foreground">{group.description}</p>
           </div>
         </div>
 
-        {/* Blocker banner */}
-        {workflow.blocker && (
-          <div className="mt-4 flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 p-3 dark:border-red-500/20 dark:bg-red-500/10">
-            <AlertTriangle size={14} className="mt-0.5 shrink-0 text-red-500" />
-            <div>
-              <p className="text-xs font-semibold text-red-700 dark:text-red-300">Blocage</p>
-              <p className="mt-0.5 text-xs text-red-600 dark:text-red-400">{workflow.blocker}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Next action */}
-        <div className="mt-3 flex items-center gap-2 rounded-lg bg-muted/60 px-3 py-2.5">
-          <ArrowRight size={13} className="shrink-0 text-primary" />
-          <span className="text-xs font-medium text-foreground">{workflow.nextAction}</span>
+        {/* Summary chips */}
+        <div className="mt-4 flex items-center gap-2">
+          {FILTER_TABS.map(tab => (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => setFilter(tab.key)}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium transition-all",
+                filter === tab.key
+                  ? "bg-foreground text-background"
+                  : "bg-muted text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {tab.label}
+              <span className={cn(
+                "rounded-full px-1.5 py-0.5 text-[10px] font-semibold",
+                filter === tab.key ? "bg-background/20 text-background" : "bg-background text-foreground",
+              )}>
+                {tab.count}
+              </span>
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Body */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
-
-        {/* Missing items */}
-        {workflow.missing && workflow.missing.length > 0 && (
-          <section>
-            <h3 className="mb-2.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              <Paperclip size={11} />
-              Pièces manquantes
-            </h3>
-            <ul className="space-y-2">
-              {workflow.missing.map((item) => (
-                <li key={item.label} className="flex items-center justify-between gap-3 rounded-lg border border-border bg-card px-3 py-2.5">
-                  <div className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                    <span className="text-sm text-foreground">{item.label}</span>
-                  </div>
-                  <span className="shrink-0 text-[11px] text-muted-foreground">Attendu de : {item.from}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {/* Action log */}
-        <section>
-          <h3 className="mb-2.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            <Bot size={11} />
-            Historique des actions
-          </h3>
-          <ol className="relative space-y-0 border-l border-border pl-4">
-            {workflow.logs.map((log, i) => (
-              <li key={i} className="relative pb-4 last:pb-0">
-                <span className="absolute -left-[17px] top-1 flex h-3 w-3 items-center justify-center">
-                  <span className={cn(
-                    "h-2 w-2 rounded-full",
-                    log.by === "kalia" ? "bg-primary/60" : "bg-emerald-500"
-                  )} />
-                </span>
-                <p className="text-xs text-foreground">{log.label}</p>
-                <p className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground/60">
-                  <span>{log.time}</span>
-                  <span>·</span>
-                  <span className={log.by === "kalia" ? "text-primary/70" : "text-emerald-600 dark:text-emerald-400"}>
-                    {log.by === "kalia" ? "Kalia" : "Gestionnaire"}
-                  </span>
-                </p>
-              </li>
-            ))}
-          </ol>
-        </section>
-      </div>
-
-      {/* Actions footer */}
-      <div className="border-t border-border p-4">
-        <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Actions rapides
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {workflow.status === "blocked" && (
-            <Button size="sm" className="h-8 gap-1.5 text-xs">
-              <Play size={12} />
-              Corriger et relancer
-            </Button>
+      {/* Cases list */}
+      <div className="flex-1 overflow-y-auto px-6 py-5">
+        <div className="space-y-3">
+          {filtered.length === 0 && (
+            <div className="py-12 text-center text-sm text-muted-foreground">Aucun dossier dans cette catégorie.</div>
           )}
-          {(workflow.status === "in-progress" || workflow.status === "waiting") && workflow.mode === "auto-validation" && (
-            <Button size="sm" className="h-8 gap-1.5 text-xs">
-              <CheckCircle2 size={12} />
-              Valider
-            </Button>
-          )}
-          {workflow.status !== "done" && (
-            <Button size="sm" variant="outline" className="h-8 gap-1.5 text-xs">
-              <RotateCcw size={12} />
-              Relancer
-            </Button>
-          )}
-          <Button size="sm" variant="outline" className="h-8 gap-1.5 text-xs">
-            <Eye size={12} />
-            Voir le dossier
-          </Button>
-          {workflow.status !== "done" && (
-            <Button size="sm" variant="outline" className="h-8 gap-1.5 text-xs text-muted-foreground">
-              <Hand size={12} />
-              Passer en manuel
-            </Button>
-          )}
+          {filtered.map(ec => (
+            <EmployeeRow
+              key={ec.id}
+              ec={ec}
+              isExpanded={expandedId === ec.id}
+              onToggle={() => setExpandedId(expandedId === ec.id ? null : ec.id)}
+            />
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-// ─── Filter tabs ────────────────────────────────────────────────────────────────
-
-const FILTER_TABS: { key: WorkflowStatus | "all"; label: string }[] = [
-  { key: "all",         label: "Tous" },
-  { key: "blocked",     label: "Bloqués" },
-  { key: "in-progress", label: "En cours" },
-  { key: "waiting",     label: "En attente" },
-  { key: "done",        label: "Terminés" },
-];
-
-// ─── Page ───────────────────────────────────────────────────────────────────────
+// ─── Page ─────────────────────────────────────────────────────────────────────────
 
 export default function AdpPage() {
-  const [selectedId, setSelectedId] = useState<string>(workflows[0].id);
-  const [filter, setFilter] = useState<WorkflowStatus | "all">("all");
+  const [selectedGroup, setSelectedGroup] = useState<WorkflowGroup | null>(null);
 
-  const filtered = filter === "all" ? workflows : workflows.filter(w => w.status === filter);
-  const selected = workflows.find(w => w.id === selectedId) ?? workflows[0];
+  const totalBlocked = workflowGroups.flatMap(g => g.cases).filter(c => getCaseHealth(c) === "blocked").length;
+  const totalActive  = workflowGroups.flatMap(g => g.cases).filter(c => getCaseHealth(c) !== "done").length;
 
   return (
-    <div className="flex h-screen flex-col bg-background font-sans text-foreground overflow-hidden">
+    <div className="flex h-screen flex-col overflow-hidden bg-background text-foreground">
 
       {/* Page header */}
-      <header className="shrink-0 border-b border-border px-6 py-5">
-        <div className="flex flex-wrap items-start justify-between gap-4">
+      <header className="shrink-0 border-b border-border bg-background px-6 py-5">
+        <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-              Kalia ADP
+            <h1 className="text-lg font-semibold text-foreground">Workflows administratifs</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              {totalActive} dossiers actifs · {totalBlocked > 0 ? `${totalBlocked} blocage${totalBlocked > 1 ? "s" : ""} en attente` : "Aucun blocage"}
             </p>
-            <h1 className="mt-0.5 text-xl font-semibold tracking-tight text-foreground">
-              Workflows administratifs
-            </h1>
           </div>
-          <StatsBar items={workflows} />
-        </div>
-
-        {/* Filter tabs */}
-        <div className="mt-4 flex items-center gap-1">
-          {FILTER_TABS.map((tab) => {
-            const count =
-              tab.key === "all"
-                ? workflows.length
-                : workflows.filter(w => w.status === tab.key).length;
-            return (
-              <button
-                key={tab.key}
-                type="button"
-                onClick={() => setFilter(tab.key)}
-                className={cn(
-                  "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-                  filter === tab.key
-                    ? "bg-foreground text-background"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                )}
-              >
-                {tab.label}
-                {count > 0 && (
-                  <span className={cn(
-                    "rounded-full px-1.5 py-0 text-[10px] tabular-nums",
-                    filter === tab.key
-                      ? "bg-background/20 text-background"
-                      : "bg-muted text-muted-foreground",
-                  )}>
-                    {count}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-          <div className="ml-auto flex items-center gap-1.5">
-            <Button variant="outline" size="sm" className="h-7 gap-1.5 text-xs">
-              <RefreshCw size={11} />
-              Actualiser
-            </Button>
+          <div className="flex items-center gap-2">
+            {totalBlocked > 0 && (
+              <div className="flex items-center gap-1.5 rounded-lg bg-red-50 px-3 py-1.5 dark:bg-red-500/10">
+                <AlertTriangle size={13} className="text-red-500" />
+                <span className="text-xs font-semibold text-red-700 dark:text-red-300">{totalBlocked} blocage{totalBlocked > 1 ? "s" : ""}</span>
+              </div>
+            )}
+            <div className="flex items-center gap-1.5 rounded-lg bg-muted px-3 py-1.5">
+              <Bot size={13} className="text-primary" />
+              <span className="text-xs font-medium text-muted-foreground">Kalia actif</span>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Two-column layout */}
-      <div className="flex min-h-0 flex-1">
-
-        {/* List panel */}
-        <aside className="w-[340px] shrink-0 overflow-y-auto border-r border-border p-3 space-y-1.5">
-          {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-2 py-12 text-center">
-              <Ban size={24} className="text-muted-foreground/30" />
-              <p className="text-sm text-muted-foreground">Aucun traitement dans cette catégorie</p>
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto">
+        {selectedGroup ? (
+          <WorkflowDetail group={selectedGroup} onBack={() => setSelectedGroup(null)} />
+        ) : (
+          <div className="p-6">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {workflowGroups.map(group => (
+                <WorkflowCard key={group.type} group={group} onClick={() => setSelectedGroup(group)} />
+              ))}
             </div>
-          ) : (
-            filtered.map((wf) => (
-              <WorkflowRow
-                key={wf.id}
-                workflow={wf}
-                isSelected={selectedId === wf.id}
-                onClick={() => setSelectedId(wf.id)}
-              />
-            ))
-          )}
-        </aside>
-
-        {/* Detail panel */}
-        <main className="min-w-0 flex-1 overflow-hidden">
-          <DetailPanel workflow={selected} />
-        </main>
+          </div>
+        )}
       </div>
     </div>
   );
