@@ -401,6 +401,7 @@ function WorkflowOrb({
     return () => cancelAnimationFrame(animRef.current);
   }, [draw]);
 
+  const isDimmed = isAnySelected && !isSelected;
   const Icon = cfg.icon;
 
   return (
@@ -408,7 +409,7 @@ function WorkflowOrb({
       onClick={onClick}
       className={cn(
         "relative flex flex-col items-center gap-1 transition-all duration-300 focus:outline-none group",
-        dimmed && "opacity-40",
+        isDimmed && "opacity-40",
       )}
       style={{ width, height }}
     >
