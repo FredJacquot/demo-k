@@ -124,18 +124,7 @@ const allCases: EmployeeCase[] = [
       { id: "s5", label: "Attestation employeur générée", status: "pending" },
     ],
   },
-  {
-    id: "ab-3", name: "Hélène Martin", initials: "HM", role: "Juriste",
-    workflowType: "absence", workflowLabel: "Gestion des absences",
-    mode: "auto-validation", updatedAt: "il y a 5h",
-    steps: [
-      { id: "s1", label: "Absence détectée (5 jours)", status: "ok", by: "kalia" },
-      { id: "s2", label: "Qualification du cas", status: "ok", by: "kalia" },
-      { id: "s3", label: "Demande de justificatif", status: "ok", by: "kalia" },
-      { id: "s4", label: "Justificatif reçu", status: "blocked", detail: "Document illisible — re-demande nécessaire" },
-      { id: "s5", label: "Intégration dans la paie", status: "pending" },
-    ],
-  },
+  // Absences — tous terminés
   {
     id: "ab-1", name: "Léa Fontaine", initials: "LF", role: "Analyste data",
     workflowType: "absence", workflowLabel: "Gestion des absences",
@@ -144,10 +133,23 @@ const allCases: EmployeeCase[] = [
       { id: "s1", label: "Absence détectée (3 jours)", status: "ok", by: "kalia" },
       { id: "s2", label: "Qualification du cas", status: "ok", by: "kalia" },
       { id: "s3", label: "Demande de justificatif", status: "ok", by: "kalia" },
-      { id: "s4", label: "Justificatif reçu", status: "waiting", detail: "2e relance envoyée — J+1" },
-      { id: "s5", label: "Intégration dans la paie", status: "pending" },
+      { id: "s4", label: "Justificatif reçu", status: "ok", by: "kalia" },
+      { id: "s5", label: "Intégration dans la paie", status: "ok", by: "kalia" },
     ],
   },
+  {
+    id: "ab-2", name: "Hélène Martin", initials: "HM", role: "Juriste",
+    workflowType: "absence", workflowLabel: "Gestion des absences",
+    mode: "auto-validation", updatedAt: "il y a 5h",
+    steps: [
+      { id: "s1", label: "Absence détectée (5 jours)", status: "ok", by: "kalia" },
+      { id: "s2", label: "Qualification du cas", status: "ok", by: "kalia" },
+      { id: "s3", label: "Demande de justificatif", status: "ok", by: "kalia" },
+      { id: "s4", label: "Justificatif reçu", status: "ok", by: "kalia" },
+      { id: "s5", label: "Intégration dans la paie", status: "ok", by: "kalia" },
+    ],
+  },
+  // Documents RH — 1 seul dossier bloqué
   {
     id: "doc-4", name: "Antoine Blanc", initials: "AB", role: "Technicien",
     workflowType: "document", workflowLabel: "Documents RH",
@@ -189,7 +191,7 @@ const typeConfig: Record<WorkflowType, {
 
 const healthColor: Record<Health, string> = {
   blocked: "#ef4444",
-  warning: "#f59e0b",
+  warning: "#fbbf24",
   ok:      "#3b82f6",
   done:    "#22c55e",
 };
@@ -277,7 +279,20 @@ function WorkflowOrb({
         chaosAmp: h === "blocked" ? 0.22 : h === "warning" ? 0.1 : 0.02,
       });
     });
-    for (let i = 0; i < 80; i++) {
+    // Background particles distributed proportionally by case health
+    const total = cases.length || 1;
+    const healthCounts: Record<Health, number> = { blocked: 0, warning: 0, ok: 0, done: 0 };
+    cases.forEach(c => { healthCounts[getHealth(c)]++; });
+    const bgTotal = 80;
+    for (let i = 0; i < bgTotal; i++) {
+      // pick health proportionally
+      const rand = (i / bgTotal) * total;
+      let acc = 0;
+      let pickedHealth: Health = globalHealth;
+      for (const h of ["blocked", "warning", "ok", "done"] as Health[]) {
+        acc += healthCounts[h];
+        if (rand < acc) { pickedHealth = h; break; }
+      }
       result.push({
         theta: Math.random() * Math.PI * 2,
         phi: Math.acos(2 * Math.random() - 1),
@@ -286,8 +301,8 @@ function WorkflowOrb({
         offset: Math.random() * Math.PI * 2,
         size: 1.2 + Math.random() * 1.0,
         isEmployee: false,
-        health: globalHealth,
-        chaosAmp: globalHealth === "blocked" ? 0.07 : 0.015,
+        health: pickedHealth,
+        chaosAmp: pickedHealth === "blocked" ? 0.07 : 0.015,
       });
     }
     return result;
