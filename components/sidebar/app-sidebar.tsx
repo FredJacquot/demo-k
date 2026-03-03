@@ -300,11 +300,23 @@ export function AppSidebar() {
                     <SidebarMenuButton
                       asChild
                       isActive={pathname === "/adp"}
-                      tooltip="Workflows administratifs"
+                      tooltip="Workflows administratifs v1"
                     >
                       <Link href="/adp">
                         <Workflow />
-                        <span>Workflows administratifs</span>
+                        <span>Workflows v1</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/adp/v2"}
+                      tooltip="Workflows administratifs v2"
+                    >
+                      <Link href="/adp/v2">
+                        <Workflow />
+                        <span>Workflows v2</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
