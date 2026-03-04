@@ -346,16 +346,24 @@ const statusConfig: Record<MilestoneStatus, { label: string; color: string; icon
   "À venir":         { label: "À venir",           color: "text-muted-foreground/50", icon: Lock },
 };
 
-// ─── Connection line between orbs ─────────────────────────────────────────────
+// ─── Chevron connector between orbs ───────────────────────────────────────────
 
-function LineConnector({ from, to }: { from: MilestoneStatus; to: MilestoneStatus }) {
-  const fromDone = from === "Validé";
+function LineConnector({ from }: { from: MilestoneStatus; to: MilestoneStatus }) {
+  const done = from === "Validé";
   return (
-    <div className="flex-1 flex items-center px-0 -mt-10" aria-hidden>
-      <div className={cn(
-        "h-px w-full transition-colors duration-500",
-        fromDone ? "bg-emerald-500/50" : "bg-border/50"
-      )} />
+    <div className="flex items-center self-center -mt-10 px-0.5" aria-hidden>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="shrink-0">
+        <polyline
+          points="5,3 14,10 5,17"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={cn(
+            "transition-colors duration-500",
+            done ? "stroke-emerald-500/70" : "stroke-border"
+          )}
+        />
+      </svg>
     </div>
   );
 }
