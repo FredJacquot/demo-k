@@ -269,7 +269,7 @@ export function AnswerMessage({
                         disabled={uploadingForMessage}
                       >
                         <Send className="w-4 h-4 mr-2" />
-                        {message.suggestHRTransmission.actions?.primary?.label ?? "Créer un ticket de suivi"}
+                        {(message.suggestHRTransmission?.actions?.primary?.label) || "Créer un ticket de suivi"}
                       </Button>
                       <Button 
                         variant="outline"
@@ -279,7 +279,7 @@ export function AnswerMessage({
                           onDismiss();
                         }}
                       >
-                        {message.suggestHRTransmission.actions?.secondary?.label ?? "Je gère moi-même"}
+                        {(message.suggestHRTransmission?.actions?.secondary?.label) || "Je gère moi-même"}
                       </Button>
                     </div>
                   </div>
