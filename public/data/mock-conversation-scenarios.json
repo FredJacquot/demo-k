@@ -675,27 +675,27 @@
               { "name": "Procédure onboarding", "type": "accord", "color": "green" }
             ],
             "content": {
-              "intro": "J'ai bien reçu la notification d'embauche de **Thomas Leclerc** (Développeur Backend, CDI, prise de poste le 3 février). Voici l'état d'avancement de son dossier d'intégration administrative :",
+              "intro": "J'ai bien reçu la notification d'embauche de **Thomas Leclerc** (Développeur Backend, CDI, prise de poste le 3 février). Voici l'état d'avancement de son dossier administratif :",
               "sections": [
                 {
                   "title": "Documents contractuels",
                   "type": "info",
-                  "content": "Contrat de travail généré et envoyé pour signature électronique. En attente de retour signé (délai : J+2)."
+                  "content": "Contrat de travail généré et envoyé pour signature électronique via DocuSign. En attente de retour signé (délai habituel : J+2)."
                 },
                 {
-                  "title": "Déclaration préalable à l'embauche",
+                  "title": "Déclaration préalable à l'embauche (DPAE)",
                   "type": "info",
-                  "content": "DPAE transmise à l'URSSAF le 28 janvier à 09h14. Accusé de réception reçu."
+                  "content": "DPAE transmise à l'URSSAF le 28 janvier à 09h14. Accusé de réception reçu et archivé."
                 },
                 {
                   "title": "Point de vigilance",
                   "type": "warning",
-                  "content": "Numéro de sécurité sociale non encore fourni. Un rappel automatique a été envoyé à Thomas Leclerc ce matin. Sans retour sous 48h, une relance manuelle sera nécessaire."
+                  "content": "Le numéro de sécurité sociale de Thomas Leclerc n'a pas encore été fourni. Un rappel automatique lui a été envoyé ce matin. Sans retour sous 48h, une relance manuelle sera nécessaire avant la date de prise de poste."
                 },
                 {
                   "title": "Prochaines étapes",
-                  "type": "detail",
-                  "content": "Création du compte SIRH planifiée au J-1 de la prise de poste. Accès badgeage à provisionner auprès de l'office manager."
+                  "type": "info",
+                  "content": "Création du compte SIRH planifiée au J-1 (2 février). Provisionnement des accès badgeage à coordonner avec l'office manager."
                 }
               ]
             },
@@ -722,21 +722,203 @@
               "validatedBy": "Kalia — Module ADP",
               "validatedAt": "2025-01-31T09:14:00Z"
             },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 96,
+            "sources": [
+              { "name": "SIRH", "type": "internal", "color": "blue" },
+              { "name": "DocuSign", "type": "internal", "color": "orange" }
+            ],
+            "content": {
+              "intro": "Je viens de recevoir la confirmation de signature du contrat de travail par Thomas Leclerc (signé ce jour à 11h32). Le dossier contractuel est maintenant complet.",
+              "sections": [
+                {
+                  "title": "Statut du dossier",
+                  "type": "info",
+                  "content": "Contrat signé archivé dans le SIRH. Exemplaire envoyé automatiquement à Thomas Leclerc par email."
+                },
+                {
+                  "title": "Numéro de sécurité sociale",
+                  "type": "warning",
+                  "content": "Toujours en attente. C'est le seul point bloquant restant avant la finalisation du dossier d'affiliation à la mutuelle et à la prévoyance."
+                },
+                {
+                  "title": "Action recommandée",
+                  "type": "info",
+                  "content": "Je vous suggère de relancer Thomas Leclerc directement par téléphone, ou de valider son intégration avec le NIR provisoire en attendant l'original."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "DocuSign — Signature électronique",
+                  "article": "Accusé de signature",
+                  "title": "Contrat CDI Thomas Leclerc — signé le 31/01/2025",
+                  "verifiedDate": "2025-01-31",
+                  "status": "valid"
+                }
+              ],
+              "context": "Notification de signature reçue depuis DocuSign et synchronisée dans le SIRH",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-01-31T11:32:00Z"
+            },
             "suggestsHumanReview": false,
             "suggestHRTransmission": {
-              "prompt": "Le numéro de sécurité sociale de Thomas Leclerc est toujours manquant. Souhaitez-vous créer un ticket de suivi pour traiter ce point manuellement ?",
-              "context": "Numéro de sécurité sociale non fourni — relance automatique envoyée sans réponse",
+              "prompt": "Le numéro de sécurité sociale est toujours manquant. Souhaitez-vous créer un ticket de suivi pour forcer la relance et débloquer l'affiliation mutuelle/prévoyance ?",
               "actions": {
                 "primary": {
                   "label": "Créer un ticket de suivi",
                   "action": "createRequest"
                 },
                 "secondary": {
-                  "label": "Je gère moi-même",
+                  "label": "Je relance directement",
                   "action": "dismiss"
                 }
               }
             }
+          },
+          {
+            "type": "answer",
+            "confidence": 99,
+            "sources": [
+              { "name": "SIRH", "type": "internal", "color": "blue" },
+              { "name": "Mutuelle AG2R", "type": "internal", "color": "purple" }
+            ],
+            "content": {
+              "intro": "Excellente nouvelle : Thomas Leclerc vient de transmettre son numéro de sécurité sociale (1 85 03 75 012 345 67). J'ai automatiquement déclenché les affiliations :",
+              "sections": [
+                {
+                  "title": "Mutuelle — AG2R La Mondiale",
+                  "type": "info",
+                  "content": "Formulaire d'affiliation envoyé avec effet au 1er février. Réponse attendue sous 72h."
+                },
+                {
+                  "title": "Prévoyance",
+                  "type": "info",
+                  "content": "Déclaration transmise à l'organisme de prévoyance. Couverture active dès la prise de poste."
+                },
+                {
+                  "title": "Dossier administratif",
+                  "type": "info",
+                  "content": "Le dossier est maintenant complet à 100%. Toutes les pièces obligatoires sont archivées dans le SIRH."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "SIRH — Dossier Thomas Leclerc",
+                  "article": "Mise à jour NIR",
+                  "title": "Numéro de sécurité sociale enregistré et vérifié",
+                  "verifiedDate": "2025-01-31",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Mutuelle AG2R La Mondiale",
+                  "article": "Formulaire affiliation",
+                  "title": "Affiliation salarié Thomas Leclerc — effet 01/02/2025",
+                  "verifiedDate": "2025-01-31",
+                  "status": "valid"
+                }
+              ],
+              "context": "NIR reçu et traitement automatique des affiliations complémentaires",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-01-31T14:05:00Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 97,
+            "sources": [
+              { "name": "SIRH", "type": "internal", "color": "blue" },
+              { "name": "Procédure accueil J-1", "type": "accord", "color": "green" }
+            ],
+            "content": {
+              "intro": "Nous sommes à J-1 de la prise de poste de Thomas Leclerc. Voici le récapitulatif des dernières actions réalisées et les points à finaliser avant demain matin :",
+              "sections": [
+                {
+                  "title": "Actions réalisées automatiquement",
+                  "type": "info",
+                  "content": "Compte SIRH créé (login envoyé par email). Accès à la messagerie provisionnés (IT notifié). Livret d'accueil envoyé par email à Thomas."
+                },
+                {
+                  "title": "Actions à valider par le manager (Éric Dupont)",
+                  "type": "warning",
+                  "content": "Poste de travail attribué et configuré ? Accès aux outils métiers (GitHub, Jira, Confluence) créés ? Réunion d'accueil planifiée le 3 février à 09h00 ?"
+                },
+                {
+                  "title": "Checklist RH",
+                  "type": "info",
+                  "content": "Badge d'accès : à récupérer à l'accueil le 3 février dès 08h45. Document d'information collectivité (mutuelle, épargne salariale) : à remettre en main propre."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Procédure accueil nouveau salarié",
+                  "article": "Checklist J-1",
+                  "title": "Actions à réaliser la veille de la prise de poste",
+                  "verifiedDate": "2025-01-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Déclenchement automatique de la checklist J-1 à 08h00",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-02-02T08:00:00Z"
+            },
+            "suggestsHumanReview": true
+          },
+          {
+            "type": "answer",
+            "confidence": 95,
+            "sources": [
+              { "name": "SIRH", "type": "internal", "color": "blue" }
+            ],
+            "content": {
+              "intro": "Thomas Leclerc a pris son poste aujourd'hui. Voici le bilan de sa première journée et les points en suspens :",
+              "sections": [
+                {
+                  "title": "Accueil confirmé",
+                  "type": "info",
+                  "content": "Thomas a badgé pour la première fois à 08h52. Réunion d'accueil avec son manager Éric Dupont effectuée de 09h00 à 10h30."
+                },
+                {
+                  "title": "Points ouverts",
+                  "type": "warning",
+                  "content": "Accès Confluence toujours en cours de provisionnement (délai IT : 24-48h). Remise des documents de prévoyance à planifier avec Thomas avant la fin de semaine."
+                },
+                {
+                  "title": "Prochaine étape",
+                  "type": "info",
+                  "content": "Bilan de fin de période d'essai à programmer : je vous rappellerai à J+45 (19 mars) pour déclencher la procédure d'évaluation."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "SIRH — Pointages Thomas Leclerc",
+                  "article": "Badge d'entrée",
+                  "title": "Première entrée enregistrée le 03/02/2025 à 08h52",
+                  "verifiedDate": "2025-02-03",
+                  "status": "valid"
+                }
+              ],
+              "context": "Suivi automatique de la première journée d'intégration",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-02-03T18:00:00Z"
+            },
+            "suggestsHumanReview": false
           }
         ]
       }
