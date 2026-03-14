@@ -660,6 +660,78 @@
       }
     },
     {
+      "id": "scenario-onboarding-salarie",
+      "keywords": ["embauche", "onboarding", "nouveau", "arrivee", "integration", "thomas", "recrutement", "prise de poste"],
+      "category": "Administration du personnel",
+      "conversation": {
+        "title": "Onboarding administratif — Thomas Leclerc",
+        "subtitle": "Intégration administrative d'un nouveau salarié",
+        "messages": [
+          {
+            "type": "answer",
+            "confidence": 98,
+            "sources": [
+              { "name": "SIRH", "type": "internal", "color": "blue" },
+              { "name": "Procédure onboarding", "type": "accord", "color": "green" }
+            ],
+            "content": {
+              "intro": "J'ai bien reçu la notification d'embauche de **Thomas Leclerc** (Développeur Backend, CDI, prise de poste le 3 février). Voici l'état d'avancement de son dossier d'intégration administrative :",
+              "sections": [
+                {
+                  "title": "Documents contractuels",
+                  "type": "info",
+                  "content": "Contrat de travail généré et envoyé pour signature électronique. En attente de retour signé (délai : J+2)."
+                },
+                {
+                  "title": "Déclaration préalable à l'embauche",
+                  "type": "info",
+                  "content": "DPAE transmise à l'URSSAF le 28 janvier à 09h14. Accusé de réception reçu."
+                },
+                {
+                  "title": "Point de vigilance",
+                  "type": "warning",
+                  "content": "Numéro de sécurité sociale non encore fourni. Un rappel automatique a été envoyé à Thomas Leclerc ce matin. Sans retour sous 48h, une relance manuelle sera nécessaire."
+                },
+                {
+                  "title": "Prochaines étapes",
+                  "type": "detail",
+                  "content": "Création du compte SIRH planifiée au J-1 de la prise de poste. Accès badgeage à provisionner auprès de l'office manager."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "SIRH — Dossier salarié Thomas Leclerc",
+                  "article": "Fiche d'embauche",
+                  "title": "Données contractuelles et administratives",
+                  "verifiedDate": "2025-02-01",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Procédure d'onboarding administratif",
+                  "article": "Étapes J-5 à J+30",
+                  "title": "Checklist d'intégration administrative standard",
+                  "verifiedDate": "2025-01-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Déclenchement automatique du workflow onboarding suite à la validation du recrutement de Thomas Leclerc",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-01-31T09:14:00Z"
+            },
+            "suggestsHumanReview": false,
+            "suggestHRTransmission": {
+              "label": "Créer une demande de suivi de dossier",
+              "reason": "Numéro de sécurité sociale manquant — action manuelle possible requise"
+            }
+          }
+        ]
+      }
+    },
+    {
       "id": "scenario-default",
       "keywords": [],
       "category": "Information RH",
