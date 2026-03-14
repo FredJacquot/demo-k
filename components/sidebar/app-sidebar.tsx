@@ -299,6 +299,18 @@ export function AppSidebar() {
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       asChild
+                      isActive={pathname === "/demo/onboarding"}
+                      tooltip="Demo Onboarding"
+                    >
+                      <Link href="/demo/onboarding">
+                        <MessageSquare />
+                        <span>Demo Onboarding</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
                       isActive={pathname === "/adp"}
                       tooltip="Workflows administratifs v1"
                     >
