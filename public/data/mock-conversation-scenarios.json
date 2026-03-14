@@ -724,8 +724,18 @@
             },
             "suggestsHumanReview": false,
             "suggestHRTransmission": {
-              "label": "Créer une demande de suivi de dossier",
-              "reason": "Numéro de sécurité sociale manquant — action manuelle possible requise"
+              "prompt": "Le numéro de sécurité sociale de Thomas Leclerc est toujours manquant. Souhaitez-vous créer un ticket de suivi pour traiter ce point manuellement ?",
+              "context": "Numéro de sécurité sociale non fourni — relance automatique envoyée sans réponse",
+              "actions": {
+                "primary": {
+                  "label": "Créer un ticket de suivi",
+                  "action": "createRequest"
+                },
+                "secondary": {
+                  "label": "Je gère moi-même",
+                  "action": "dismiss"
+                }
+              }
             }
           }
         ]
