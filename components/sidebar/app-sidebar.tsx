@@ -344,6 +344,18 @@ export function AppSidebar() {
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/adp/v4"}
+                      tooltip="Supervision + Chat Kalia v4"
+                    >
+                      <Link href="/adp/v4">
+                        <Workflow />
+                        <span>Workflows v4</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
