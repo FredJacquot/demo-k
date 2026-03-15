@@ -499,12 +499,16 @@ export function AppSidebar() {
                     </SidebarMenuButton>
                     <SidebarMenuSub>
                       <SidebarMenuSubItem>
-                        <SidebarMenuSubButton
-                          asChild
-                          isActive={pathname.startsWith("/settings/workflows/onboarding")}
-                        >
+                        <SidebarMenuSubButton asChild isActive={pathname === "/settings/workflows/onboarding"}>
                           <Link href="/settings/workflows/onboarding">
-                            <span>Workflow Onboarding</span>
+                            <span>Workflow Onboarding v1</span>
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton asChild isActive={pathname === "/settings/workflows/onboarding/v2"}>
+                          <Link href="/settings/workflows/onboarding/v2">
+                            <span>Workflow Onboarding v2</span>
                           </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
