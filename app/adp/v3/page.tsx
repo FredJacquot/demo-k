@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useMemo, useState, useEffect, useCallback } from "react";
 import {
   UserPlus, UserMinus, FileText, CalendarOff, FolderOpen,
@@ -35,11 +36,28 @@ type EmployeeCase = {
   steps: ProcessStep[];
   mode: ExecutionMode;
   updatedAt: string;
+  demoLink?: string;
 };
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const allCases: EmployeeCase[] = [
+  {
+    id: "ob-td", name: "Thomas Durand", initials: "TD", role: "Développeur Backend",
+    workflowType: "onboarding", workflowLabel: "Onboarding administratif",
+    mode: "full-auto", updatedAt: "en cours — démo live",
+    demoLink: "/demo/onboarding",
+    steps: [
+      { id: "s1", label: "Dossier initialisé — CV et données Core HR récupérés", status: "ok", by: "kalia" },
+      { id: "s2", label: "Convention collective vérifiée (Syntec)", status: "ok", by: "kalia" },
+      { id: "s3", label: "Proposition de poste envoyée", status: "ok", by: "kalia" },
+      { id: "s4", label: "Acceptation Thomas reçue", status: "ok", by: "kalia" },
+      { id: "s5", label: "Contrat CDI généré + contrôles (6/6 OK)", status: "ok", by: "kalia" },
+      { id: "s6", label: "Circuit Yousign lancé", status: "waiting", detail: "En attente de signature de Thomas Durand" },
+      { id: "s7", label: "DPAE + collecte des documents", status: "pending" },
+      { id: "s8", label: "Intégration Lucca + Silae", status: "pending" },
+    ],
+  },
   {
     id: "ob-1", name: "Sophie Marchand", initials: "SM", role: "Chargée de projet",
     workflowType: "onboarding", workflowLabel: "Onboarding administratif",
@@ -543,7 +561,20 @@ function CaseRow({
           <ChevronDown size={13} className={cn("transition-transform duration-200", expanded && "rotate-180")} />
         </div>
       </div>
-      {expanded && <div className="px-14 pb-3"><StepList steps={c.steps} /></div>}
+      {expanded && (
+        <div className="px-14 pb-3 space-y-3">
+          <StepList steps={c.steps} />
+          {c.demoLink && (
+            <Link
+              href={c.demoLink}
+              className="inline-flex items-center gap-2 rounded-lg border border-dashed border-amber-400/60 bg-amber-50/50 dark:bg-amber-400/5 px-3 py-2 text-xs font-medium text-amber-700 dark:text-amber-300 hover:bg-amber-100/60 dark:hover:bg-amber-400/10 transition-colors"
+            >
+              <Zap size={12} className="shrink-0" />
+              Voir la démo Kalia en direct pour ce dossier
+            </Link>
+          )}
+        </div>
+      )}
     </div>
   );
 }

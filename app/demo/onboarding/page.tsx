@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -347,7 +348,7 @@ function Scene8({ onSim }: { onSim: () => void }) {
   );
 }
 
-// SCÈNE 8b — Thomas a signé, à votre tour
+// SC��NE 8b — Thomas a signé, à votre tour
 function Scene8b({ onSign }: { onSign: () => void }) {
   return (
     <>
@@ -788,6 +789,13 @@ export default function DemoOnboardingPage() {
             <p className="text-xs text-muted-foreground">Scénario interactif</p>
           </div>
           <div className="flex items-center gap-2">
+            <Link
+              href="/adp/v3"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-[11px] font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+            >
+              <Building2 className="w-3 h-3 shrink-0" />
+              Voir dans Workflows ADP
+            </Link>
             <Badge variant="secondary" className="text-[10px]">DÉMO</Badge>
             <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setSidebar(v => !v)}>
               {sidebar ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
