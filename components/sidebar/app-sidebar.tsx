@@ -497,6 +497,18 @@ export function AppSidebar() {
                         <span>Configuration</span>
                       </Link>
                     </SidebarMenuButton>
+                    <SidebarMenuSub>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton
+                          asChild
+                          isActive={pathname.startsWith("/settings/workflows/onboarding")}
+                        >
+                          <Link href="/settings/workflows/onboarding">
+                            <span>Workflow Onboarding</span>
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    </SidebarMenuSub>
                   </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
