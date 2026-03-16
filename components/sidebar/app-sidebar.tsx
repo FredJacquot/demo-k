@@ -200,30 +200,34 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarSeparator className="!w-[calc(100%-1rem)]" />
 
 
-
-        {/* Ressources */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Ressources</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === "/knowledge-base"} tooltip="Base de connaissances">
-                  <Link href="/knowledge-base">
-                    <Database />
-                    <span>Base de connaissances</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
 
         {/* Espace RH - Only visible for hr and drh */}
         {currentUser && hasAccess(currentUser.role, "espace-rh") && (
           <>
+
+            <SidebarSeparator className="!w-[calc(100%-1rem)]" />
+            {/* Ressources */}
+            <SidebarGroup>
+              <SidebarGroupLabel>Ressources</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild isActive={pathname === "/knowledge-base"} tooltip="Base de connaissances">
+                      <Link href="/knowledge-base">
+                        <Database />
+                        <span>Base de connaissances</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+
+
+
+
             <SidebarSeparator className="!w-[calc(100%-1rem)]" />
 
 
