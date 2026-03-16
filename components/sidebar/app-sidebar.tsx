@@ -293,7 +293,7 @@ export function AppSidebar() {
         )}
 
         {/* Kalia ADP */}
-        {currentUser && hasAccess(currentUser.role, "espace-rh") && (
+        {currentUser && hasAccess(currentUser.role, "administration") && (
           <>
             <SidebarSeparator className="!w-[calc(100%-1rem)]" />
             <SidebarGroup>
