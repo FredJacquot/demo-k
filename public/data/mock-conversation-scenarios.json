@@ -110,14 +110,16 @@
       "keywords": [
         "demander",
         "acompte",
-        "salaire"
+        "salaire",
+        "avance"
       ],
       "category": "Rémunération",
       "conversation": {
         "title": "Demande d'acompte sur salaire",
-        "subtitle": "Conditions et procédure",
+        "subtitle": "Conditions, calcul et traitement RH",
         "messages": [
           {
+            "actor": "employee",
             "type": "answer",
             "confidence": 97,
             "sources": [
@@ -130,97 +132,32 @@
                 "name": "Accord 2024-01",
                 "type": "accord",
                 "color": "green"
+              },
+              {
+                "name": "SIRH Silae",
+                "type": "system",
+                "color": "orange"
               }
             ],
             "content": {
-              "intro": "Oui, vous avez tout à fait le droit de demander un acompte sur salaire. C'est un droit prévu par le Code du travail et encadré par notre accord d'entreprise.",
+              "intro": "Oui, vous avez tout à fait le droit de demander un acompte sur salaire. C'est un droit prévu par le Code du travail et encadré par notre accord d'entreprise. J'ai consulté votre dossier dans Silae pour calculer le montant maximum auquel vous pouvez prétendre.",
               "sections": [
                 {
                   "title": "Cadre légal",
                   "type": "info",
-                  "content": "Selon l'article L3242-1 du Code du travail, tout salarié peut demander le versement d'un acompte correspondant au travail déjà effectué. L'employeur est tenu d'accepter cette demande, à condition que le travail ait été réellement accompli.",
+                  "content": "Selon l'article L3242-1 du Code du travail, tout salarié peut demander le versement d'un acompte correspondant au travail déjà effectué. L'employeur est tenu d'accepter cette demande.",
                   "reference": "Code du travail, Article L3242-1"
                 },
                 {
-                  "title": "Modalités dans notre entreprise",
-                  "type": "steps",
-                  "items": [
-                    {
-                      "number": 1,
-                      "text": "Montant maximum : L'acompte ne peut pas dépasser le salaire déjà acquis (calculé au prorata du temps de travail effectué dans le mois)",
-                      "reference": "Code du travail, L3242-1"
-                    },
-                    {
-                      "number": 2,
-                      "text": "Délai de traitement : Les demandes sont traitées sous 48h ouvrées et le versement intervient sous 3 à 5 jours ouvrés",
-                      "reference": "Accord 2024-01, Article 5.3"
-                    },
-                    {
-                      "number": 3,
-                      "text": "Fréquence : Vous pouvez demander un acompte une fois par mois, sauf circonstances exceptionnelles validées par les RH",
-                      "reference": "Accord 2024-01, Article 5.4"
-                    }
-                  ]
+                  "title": "Montant maximum calculé",
+                  "type": "info",
+                  "content": "Sur la base de votre salaire brut de 3 000 € et des 10 jours travaillés sur les 22 jours ouvrés de mars 2026, le montant maximum de votre acompte est de 1 363 € (3 000 € / 22 jours × 10 jours).",
+                  "reference": "Accord 2024-01, Article 5.3"
                 },
                 {
                   "title": "Point d'attention",
                   "type": "warning",
-                  "content": "L'acompte sera automatiquement déduit de votre salaire lors de la prochaine paie. Il ne s'agit pas d'une avance mais d'un versement anticipé de votre rémunération déjà acquise."
-                }
-              ]
-            },
-            "traceability": {
-              "sources": [
-                {
-                  "id": "source-1",
-                  "name": "Code du travail - Rémunération",
-                  "article": "Article L3242-1",
-                  "title": "Salaire minimum, paiement du salaire, égalité salariale - Droit à l'acompte",
-                  "verifiedDate": "2025-01-14",
-                  "status": "valid"
-                },
-                {
-                  "id": "source-2",
-                  "name": "Accord d'entreprise - Intéressement et Participation",
-                  "article": "Articles 5.3 et 5.4",
-                  "title": "Dispositifs d'intéressement et de participation aux résultats • Modalités de calcul et de répartition - Procédure de demande d'acompte",
-                  "verifiedDate": "2025-01-14",
-                  "status": "valid"
-                }
-              ],
-              "context": "Recherche effectuée dans la base documentaire RH - Code du travail et Accord d'entreprise 2024-01",
-              "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T10:22:18Z"
-            },
-            "suggestsHumanReview": false
-          },
-          {
-            "type": "answer",
-            "confidence": 95,
-            "sources": [
-              {
-                "name": "Code du travail",
-                "type": "code",
-                "color": "blue"
-              },
-              {
-                "name": "Accord 2024-01",
-                "type": "accord",
-                "color": "green"
-              }
-            ],
-            "content": {
-              "intro": "Parfait, votre demande d'acompte de 400€ peut être transmise au service RH.",
-              "sections": [
-                {
-                  "title": "Procédure",
-                  "type": "info",
-                  "content": "Le service paie vérifiera que le montant demandé correspond bien au salaire que vous avez déjà acquis ce mois-ci. Une fois validé, l'acompte sera versé sous 3 à 5 jours ouvrés sur votre compte bancaire habituel."
-                },
-                {
-                  "title": "Important à savoir",
-                  "type": "warning",
-                  "content": "Le montant de 400€ sera automatiquement déduit de votre salaire de janvier 2026. Assurez-vous que cette déduction ne pose pas de difficulté pour votre budget de fin de mois."
+                  "content": "L'acompte sera automatiquement déduit de votre salaire lors de la paie de mars 2026. Il ne s'agit pas d'une avance mais d'un versement anticipé de votre rémunération déjà acquise."
                 }
               ]
             },
@@ -231,29 +168,81 @@
                   "name": "Code du travail - Rémunération",
                   "article": "Article L3242-1",
                   "title": "Droit à l'acompte sur salaire",
-                  "verifiedDate": "2025-01-14",
+                  "verifiedDate": "2026-03-10",
                   "status": "valid"
                 },
                 {
                   "id": "source-2",
-                  "name": "Accord d'entreprise - Intéressement et Participation",
-                  "article": "Article 5.3",
-                  "title": "Modalités de versement et déduction des acomptes sur salaire",
-                  "verifiedDate": "2025-01-14",
+                  "name": "Accord d'entreprise 2024-01",
+                  "article": "Articles 5.3 et 5.4",
+                  "title": "Procédure de demande d'acompte et modalités de versement",
+                  "verifiedDate": "2026-03-10",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-3",
+                  "name": "SIRH Silae",
+                  "article": "Fiche salarié",
+                  "title": "Salaire de base — Mars 2026 — 3 000 € brut / 22 jours ouvrés",
+                  "verifiedDate": "2026-03-10",
                   "status": "valid"
                 }
               ],
-              "context": "Recherche effectuée dans la base documentaire RH - Code du travail et Accord d'entreprise 2024-01",
+              "context": "Données extraites du SIRH Silae et recherche effectuée dans la base documentaire RH",
               "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T10:24:35Z"
+              "validatedAt": "2026-03-10T10:22:00Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "actor": "employee",
+            "type": "answer",
+            "confidence": 99,
+            "sources": [
+              {
+                "name": "SIRH Silae",
+                "type": "system",
+                "color": "orange"
+              }
+            ],
+            "content": {
+              "intro": "Votre demande d'acompte de 400 € est bien dans la limite autorisée de 1 363 €. Je transmets votre demande au service RH pour validation.",
+              "sections": [
+                {
+                  "title": "Récapitulatif de la demande",
+                  "type": "info",
+                  "content": "Montant demandé : 400 € — Montant maximum autorisé : 1 363 € — Statut : En attente de validation RH"
+                },
+                {
+                  "title": "Prochaine étape",
+                  "type": "info",
+                  "content": "Une fois validée par les RH, la demande sera saisie dans Silae et l'acompte versé sous 3 à 5 jours ouvrés. Le montant sera déduit de votre salaire de mars 2026."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "SIRH Silae",
+                  "article": "Demande d'acompte",
+                  "title": "Acompte de 400 € — Mars 2026 — En attente de validation",
+                  "verifiedDate": "2026-03-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Demande créée et transmise au service RH via le SIRH",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2026-03-10T10:24:00Z"
             },
             "suggestHRTransmission": {
-              "prompt": "Souhaitez-vous transmettre votre demande d'acompte de 400€ au service RH ?",
-              "context": "Demande d'acompte sur salaire de 400€",
+              "prompt": "Souhaitez-vous transmettre votre demande d'acompte de 400 € au service RH ?",
+              "context": "Demande d'acompte sur salaire de 400 €",
               "preFilledData": {
                 "amount": 400,
                 "currency": "EUR",
-                "requestDate": "2026-01-14",
+                "maxAmount": 1363,
+                "requestDate": "2026-03-10",
                 "estimatedProcessingTime": "3-5 jours ouvrés"
               },
               "actions": {
@@ -272,6 +261,107 @@
                   "action": "dismiss"
                 }
               }
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "actor": "hr",
+            "type": "answer",
+            "confidence": 99,
+            "sources": [
+              {
+                "name": "SIRH Silae",
+                "type": "system",
+                "color": "orange"
+              }
+            ],
+            "content": {
+              "intro": "Vous avez une nouvelle demande en attente de validation.",
+              "sections": [
+                {
+                  "title": "Détail de la demande",
+                  "type": "info",
+                  "content": "Salarié : Martin Dupont — Type : Acompte sur salaire — Montant : 400 € — Montant maximum autorisé : 1 363 € — Date de la demande : 10 mars 2026"
+                },
+                {
+                  "title": "Éligibilité",
+                  "type": "info",
+                  "content": "La demande est conforme : le montant de 400 € est inférieur au plafond calculé de 1 363 € sur la base de 10 jours travaillés sur 22 jours ouvrés en mars 2026."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "SIRH Silae",
+                  "article": "Demande d'acompte",
+                  "title": "Acompte de 400 € — Martin Dupont — Mars 2026",
+                  "verifiedDate": "2026-03-10",
+                  "status": "pending"
+                }
+              ],
+              "context": "Demande transmise par le salarié et en attente de validation RH",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2026-03-10T10:25:00Z"
+            },
+            "suggestHRTransmission": {
+              "prompt": "Souhaitez-vous déclencher la saisie de l'acompte de 400 € dans Silae ?",
+              "context": "Validation et saisie de l'acompte sur salaire de 400 € pour Martin Dupont",
+              "actions": {
+                "primary": {
+                  "label": "Ok, déclenche la saisie dans Silae",
+                  "action": "triggerSilaeEntry",
+                  "metadata": {
+                    "subject": "Saisie acompte sur salaire",
+                    "amount": 400,
+                    "priority": "normal",
+                    "requestType": "advance_payment"
+                  }
+                },
+                "secondary": {
+                  "label": "Refuser la demande",
+                  "action": "rejectRequest"
+                }
+              }
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "actor": "hr",
+            "type": "answer",
+            "confidence": 99,
+            "sources": [
+              {
+                "name": "SIRH Silae",
+                "type": "system",
+                "color": "orange"
+              }
+            ],
+            "content": {
+              "intro": "La saisie de l'acompte de 400 € a bien été effectuée dans Silae. Le salarié sera notifié et le virement interviendra sous 3 à 5 jours ouvrés.",
+              "sections": [
+                {
+                  "title": "Confirmation",
+                  "type": "info",
+                  "content": "Salarié : Martin Dupont — Montant saisi : 400 € — Déduction prévue sur la paie de mars 2026 — Statut : Traité"
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "SIRH Silae",
+                  "article": "Saisie acompte",
+                  "title": "Acompte de 400 € saisi — Martin Dupont — Mars 2026",
+                  "verifiedDate": "2026-03-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Saisie effectuée dans Silae suite à validation RH",
+              "validatedBy": "Gestionnaire RH",
+              "validatedAt": "2026-03-10T11:00:00Z"
             },
             "suggestsHumanReview": false
           }
