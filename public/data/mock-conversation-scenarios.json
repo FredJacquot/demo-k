@@ -20,7 +20,7 @@
             "confidence": 97,
             "sources": [
               {
-                "name": "Bulletin de paie nov. 2025",
+                "name": "Bulletin de paie fév. 2026",
                 "type": "document",
                 "color": "blue"
               },
@@ -44,10 +44,10 @@
               "sources": [
                 {
                   "id": "source-1",
-                  "name": "Bulletin de paie - Novembre 2025",
+                  "name": "Bulletin de paie - Février 2026",
                   "article": "Ligne compteur RTT",
-                  "title": "Solde des jours RTT au 30/11/2025",
-                  "verifiedDate": "2025-12-01",
+                  "title": "Solde des jours RTT au 28/02/2026",
+                  "verifiedDate": "2026-03-01",
                   "status": "valid"
                 },
                 {
@@ -55,13 +55,13 @@
                   "name": "SIRH Lucca",
                   "article": "Absences planifiées",
                   "title": "RTT posé le 07/04/2026",
-                  "verifiedDate": "2025-12-01",
+                  "verifiedDate": "2026-03-01",
                   "status": "valid"
                 }
               ],
               "context": "Données extraites du dernier bulletin de paie et des absences planifiées dans le SIRH",
               "validatedBy": "Système automatique",
-              "validatedAt": "2025-12-01T10:12:00Z"
+              "validatedAt": "2026-03-01T10:12:00Z"
             },
             "suggestsHumanReview": false
           },
@@ -92,13 +92,13 @@
                   "name": "SIRH Lucca",
                   "article": "Demande d'absence",
                   "title": "RTT posé le 11/05/2026 — En attente d'approbation",
-                  "verifiedDate": "2025-12-01",
+                  "verifiedDate": "2026-03-01",
                   "status": "valid"
                 }
               ],
               "context": "Action effectuée en temps réel dans le système d'information RH",
               "validatedBy": "Système automatique",
-              "validatedAt": "2025-12-01T10:13:45Z"
+              "validatedAt": "2026-03-01T10:13:45Z"
             },
             "suggestsHumanReview": false
           }
