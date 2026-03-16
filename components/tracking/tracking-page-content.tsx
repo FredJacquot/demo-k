@@ -540,6 +540,90 @@ export default function TrackingPageContent() {
                                 </>
                               ) : null}
 
+                              {/* HR Action Card */}
+                              {message.suggestHRTransmission && !message.actionTaken && (
+                                <div className="mt-3 p-3 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800">
+                                  <p className="text-sm text-purple-900 dark:text-purple-200 mb-3">
+                                    {message.suggestHRTransmission.prompt}
+                                  </p>
+                                  <div className="flex gap-2">
+                                    <Button
+                                      size="sm"
+                                      className="bg-purple-600 hover:bg-purple-700 text-white"
+                                      onClick={() => {
+                                        // Marquer l'action comme prise
+                                        setConversationMessages((prev) =>
+                                          prev.map((m) =>
+                                            m.id === message.id ? { ...m, actionTaken: "primary" } : m
+                                          )
+                                        );
+                                        setIsKaliaTyping(true);
+
+                                        // Simuler la confirmation de Kalia
+                                        setTimeout(() => {
+                                          const confirmationMsg: Message = {
+                                            id: `kalia-confirm-${Date.now()}`,
+                                            author: "assistant",
+                                            content: {
+                                              intro: `La saisie de l'acompte de 400 € a bien été effectuée dans Silae. Le salarié sera notifié et le virement interviendra sous 3 à 5 jours ouvrés.`,
+                                              sections: [
+                                                {
+                                                  title: "Confirmation",
+                                                  type: "info",
+                                                  content: `Salarié : ${selectedRequest.userName} — Montant saisi : 400 € — Déduction prévue sur la paie de mars 2026 — Statut : Traité`,
+                                                },
+                                              ],
+                                            },
+                                            timestamp: new Date().toISOString(),
+                                            traceability: {
+                                              sources: [
+                                                { id: "src-confirm", name: "SIRH Silae", article: "Saisie acompte", title: `Acompte de 400 € saisi — ${selectedRequest.userName} — Mars 2026`, verifiedDate: new Date().toISOString().split("T")[0], status: "valid" },
+                                              ],
+                                              context: "Saisie effectuée dans Silae suite à validation RH",
+                                              validatedBy: "Gestionnaire RH",
+                                              validatedAt: new Date().toISOString(),
+                                            },
+                                          };
+                                          setConversationMessages((prev) => [...prev, confirmationMsg]);
+                                          setIsKaliaTyping(false);
+                                        }, 1200);
+                                      }}
+                                    >
+                                      <Send className="w-3 h-3 mr-1.5" />
+                                      {message.suggestHRTransmission.actions?.primary?.label || "Valider"}
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      className="border-purple-300 dark:border-purple-700"
+                                      onClick={() => {
+                                        setConversationMessages((prev) =>
+                                          prev.map((m) =>
+                                            m.id === message.id ? { ...m, actionTaken: "secondary" } : m
+                                          )
+                                        );
+                                      }}
+                                    >
+                                      {message.suggestHRTransmission.actions?.secondary?.label || "Refuser"}
+                                    </Button>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Action taken feedback */}
+                              {message.actionTaken === "primary" && (
+                                <div className="mt-2 flex items-center gap-2 text-xs text-green-600 dark:text-green-400">
+                                  <CheckCircle2 className="w-3 h-3" />
+                                  Action validée
+                                </div>
+                              )}
+                              {message.actionTaken === "secondary" && (
+                                <div className="mt-2 flex items-center gap-2 text-xs text-orange-600 dark:text-orange-400">
+                                  <AlertCircle className="w-3 h-3" />
+                                  Demande refusée
+                                </div>
+                              )}
+
                               {/* Metadata footer */}
                               {(message.traceability) && (
                                 <div className="mt-3 pt-3 border-t border-border/50">
@@ -689,29 +773,41 @@ export default function TrackingPageContent() {
                             id: `kalia-msg-${Date.now()}`,
                             author: "assistant",
                             content: {
-                              intro: `Bien sûr ! Voici les informations demandées concernant ${selectedRequest.userName} :`,
+                              intro: "Vous avez une nouvelle demande en attente de validation.",
                               sections: [
                                 {
-                                  title: "Analyse effectuée",
+                                  title: "Détail de la demande",
                                   type: "info",
-                                  content: `J'ai vérifié le dossier de ${selectedRequest.userName}. La demande d'acompte de 1 363 € est conforme aux règles en vigueur (Article L3242-1 du Code du travail et Accord 2024-01). Le montant correspond bien à 10 jours travaillés sur 22 jours ouvrés.`,
+                                  content: `Salarié : ${selectedRequest.userName} — Type : Acompte sur salaire — Montant : 400 € — Montant maximum autorisé : 1 363 € — Date de la demande : 10 mars 2026`,
                                 },
                                 {
-                                  title: "Recommandation",
+                                  title: "Éligibilité",
                                   type: "info",
-                                  content: "Je vous recommande de valider cette demande. Le salarié a déjà été informé des conditions de déduction sur son prochain bulletin de paie.",
+                                  content: "La demande est conforme : le montant de 400 € est inférieur au plafond calculé de 1 363 € sur la base de 10 jours travaillés sur 22 jours ouvrés en mars 2026.",
                                 },
                               ],
                             },
                             timestamp: new Date().toISOString(),
                             traceability: {
                               sources: [
-                                { id: "src-1", name: "SIRH Silae", article: "Dossier salarié", title: "Données paie", verifiedDate: new Date().toISOString().split("T")[0], status: "valid" },
-                                { id: "src-2", name: "Accord 2024-01", article: "Article 5.3", title: "Modalités acompte", verifiedDate: "2024-01-15", status: "valid" },
+                                { id: "src-1", name: "SIRH Silae", article: "Demande d'acompte", title: `Acompte de 400 € — ${selectedRequest.userName} — Mars 2026`, verifiedDate: new Date().toISOString().split("T")[0], status: "pending" },
                               ],
-                              context: "Vérification demandée par le RH",
-                              validatedBy: "Kalia",
+                              context: "Demande transmise par le salarié et en attente de validation RH",
+                              validatedBy: "Système automatique",
                               validatedAt: new Date().toISOString(),
+                            },
+                            suggestHRTransmission: {
+                              prompt: "Souhaitez-vous déclencher la saisie de l'acompte de 400 € dans Silae ?",
+                              actions: {
+                                primary: {
+                                  label: "Ok, déclenche la saisie dans Silae",
+                                  action: "triggerSilaeEntry",
+                                },
+                                secondary: {
+                                  label: "Refuser la demande",
+                                  action: "rejectRequest",
+                                },
+                              },
                             },
                           };
                           setConversationMessages((prev) => [...prev, kaliaResponse]);
