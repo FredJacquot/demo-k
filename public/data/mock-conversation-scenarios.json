@@ -5,44 +5,38 @@
       "keywords": [
         "combien",
         "RTT",
-        "droit",
-        "cette",
-        "congés",
-        "délai"
+        "reste",
+        "poser",
+        "solde",
+        "congés"
       ],
       "category": "Temps de travail",
       "conversation": {
         "title": "Gestion des jours RTT",
-        "subtitle": "Droits, solde et délais d'utilisation",
+        "subtitle": "Solde et pose de RTT",
         "messages": [
           {
             "type": "answer",
-            "confidence": 96,
+            "confidence": 97,
             "sources": [
               {
-                "name": "Accord 2024-08",
-                "type": "accord",
-                "color": "green"
+                "name": "Bulletin de paie nov. 2025",
+                "type": "document",
+                "color": "blue"
               },
               {
-                "name": "Code du travail",
-                "type": "code",
-                "color": "blue"
+                "name": "SIRH Lucca",
+                "type": "system",
+                "color": "orange"
               }
             ],
             "content": {
-              "intro": "D'après l'accord d'entreprise sur l'aménagement du temps de travail en vigueur dans notre organisation, vos droits à jours de RTT sont les suivants :",
+              "intro": "Sur votre dernier bulletin de paie, votre solde de RTT est de 2 jours. Vous avez par ailleurs 1 jour de RTT déjà planifié le 7 avril. Il vous reste donc actuellement 1 RTT à prendre.",
               "sections": [
                 {
-                  "title": "Nombre de jours RTT",
+                  "title": "Détail du solde",
                   "type": "info",
-                  "content": "Vous bénéficiez de 12 jours de RTT par an, acquis au rythme d'1 jour par mois travaillé complet.",
-                  "reference": "Accord 2024-08, Article 4.2 - Modalités d'acquisition des jours de RTT"
-                },
-                {
-                  "title": "Précisions",
-                  "type": "detail",
-                  "content": "Ces jours sont acquis progressivement tout au long de l'année. En cas d'entrée ou de sortie en cours d'année, le nombre de RTT est calculé au prorata du temps de présence."
+                  "content": "Solde bulletin de paie : 2 jours — RTT planifié le 7 avril : 1 jour — Solde disponible : 1 jour"
                 }
               ]
             },
@@ -50,24 +44,24 @@
               "sources": [
                 {
                   "id": "source-1",
-                  "name": "Accord d'entreprise - Aménagement du temps de travail",
-                  "article": "Article 4.2",
-                  "title": "Organisation du temps de travail • Forfaits jours, horaires variables et RTT - Modalités d'acquisition des jours de RTT",
-                  "verifiedDate": "2025-01-14",
+                  "name": "Bulletin de paie - Novembre 2025",
+                  "article": "Ligne compteur RTT",
+                  "title": "Solde des jours RTT au 30/11/2025",
+                  "verifiedDate": "2025-12-01",
                   "status": "valid"
                 },
                 {
                   "id": "source-2",
-                  "name": "Code du travail - Durée du travail",
-                  "article": "Articles L3121-1 à L3123-38",
-                  "title": "Durée légale, heures supplémentaires, aménagement du temps de travail",
-                  "verifiedDate": "2025-01-14",
+                  "name": "SIRH Lucca",
+                  "article": "Absences planifiées",
+                  "title": "RTT posé le 07/04/2026",
+                  "verifiedDate": "2025-12-01",
                   "status": "valid"
                 }
               ],
-              "context": "Recherche effectuée dans la base documentaire RH - Accord d'entreprise sur l'aménagement du temps de travail (Réf. Accord 2024-08, décembre 2024)",
+              "context": "Données extraites du dernier bulletin de paie et des absences planifiées dans le SIRH",
               "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T09:15:22Z"
+              "validatedAt": "2025-12-01T10:12:00Z"
             },
             "suggestsHumanReview": false
           },
@@ -82,130 +76,31 @@
               }
             ],
             "content": {
-              "intro": "J'ai consulté votre compteur personnel dans le SIRH. Vous disposez actuellement de 5 jours de RTT restants sur votre compteur.",
+              "intro": "J'ai posé le 11 mai dans Lucca Absences. La demande est en attente d'approbation par votre manager.",
               "sections": [
                 {
-                  "title": "Détail",
+                  "title": "Récapitulatif de la demande",
                   "type": "info",
-                  "content": "Sur les 12 jours acquis cette année, vous en avez déjà utilisé 7."
+                  "content": "Type : RTT — Date : 11 mai 2026 — Statut : En attente d'approbation"
                 }
               ]
             },
             "traceability": {
               "sources": [
                 {
-                  "id": "source-2",
+                  "id": "source-3",
                   "name": "SIRH Lucca",
-                  "article": "Compteur individuel",
-                  "title": "Solde des jours RTT au 14/01/2026",
-                  "verifiedDate": "2025-01-14",
+                  "article": "Demande d'absence",
+                  "title": "RTT posé le 11/05/2026 — En attente d'approbation",
+                  "verifiedDate": "2025-12-01",
                   "status": "valid"
                 }
               ],
-              "context": "Données extraites en temps réel du système d'information RH",
+              "context": "Action effectuée en temps réel dans le système d'information RH",
               "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T09:16:45Z"
+              "validatedAt": "2025-12-01T10:13:45Z"
             },
             "suggestsHumanReview": false
-          },
-          {
-            "type": "answer",
-            "confidence": 95,
-            "sources": [
-              {
-                "name": "Accord d'entreprise sur le temps de travail",
-                "type": "accord",
-                "color": "green"
-              }
-            ],
-            "content": {
-              "intro": "L'accord d'entreprise fixe effectivement une limite d'utilisation des jours RTT :",
-              "sections": [
-                {
-                  "title": "Date limite d'utilisation",
-                  "type": "warning",
-                  "content": "Les jours RTT acquis au cours d'une année doivent impérativement être pris avant le 31 janvier de l'année suivante.",
-                  "reference": "Accord d'entreprise sur le temps de travail, Article 3.4"
-                },
-                {
-                  "title": "Point d'attention",
-                  "type": "info",
-                  "content": "Au-delà de cette date, les jours RTT non pris sont perdus, sauf dispositions exceptionnelles prévues par l'accord ou décision de la direction."
-                }
-              ]
-            },
-            "traceability": {
-              "sources": [
-                {
-                  "id": "source-3",
-                  "name": "Accord d'entreprise sur le temps de travail",
-                  "article": "Art. 3.4",
-                  "title": "Période d'utilisation et expiration des jours RTT",
-                  "verifiedDate": "2025-01-10",
-                  "status": "valid"
-                }
-              ],
-              "context": "Recherche effectuée dans la base documentaire - Accord d'entreprise sur le temps de travail",
-              "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T09:17:58Z"
-            },
-            "suggestsHumanReview": false
-          },
-          {
-            "type": "answer",
-            "confidence": 72,
-            "sources": [
-              {
-                "name": "Accord d'entreprise sur le temps de travail",
-                "type": "accord",
-                "color": "green"
-              }
-            ],
-            "content": {
-              "intro": "Votre question concerne une situation particulière qui pourrait nécessiter une dérogation aux règles habituelles.",
-              "sections": [
-                {
-                  "title": "Ce que prévoient les textes",
-                  "type": "info",
-                  "content": "L'Accord d'entreprise sur le temps de travail stipule que les RTT doivent être pris avant le 31 janvier et ne prévoit pas de report automatique. Toutefois, des cas exceptionnels peuvent exister (maladie prolongée, contraintes opérationnelles, etc.)."
-                },
-                {
-                  "title": "Recommandation",
-                  "type": "warning",
-                  "content": "Votre situation nécessite une analyse personnalisée et une décision du service RH. Il est important de les contacter rapidement pour étudier les possibilités de report ou d'aménagement dans votre cas spécifique."
-                }
-              ]
-            },
-            "traceability": {
-              "sources": [
-                {
-                  "id": "source-3",
-                  "name": "Accord d'entreprise XXX",
-                  "article": "Art. 3.4",
-                  "title": "Période d'utilisation et expiration des jours RTT",
-                  "verifiedDate": "2025-01-10",
-                  "status": "valid"
-                }
-              ],
-              "context": "Recherche effectuée dans la base documentaire - Absence de clause explicite sur les reports exceptionnels",
-              "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T09:19:12Z"
-            },
-            "suggestHRTransmission": {
-              "prompt": "Souhaitez-vous que je transmette votre demande au service RH pour qu'ils étudient votre situation ?",
-              "context": "Demande de report exceptionnel de 6 jours RTT au-delà du 31 janvier",
-              "actions": {
-                "primary": {
-                  "label": "Oui, contacter les RH",
-                  "action": "createRequest"
-                },
-                "secondary": {
-                  "label": "Non, je vais les contacter moi-même",
-                  "action": "dismiss"
-                }
-              }
-            },
-            "suggestsHumanReview": true
           }
         ]
       }
