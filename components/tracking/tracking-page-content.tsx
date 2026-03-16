@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { ShieldAlert, CheckCircle2, Clock, AlertCircle, Send, FileText, Bot, X } from "lucide-react"
+import { ShieldAlert, CheckCircle2, Clock, AlertCircle, Send, FileText, Bot, X, User, Sparkles } from "lucide-react"
 import { useUser } from "@/contexts/user-context"
 import { canViewRequest } from "@/lib/permissions"
 import { Badge } from "@/components/ui/badge"
@@ -32,6 +32,8 @@ export default function TrackingPageContent() {
   const [hrResponse, setHrResponse] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [conversationMessages, setConversationMessages] = useState<Message[]>([])
+  const [chatRecipient, setChatRecipient] = useState<"employee" | "kalia">("employee")
+  const [isKaliaTyping, setIsKaliaTyping] = useState(false)
 
   const selectedRequest = allRequests.find((req) => req.id === selectedRequestId) || null
 
@@ -434,8 +436,28 @@ export default function TrackingPageContent() {
                 <div className="text-xs text-muted-foreground uppercase tracking-wide mb-2">
                   Historique de la conversation
                 </div>
+                {/* Kalia typing indicator */}
+                {isKaliaTyping && (
+                  <div className="flex justify-start mb-4">
+                    <div className="flex items-start gap-2">
+                      <Avatar className="w-6 h-6">
+                        <AvatarFallback className="text-xs bg-blue-100 text-blue-700">
+                          <Sparkles className="w-3 h-3" />
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="bg-background border rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
+                        <div className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {conversationMessages.map((message, index) => {
-                  const isUserMessage = message.author === "user";
+                  const isUserMessage = message.author === "user" || message.author === "hr";
                   
                   return (
                     <div key={index} className={`flex ${isUserMessage ? "justify-end" : "justify-start"}`}>
@@ -535,7 +557,14 @@ export default function TrackingPageContent() {
 
                         {isUserMessage && (
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground">{selectedRequest.userName}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {message.author === "hr" ? (currentUser?.name || "RH") : selectedRequest.userName}
+                            </span>
+                            {message.author === "hr" && (
+                              <Badge variant="outline" className="text-[9px] px-1 py-0 bg-purple-50 text-purple-600 border-purple-200">
+                                RH → Kalia
+                              </Badge>
+                            )}
                           </div>
                         )}
                       </div>
@@ -597,24 +626,124 @@ export default function TrackingPageContent() {
             </ScrollArea>
 
             {selectedRequest.status === "in_progress" && (
-              <div className="border-t p-4 shrink-0 px-2">
-                <Label className="text-sm font-medium mb-2 block">Répondre au collaborateur</Label>
+              <div className="border-t p-4 shrink-0 px-2 space-y-3">
+                {/* Toggle destinataire */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground">Répondre à :</span>
+                  <div className="inline-flex rounded-lg border border-border p-0.5 bg-muted/30">
+                    <button
+                      onClick={() => setChatRecipient("employee")}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                        chatRecipient === "employee"
+                          ? "bg-background shadow-sm text-foreground"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <User className="w-3 h-3" />
+                      Salarié
+                    </button>
+                    <button
+                      onClick={() => setChatRecipient("kalia")}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                        chatRecipient === "kalia"
+                          ? "bg-blue-500 text-white shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      Kalia
+                    </button>
+                  </div>
+                </div>
+
+                {/* Zone de saisie */}
                 <div className="flex gap-2">
                   <Textarea
                     value={hrResponse}
                     onChange={(e) => setHrResponse(e.target.value)}
-                    placeholder="Saisissez votre réponse..."
+                    placeholder={
+                      chatRecipient === "employee"
+                        ? "Saisissez votre réponse au collaborateur..."
+                        : "Demandez à Kalia (ex: Peux-tu vérifier le solde de congés ?)"
+                    }
                     className="min-h-[80px] resize-none"
+                    disabled={isKaliaTyping}
                   />
                   <Button
-                    onClick={handleResolve}
-                    disabled={isSubmitting || !hrResponse.trim()}
-                    className="self-end"
+                    onClick={async () => {
+                      if (chatRecipient === "kalia") {
+                        // Simuler une interaction avec Kalia
+                        const userMsg: Message = {
+                          id: `hr-msg-${Date.now()}`,
+                          author: "hr",
+                          content: hrResponse,
+                          timestamp: new Date().toISOString(),
+                        };
+                        setConversationMessages((prev) => [...prev, userMsg]);
+                        setHrResponse("");
+                        setIsKaliaTyping(true);
+
+                        // Simuler la réponse de Kalia après un délai
+                        setTimeout(() => {
+                          const kaliaResponse: Message = {
+                            id: `kalia-msg-${Date.now()}`,
+                            author: "assistant",
+                            content: {
+                              intro: `Bien sûr ! Voici les informations demandées concernant ${selectedRequest.userName} :`,
+                              sections: [
+                                {
+                                  title: "Analyse effectuée",
+                                  type: "info",
+                                  content: `J'ai vérifié le dossier de ${selectedRequest.userName}. La demande d'acompte de 1 363 € est conforme aux règles en vigueur (Article L3242-1 du Code du travail et Accord 2024-01). Le montant correspond bien à 10 jours travaillés sur 22 jours ouvrés.`,
+                                },
+                                {
+                                  title: "Recommandation",
+                                  type: "info",
+                                  content: "Je vous recommande de valider cette demande. Le salarié a déjà été informé des conditions de déduction sur son prochain bulletin de paie.",
+                                },
+                              ],
+                            },
+                            timestamp: new Date().toISOString(),
+                            traceability: {
+                              sources: [
+                                { id: "src-1", name: "SIRH Silae", article: "Dossier salarié", title: "Données paie", verifiedDate: new Date().toISOString().split("T")[0], status: "valid" },
+                                { id: "src-2", name: "Accord 2024-01", article: "Article 5.3", title: "Modalités acompte", verifiedDate: "2024-01-15", status: "valid" },
+                              ],
+                              context: "Vérification demandée par le RH",
+                              validatedBy: "Kalia",
+                              validatedAt: new Date().toISOString(),
+                            },
+                          };
+                          setConversationMessages((prev) => [...prev, kaliaResponse]);
+                          setIsKaliaTyping(false);
+                        }, 1500);
+                      } else {
+                        // Comportement existant : résoudre la demande
+                        handleResolve();
+                      }
+                    }}
+                    disabled={isSubmitting || isKaliaTyping || !hrResponse.trim()}
+                    className={`self-end ${chatRecipient === "kalia" ? "bg-blue-500 hover:bg-blue-600" : ""}`}
                   >
-                    <Send className="w-4 h-4 mr-2" />
-                    Envoyer
+                    {isKaliaTyping ? (
+                      <>
+                        <div className="w-4 h-4 mr-2 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Kalia réfléchit...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        {chatRecipient === "employee" ? "Envoyer & Résoudre" : "Demander à Kalia"}
+                      </>
+                    )}
                   </Button>
                 </div>
+
+                {chatRecipient === "kalia" && (
+                  <p className="text-[10px] text-muted-foreground">
+                    Kalia peut vous aider à vérifier des informations, générer des récapitulatifs ou préparer une réponse au salarié.
+                  </p>
+                )}
               </div>
             )}
           </div>
