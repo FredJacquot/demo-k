@@ -16,6 +16,7 @@ import {
   ChevronRight,
   LogOut,
   Wallet,
+  Workflow,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -43,7 +44,7 @@ import { hasAccess, getRoleLabel, getRoleBadgeClass } from "@/lib/permissions";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { signOut } from "next-auth/react";
+
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -59,18 +60,18 @@ export function AppSidebar() {
       if (!currentUser || (currentUser.role !== "hr" && currentUser.role !== "drh")) {
         return;
       }
-      
+
       try {
         // Load requests from localStorage
         const { getRequests } = await import('@/lib/requests-storage');
         const localStorageRequests = getRequests();
-        
+
         // Try to load from API as well
-        const apiRequests: Array<{id: string; status: string}> = [];
+        const apiRequests: Array<{ id: string; status: string }> = [];
         try {
           const response = await fetch(`/api/conversations?role=${currentUser.role}&full=true`);
           const data = await response.json();
-          
+
           // Extract requests from conversations
           for (const conv of data.conversations) {
             if (conv.request) {
@@ -80,7 +81,7 @@ export function AppSidebar() {
         } catch (apiError) {
           console.log("API not available, using only localStorage");
         }
-        
+
         // Merge localStorage and API requests
         const allRequestsMap = new Map();
         localStorageRequests.forEach(req => allRequestsMap.set(req.id, req));
@@ -89,11 +90,11 @@ export function AppSidebar() {
             allRequestsMap.set(req.id, req);
           }
         });
-        
+
         // Count requests by status
         let pending = 0;
         let inProgress = 0;
-        
+
         allRequestsMap.forEach((request) => {
           if (request.status === "pending") {
             pending++;
@@ -101,7 +102,7 @@ export function AppSidebar() {
             inProgress++;
           }
         });
-        
+
         setNewRequestsCount(pending);
         setInProgressCount(inProgress);
         setTotalCount(pending + inProgress);
@@ -111,14 +112,14 @@ export function AppSidebar() {
     };
 
     loadRequestsCounts();
-    
+
     // Écouter les événements de mise à jour des demandes
     const handleRequestsUpdated = () => {
       loadRequestsCounts();
     };
-    
+
     window.addEventListener("requestsUpdated", handleRequestsUpdated);
-    
+
     // Nettoyer l'écouteur d'événement
     return () => {
       window.removeEventListener("requestsUpdated", handleRequestsUpdated);
@@ -148,8 +149,8 @@ export function AppSidebar() {
       <div className="p-4 border-b">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton 
-              asChild 
+            <SidebarMenuButton
+              asChild
               className="w-full !bg-gradient-to-r !from-blue-500 !to-purple-600 !text-white !font-normal hover:!from-blue-600 hover:!to-purple-700 hover:!text-white"
               tooltip="Nouvelle conversation"
             >
@@ -199,30 +200,34 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarSeparator className="!w-[calc(100%-1rem)]" />
 
 
-
-        {/* Ressources */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Ressources</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === "/knowledge-base"} tooltip="Base de connaissances">
-                  <Link href="/knowledge-base">
-                    <Database />
-                    <span>Base de connaissances</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
 
         {/* Espace RH - Only visible for hr and drh */}
         {currentUser && hasAccess(currentUser.role, "espace-rh") && (
           <>
+
+            <SidebarSeparator className="!w-[calc(100%-1rem)]" />
+            {/* Ressources */}
+            <SidebarGroup>
+              <SidebarGroupLabel>Ressources</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild isActive={pathname === "/knowledge-base"} tooltip="Base de connaissances">
+                      <Link href="/knowledge-base">
+                        <Database />
+                        <span>Base de connaissances</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+
+
+
+
             <SidebarSeparator className="!w-[calc(100%-1rem)]" />
 
 
@@ -281,6 +286,80 @@ export function AppSidebar() {
                       </CollapsibleContent>
                     </SidebarMenuItem>
                   </Collapsible>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </>
+        )}
+
+        {/* Kalia ADP */}
+        {currentUser && hasAccess(currentUser.role, "administration") && (
+          <>
+            <SidebarSeparator className="!w-[calc(100%-1rem)]" />
+            <SidebarGroup>
+              <SidebarGroupLabel>Kalia ADP</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/demo/onboarding"}
+                      tooltip="Demo Onboarding"
+                    >
+                      <Link href="/demo/onboarding">
+                        <MessageSquare />
+                        <span>Demo Onboarding</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/adp"}
+                      tooltip="Workflows administratifs v1"
+                    >
+                      <Link href="/adp">
+                        <Workflow />
+                        <span>Workflows v1</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/adp/v2"}
+                      tooltip="Workflows administratifs v2"
+                    >
+                      <Link href="/adp/v2">
+                        <Workflow />
+                        <span>Workflows v2</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/adp/v3"}
+                      tooltip="Workflows administratifs v3"
+                    >
+                      <Link href="/adp/v3">
+                        <Workflow />
+                        <span>Workflows v3</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/adp/v4"}
+                      tooltip="Supervision + Chat Kalia v4"
+                    >
+                      <Link href="/adp/v4">
+                        <Workflow />
+                        <span>Workflows v4</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
@@ -368,6 +447,36 @@ export function AppSidebar() {
                               </Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === "/payroll/pipeline-mensuel-v6"}
+                            >
+                              <Link href="/payroll/pipeline-mensuel-v6">
+                                <span>Pipeline mensuel v6</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === "/payroll/pipeline-mensuel-v7"}
+                            >
+                              <Link href="/payroll/pipeline-mensuel-v7">
+                                <span>Pipeline mensuel v7</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === "/payroll/pipeline-mensuel-v8"}
+                            >
+                              <Link href="/payroll/pipeline-mensuel-v8">
+                                <span>Pipeline mensuel v8</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
                         </SidebarMenuSub>
                       </CollapsibleContent>
                     </SidebarMenuItem>
@@ -404,6 +513,22 @@ export function AppSidebar() {
                         <span>Configuration</span>
                       </Link>
                     </SidebarMenuButton>
+                    <SidebarMenuSub>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton asChild isActive={pathname === "/settings/workflows/onboarding"}>
+                          <Link href="/settings/workflows/onboarding">
+                            <span>Workflow Onboarding v1</span>
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton asChild isActive={pathname === "/settings/workflows/onboarding/v2"}>
+                          <Link href="/settings/workflows/onboarding/v2">
+                            <span>Workflow Onboarding v2</span>
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    </SidebarMenuSub>
                   </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
@@ -450,7 +575,10 @@ export function AppSidebar() {
                   <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    onClick={() => signOut({ callbackUrl: "/login" })}
+                    onClick={() => {
+                      localStorage.removeItem("demo_user_id");
+                      window.location.href = "/login";
+                    }}
                     className="cursor-pointer text-red-600 focus:text-red-600"
                   >
                     <LogOut className="mr-2 h-4 w-4" />

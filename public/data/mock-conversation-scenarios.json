@@ -2,40 +2,41 @@
   "scenarios": [
     {
       "id": "scenario-rtt-solde",
-      "keywords": ["combien", "RTT", "droit", "cette", "congés", "délai"],
+      "keywords": [
+        "combien",
+        "RTT",
+        "reste",
+        "poser",
+        "solde",
+        "congés"
+      ],
       "category": "Temps de travail",
       "conversation": {
         "title": "Gestion des jours RTT",
-        "subtitle": "Droits, solde et délais d'utilisation",
+        "subtitle": "Solde et pose de RTT",
         "messages": [
           {
             "type": "answer",
-            "confidence": 96,
+            "confidence": 97,
             "sources": [
               {
-                "name": "Accord 2024-08",
-                "type": "accord",
-                "color": "green"
+                "name": "Bulletin de paie fév. 2026",
+                "type": "document",
+                "color": "blue"
               },
               {
-                "name": "Code du travail",
-                "type": "code",
-                "color": "blue"
+                "name": "SIRH Lucca",
+                "type": "system",
+                "color": "orange"
               }
             ],
             "content": {
-              "intro": "D'après l'accord d'entreprise sur l'aménagement du temps de travail en vigueur dans notre organisation, vos droits à jours de RTT sont les suivants :",
+              "intro": "Sur votre dernier bulletin de paie, votre solde de RTT est de 2 jours. Vous avez par ailleurs 1 jour de RTT déjà planifié le 7 avril. Il vous reste donc actuellement 1 RTT à prendre.",
               "sections": [
                 {
-                  "title": "Nombre de jours RTT",
+                  "title": "Détail du solde",
                   "type": "info",
-                  "content": "Vous bénéficiez de 12 jours de RTT par an, acquis au rythme d'1 jour par mois travaillé complet.",
-                  "reference": "Accord 2024-08, Article 4.2 - Modalités d'acquisition des jours de RTT"
-                },
-                {
-                  "title": "Précisions",
-                  "type": "detail",
-                  "content": "Ces jours sont acquis progressivement tout au long de l'année. En cas d'entrée ou de sortie en cours d'année, le nombre de RTT est calculé au prorata du temps de présence."
+                  "content": "Solde bulletin de paie : 2 jours — RTT planifié le 7 avril : 1 jour — Solde disponible : 1 jour"
                 }
               ]
             },
@@ -43,24 +44,24 @@
               "sources": [
                 {
                   "id": "source-1",
-                  "name": "Accord d'entreprise - Aménagement du temps de travail",
-                  "article": "Article 4.2",
-                  "title": "Organisation du temps de travail • Forfaits jours, horaires variables et RTT - Modalités d'acquisition des jours de RTT",
-                  "verifiedDate": "2025-01-14",
+                  "name": "Bulletin de paie - Février 2026",
+                  "article": "Ligne compteur RTT",
+                  "title": "Solde des jours RTT au 28/02/2026",
+                  "verifiedDate": "2026-03-01",
                   "status": "valid"
                 },
                 {
                   "id": "source-2",
-                  "name": "Code du travail - Durée du travail",
-                  "article": "Articles L3121-1 à L3123-38",
-                  "title": "Durée légale, heures supplémentaires, aménagement du temps de travail",
-                  "verifiedDate": "2025-01-14",
+                  "name": "SIRH Lucca",
+                  "article": "Absences planifiées",
+                  "title": "RTT posé le 07/04/2026",
+                  "verifiedDate": "2026-03-01",
                   "status": "valid"
                 }
               ],
-              "context": "Recherche effectuée dans la base documentaire RH - Accord d'entreprise sur l'aménagement du temps de travail (Réf. Accord 2024-08, décembre 2024)",
+              "context": "Données extraites du dernier bulletin de paie et des absences planifiées dans le SIRH",
               "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T09:15:22Z"
+              "validatedAt": "2026-03-01T10:12:00Z"
             },
             "suggestsHumanReview": false
           },
@@ -75,143 +76,50 @@
               }
             ],
             "content": {
-              "intro": "J'ai consulté votre compteur personnel dans le SIRH. Vous disposez actuellement de 5 jours de RTT restants sur votre compteur.",
+              "intro": "J'ai posé le 11 mai dans Lucca Absences. La demande est en attente d'approbation par votre manager.",
               "sections": [
-               {
-                  "title": "Détail",
+                {
+                  "title": "Récapitulatif de la demande",
                   "type": "info",
-                  "content": "Sur les 12 jours acquis cette année, vous en avez déjà utilisé 7."
+                  "content": "Type : RTT — Date : 11 mai 2026 — Statut : En attente d'approbation"
                 }
               ]
             },
             "traceability": {
               "sources": [
                 {
-                  "id": "source-2",
+                  "id": "source-3",
                   "name": "SIRH Lucca",
-                  "article": "Compteur individuel",
-                  "title": "Solde des jours RTT au 14/01/2026",
-                  "verifiedDate": "2025-01-14",
+                  "article": "Demande d'absence",
+                  "title": "RTT posé le 11/05/2026 — En attente d'approbation",
+                  "verifiedDate": "2026-03-01",
                   "status": "valid"
                 }
               ],
-              "context": "Données extraites en temps réel du système d'information RH",
+              "context": "Action effectuée en temps réel dans le système d'information RH",
               "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T09:16:45Z"
+              "validatedAt": "2026-03-01T10:13:45Z"
             },
             "suggestsHumanReview": false
-          },
-          {
-            "type": "answer",
-            "confidence": 95,
-            "sources": [
-              {
-                "name": "Accord d'entreprise sur le temps de travail",
-                "type": "accord",
-                "color": "green"
-              }
-            ],
-            "content": {
-              "intro": "L'accord d'entreprise fixe effectivement une limite d'utilisation des jours RTT :",
-              "sections": [
-                {
-                  "title": "Date limite d'utilisation",
-                  "type": "warning",
-                  "content": "Les jours RTT acquis au cours d'une année doivent impérativement être pris avant le 31 janvier de l'année suivante.",
-                  "reference": "Accord d'entreprise sur le temps de travail, Article 3.4"
-                },
-                {
-                  "title": "Point d'attention",
-                  "type": "info",
-                  "content": "Au-delà de cette date, les jours RTT non pris sont perdus, sauf dispositions exceptionnelles prévues par l'accord ou décision de la direction."
-                }
-              ]
-            },
-            "traceability": {
-              "sources": [
-                {
-                  "id": "source-3",
-                  "name": "Accord d'entreprise sur le temps de travail",
-                  "article": "Art. 3.4",
-                  "title": "Période d'utilisation et expiration des jours RTT",
-                  "verifiedDate": "2025-01-10",
-                  "status": "valid"
-                }
-              ],
-              "context": "Recherche effectuée dans la base documentaire - Accord d'entreprise sur le temps de travail",
-              "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T09:17:58Z"
-            },
-            "suggestsHumanReview": false
-          },
-          {
-            "type": "answer",
-            "confidence": 72,
-            "sources": [
-              {
-                "name": "Accord d'entreprise sur le temps de travail",
-                "type": "accord",
-                "color": "green"
-              }
-            ],
-            "content": {
-              "intro": "Votre question concerne une situation particulière qui pourrait nécessiter une dérogation aux règles habituelles.",
-              "sections": [
-                {
-                  "title": "Ce que prévoient les textes",
-                  "type": "info",
-                  "content": "L'Accord d'entreprise sur le temps de travail stipule que les RTT doivent être pris avant le 31 janvier et ne prévoit pas de report automatique. Toutefois, des cas exceptionnels peuvent exister (maladie prolongée, contraintes opérationnelles, etc.)."
-                },
-                {
-                  "title": "Recommandation",
-                  "type": "warning",
-                  "content": "Votre situation nécessite une analyse personnalisée et une décision du service RH. Il est important de les contacter rapidement pour étudier les possibilités de report ou d'aménagement dans votre cas spécifique."
-                }
-              ]
-            },
-            "traceability": {
-              "sources": [
-                {
-                  "id": "source-3",
-                  "name": "Accord d'entreprise XXX",
-                  "article": "Art. 3.4",
-                  "title": "Période d'utilisation et expiration des jours RTT",
-                  "verifiedDate": "2025-01-10",
-                  "status": "valid"
-                }
-              ],
-              "context": "Recherche effectuée dans la base documentaire - Absence de clause explicite sur les reports exceptionnels",
-              "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T09:19:12Z"
-            },
-            "suggestHRTransmission": {
-              "prompt": "Souhaitez-vous que je transmette votre demande au service RH pour qu'ils étudient votre situation ?",
-              "context": "Demande de report exceptionnel de 6 jours RTT au-delà du 31 janvier",
-              "actions": {
-                "primary": {
-                  "label": "Oui, contacter les RH",
-                  "action": "createRequest"
-                },
-                "secondary": {
-                  "label": "Non, je vais les contacter moi-même",
-                  "action": "dismiss"
-                }
-              }
-            },
-            "suggestsHumanReview": true
           }
         ]
       }
     },
     {
       "id": "scenario-acompte-salaire",
-      "keywords": [ "demander", "acompte", "salaire"],
+      "keywords": [
+        "demander",
+        "acompte",
+        "salaire",
+        "avance"
+      ],
       "category": "Rémunération",
       "conversation": {
         "title": "Demande d'acompte sur salaire",
-        "subtitle": "Conditions et procédure",
+        "subtitle": "Conditions, calcul et traitement RH",
         "messages": [
           {
+            "actor": "employee",
             "type": "answer",
             "confidence": 97,
             "sources": [
@@ -224,97 +132,32 @@
                 "name": "Accord 2024-01",
                 "type": "accord",
                 "color": "green"
+              },
+              {
+                "name": "SIRH Silae",
+                "type": "system",
+                "color": "orange"
               }
             ],
             "content": {
-              "intro": "Oui, vous avez tout à fait le droit de demander un acompte sur salaire. C'est un droit prévu par le Code du travail et encadré par notre accord d'entreprise.",
+              "intro": "Oui, vous avez tout à fait le droit de demander un acompte sur salaire. C'est un droit prévu par le Code du travail et encadré par notre accord d'entreprise. J'ai consulté votre dossier dans Silae pour calculer le montant maximum auquel vous pouvez prétendre.",
               "sections": [
                 {
                   "title": "Cadre légal",
                   "type": "info",
-                  "content": "Selon l'article L3242-1 du Code du travail, tout salarié peut demander le versement d'un acompte correspondant au travail déjà effectué. L'employeur est tenu d'accepter cette demande, à condition que le travail ait été réellement accompli.",
+                  "content": "Selon l'article L3242-1 du Code du travail, tout salarié peut demander le versement d'un acompte correspondant au travail déjà effectué. L'employeur est tenu d'accepter cette demande.",
                   "reference": "Code du travail, Article L3242-1"
                 },
                 {
-                  "title": "Modalités dans notre entreprise",
-                  "type": "steps",
-                  "items": [
-                    {
-                      "number": 1,
-                      "text": "Montant maximum : L'acompte ne peut pas dépasser le salaire déjà acquis (calculé au prorata du temps de travail effectué dans le mois)",
-                      "reference": "Code du travail, L3242-1"
-                    },
-                    {
-                      "number": 2,
-                      "text": "Délai de traitement : Les demandes sont traitées sous 48h ouvrées et le versement intervient sous 3 à 5 jours ouvrés",
-                      "reference": "Accord 2024-01, Article 5.3"
-                    },
-                    {
-                      "number": 3,
-                      "text": "Fréquence : Vous pouvez demander un acompte une fois par mois, sauf circonstances exceptionnelles validées par les RH",
-                      "reference": "Accord 2024-01, Article 5.4"
-                    }
-                  ]
+                  "title": "Montant maximum calculé",
+                  "type": "info",
+                  "content": "Sur la base de votre salaire brut de 3 000 € et des 10 jours travaillés sur les 22 jours ouvrés de mars 2026, le montant maximum de votre acompte est de 1 363 € (3 000 € / 22 jours × 10 jours).",
+                  "reference": "Accord 2024-01, Article 5.3"
                 },
                 {
                   "title": "Point d'attention",
                   "type": "warning",
-                  "content": "L'acompte sera automatiquement déduit de votre salaire lors de la prochaine paie. Il ne s'agit pas d'une avance mais d'un versement anticipé de votre rémunération déjà acquise."
-                }
-              ]
-            },
-            "traceability": {
-              "sources": [
-                {
-                  "id": "source-1",
-                  "name": "Code du travail - Rémunération",
-                  "article": "Article L3242-1",
-                  "title": "Salaire minimum, paiement du salaire, égalité salariale - Droit à l'acompte",
-                  "verifiedDate": "2025-01-14",
-                  "status": "valid"
-                },
-                {
-                  "id": "source-2",
-                  "name": "Accord d'entreprise - Intéressement et Participation",
-                  "article": "Articles 5.3 et 5.4",
-                  "title": "Dispositifs d'intéressement et de participation aux résultats • Modalités de calcul et de répartition - Procédure de demande d'acompte",
-                  "verifiedDate": "2025-01-14",
-                  "status": "valid"
-                }
-              ],
-              "context": "Recherche effectuée dans la base documentaire RH - Code du travail et Accord d'entreprise 2024-01",
-              "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T10:22:18Z"
-            },
-            "suggestsHumanReview": false
-          },
-          {
-            "type": "answer",
-            "confidence": 95,
-            "sources": [
-              {
-                "name": "Code du travail",
-                "type": "code",
-                "color": "blue"
-              },
-              {
-                "name": "Accord 2024-01",
-                "type": "accord",
-                "color": "green"
-              }
-            ],
-            "content": {
-              "intro": "Parfait, votre demande d'acompte de 400€ peut être transmise au service RH.",
-              "sections": [
-                {
-                  "title": "Procédure",
-                  "type": "info",
-                  "content": "Le service paie vérifiera que le montant demandé correspond bien au salaire que vous avez déjà acquis ce mois-ci. Une fois validé, l'acompte sera versé sous 3 à 5 jours ouvrés sur votre compte bancaire habituel."
-                },
-                {
-                  "title": "Important à savoir",
-                  "type": "warning",
-                  "content": "Le montant de 400€ sera automatiquement déduit de votre salaire de janvier 2026. Assurez-vous que cette déduction ne pose pas de difficulté pour votre budget de fin de mois."
+                  "content": "L'acompte sera automatiquement déduit de votre salaire lors de la paie de mars 2026. Il ne s'agit pas d'une avance mais d'un versement anticipé de votre rémunération déjà acquise."
                 }
               ]
             },
@@ -325,29 +168,81 @@
                   "name": "Code du travail - Rémunération",
                   "article": "Article L3242-1",
                   "title": "Droit à l'acompte sur salaire",
-                  "verifiedDate": "2025-01-14",
+                  "verifiedDate": "2026-03-10",
                   "status": "valid"
                 },
                 {
                   "id": "source-2",
-                  "name": "Accord d'entreprise - Intéressement et Participation",
-                  "article": "Article 5.3",
-                  "title": "Modalités de versement et déduction des acomptes sur salaire",
-                  "verifiedDate": "2025-01-14",
+                  "name": "Accord d'entreprise 2024-01",
+                  "article": "Articles 5.3 et 5.4",
+                  "title": "Procédure de demande d'acompte et modalités de versement",
+                  "verifiedDate": "2026-03-10",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-3",
+                  "name": "SIRH Silae",
+                  "article": "Fiche salarié",
+                  "title": "Salaire de base — Mars 2026 — 3 000 € brut / 22 jours ouvrés",
+                  "verifiedDate": "2026-03-10",
                   "status": "valid"
                 }
               ],
-              "context": "Recherche effectuée dans la base documentaire RH - Code du travail et Accord d'entreprise 2024-01",
+              "context": "Données extraites du SIRH Silae et recherche effectuée dans la base documentaire RH",
               "validatedBy": "Système automatique",
-              "validatedAt": "2025-01-14T10:24:35Z"
+              "validatedAt": "2026-03-10T10:22:00Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "actor": "employee",
+            "type": "answer",
+            "confidence": 99,
+            "sources": [
+              {
+                "name": "SIRH Silae",
+                "type": "system",
+                "color": "orange"
+              }
+            ],
+            "content": {
+              "intro": "Votre demande d'acompte de 400 € est bien dans la limite autorisée de 1 363 €. Je transmets votre demande au service RH pour validation.",
+              "sections": [
+                {
+                  "title": "Récapitulatif de la demande",
+                  "type": "info",
+                  "content": "Montant demandé : 400 € — Montant maximum autorisé : 1 363 € — Statut : En attente de validation RH"
+                },
+                {
+                  "title": "Prochaine étape",
+                  "type": "info",
+                  "content": "Une fois validée par les RH, la demande sera saisie dans Silae et l'acompte versé sous 3 à 5 jours ouvrés. Le montant sera déduit de votre salaire de mars 2026."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "SIRH Silae",
+                  "article": "Demande d'acompte",
+                  "title": "Acompte de 400 € — Mars 2026 — En attente de validation",
+                  "verifiedDate": "2026-03-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Demande créée et transmise au service RH via le SIRH",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2026-03-10T10:24:00Z"
             },
             "suggestHRTransmission": {
-              "prompt": "Souhaitez-vous transmettre votre demande d'acompte de 400€ au service RH ?",
-              "context": "Demande d'acompte sur salaire de 400€",
+              "prompt": "Souhaitez-vous transmettre votre demande d'acompte de 400 € au service RH ?",
+              "context": "Demande d'acompte sur salaire de 400 €",
               "preFilledData": {
                 "amount": 400,
                 "currency": "EUR",
-                "requestDate": "2026-01-14",
+                "maxAmount": 1363,
+                "requestDate": "2026-03-10",
                 "estimatedProcessingTime": "3-5 jours ouvrés"
               },
               "actions": {
@@ -368,13 +263,120 @@
               }
             },
             "suggestsHumanReview": false
+          },
+          {
+            "actor": "hr",
+            "type": "answer",
+            "confidence": 99,
+            "sources": [
+              {
+                "name": "SIRH Silae",
+                "type": "system",
+                "color": "orange"
+              }
+            ],
+            "content": {
+              "intro": "Vous avez une nouvelle demande en attente de validation.",
+              "sections": [
+                {
+                  "title": "Détail de la demande",
+                  "type": "info",
+                  "content": "Salarié : Martin Dupont — Type : Acompte sur salaire — Montant : 400 € — Montant maximum autorisé : 1 363 € — Date de la demande : 10 mars 2026"
+                },
+                {
+                  "title": "Éligibilité",
+                  "type": "info",
+                  "content": "La demande est conforme : le montant de 400 € est inférieur au plafond calculé de 1 363 € sur la base de 10 jours travaillés sur 22 jours ouvrés en mars 2026."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "SIRH Silae",
+                  "article": "Demande d'acompte",
+                  "title": "Acompte de 400 € — Martin Dupont — Mars 2026",
+                  "verifiedDate": "2026-03-10",
+                  "status": "pending"
+                }
+              ],
+              "context": "Demande transmise par le salarié et en attente de validation RH",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2026-03-10T10:25:00Z"
+            },
+            "suggestHRTransmission": {
+              "prompt": "Souhaitez-vous déclencher la saisie de l'acompte de 400 € dans Silae ?",
+              "context": "Validation et saisie de l'acompte sur salaire de 400 € pour Martin Dupont",
+              "actions": {
+                "primary": {
+                  "label": "Ok, déclenche la saisie dans Silae",
+                  "action": "triggerSilaeEntry",
+                  "metadata": {
+                    "subject": "Saisie acompte sur salaire",
+                    "amount": 400,
+                    "priority": "normal",
+                    "requestType": "advance_payment"
+                  }
+                },
+                "secondary": {
+                  "label": "Refuser la demande",
+                  "action": "rejectRequest"
+                }
+              }
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "actor": "hr",
+            "type": "answer",
+            "confidence": 99,
+            "sources": [
+              {
+                "name": "SIRH Silae",
+                "type": "system",
+                "color": "orange"
+              }
+            ],
+            "content": {
+              "intro": "La saisie de l'acompte de 400 € a bien été effectuée dans Silae. Le salarié sera notifié et le virement interviendra sous 3 à 5 jours ouvrés.",
+              "sections": [
+                {
+                  "title": "Confirmation",
+                  "type": "info",
+                  "content": "Salarié : Martin Dupont — Montant saisi : 400 € — Déduction prévue sur la paie de mars 2026 — Statut : Traité"
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "SIRH Silae",
+                  "article": "Saisie acompte",
+                  "title": "Acompte de 400 € saisi — Martin Dupont — Mars 2026",
+                  "verifiedDate": "2026-03-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Saisie effectuée dans Silae suite à validation RH",
+              "validatedBy": "Gestionnaire RH",
+              "validatedAt": "2026-03-10T11:00:00Z"
+            },
+            "suggestsHumanReview": false
           }
         ]
       }
     },
     {
       "id": "scenario-index-egalite",
-      "keywords": ["index", "égalité", "femmes-hommes", "calcul", "publication"],
+      "keywords": [
+        "index",
+        "égalité",
+        "femmes-hommes",
+        "calcul",
+        "publication"
+      ],
       "category": "Égalité professionnelle",
       "conversation": {
         "title": "Index égalité femmes-hommes",
@@ -623,7 +625,13 @@
     },
     {
       "id": "scenario-hors-sujet-recette",
-      "keywords": ["recette", "tarte", "pommes", "cuisine", "gâteau"],
+      "keywords": [
+        "recette",
+        "tarte",
+        "pommes",
+        "cuisine",
+        "gâteau"
+      ],
       "category": "Hors sujet",
       "conversation": {
         "title": "Demande hors périmètre RH",
@@ -653,6 +661,688 @@
               "context": "Détection automatique d'une requête hors périmètre RH (thème identifié : cuisine / recette)",
               "validatedBy": "Système automatique",
               "validatedAt": "2025-01-14T10:42:03Z"
+            },
+            "suggestsHumanReview": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "scenario-onboarding-salarie",
+      "keywords": [
+        "embauche",
+        "onboarding",
+        "nouveau",
+        "arrivee",
+        "integration",
+        "thomas",
+        "recrutement",
+        "prise de poste"
+      ],
+      "category": "Administration du personnel",
+      "conversation": {
+        "title": "Onboarding administratif — Thomas Leclerc",
+        "subtitle": "Intégration administrative d'un nouveau salarié",
+        "messages": [
+          {
+            "type": "answer",
+            "confidence": 98,
+            "sources": [
+              {
+                "name": "SIRH",
+                "type": "internal",
+                "color": "blue"
+              },
+              {
+                "name": "Procédure onboarding",
+                "type": "accord",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "J'ai bien reçu la notification d'embauche de **Thomas Leclerc** (Développeur Backend, CDI, prise de poste le 3 février). Voici l'état d'avancement de son dossier administratif :",
+              "sections": [
+                {
+                  "title": "Documents contractuels",
+                  "type": "info",
+                  "content": "Contrat de travail généré et envoyé pour signature électronique via DocuSign. En attente de retour signé (délai habituel : J+2)."
+                },
+                {
+                  "title": "Déclaration préalable à l'embauche (DPAE)",
+                  "type": "info",
+                  "content": "DPAE transmise à l'URSSAF le 28 janvier à 09h14. Accusé de réception reçu et archivé."
+                },
+                {
+                  "title": "Point de vigilance",
+                  "type": "warning",
+                  "content": "Le numéro de sécurité sociale de Thomas Leclerc n'a pas encore été fourni. Un rappel automatique lui a été envoyé ce matin. Sans retour sous 48h, une relance manuelle sera nécessaire avant la date de prise de poste."
+                },
+                {
+                  "title": "Prochaines étapes",
+                  "type": "info",
+                  "content": "Création du compte SIRH planifiée au J-1 (2 février). Provisionnement des accès badgeage à coordonner avec l'office manager."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "SIRH — Dossier salarié Thomas Leclerc",
+                  "article": "Fiche d'embauche",
+                  "title": "Données contractuelles et administratives",
+                  "verifiedDate": "2025-02-01",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Procédure d'onboarding administratif",
+                  "article": "Étapes J-5 à J+30",
+                  "title": "Checklist d'intégration administrative standard",
+                  "verifiedDate": "2025-01-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Déclenchement automatique du workflow onboarding suite à la validation du recrutement de Thomas Leclerc",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-01-31T09:14:00Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 96,
+            "sources": [
+              {
+                "name": "SIRH",
+                "type": "internal",
+                "color": "blue"
+              },
+              {
+                "name": "DocuSign",
+                "type": "internal",
+                "color": "orange"
+              }
+            ],
+            "content": {
+              "intro": "Je viens de recevoir la confirmation de signature du contrat de travail par Thomas Leclerc (signé ce jour à 11h32). Le dossier contractuel est maintenant complet.",
+              "sections": [
+                {
+                  "title": "Statut du dossier",
+                  "type": "info",
+                  "content": "Contrat signé archivé dans le SIRH. Exemplaire envoyé automatiquement à Thomas Leclerc par email."
+                },
+                {
+                  "title": "Numéro de sécurité sociale",
+                  "type": "warning",
+                  "content": "Toujours en attente. C'est le seul point bloquant restant avant la finalisation du dossier d'affiliation à la mutuelle et à la prévoyance."
+                },
+                {
+                  "title": "Action recommandée",
+                  "type": "info",
+                  "content": "Je vous suggère de relancer Thomas Leclerc directement par téléphone, ou de valider son intégration avec le NIR provisoire en attendant l'original."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "DocuSign — Signature électronique",
+                  "article": "Accusé de signature",
+                  "title": "Contrat CDI Thomas Leclerc — signé le 31/01/2025",
+                  "verifiedDate": "2025-01-31",
+                  "status": "valid"
+                }
+              ],
+              "context": "Notification de signature reçue depuis DocuSign et synchronisée dans le SIRH",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-01-31T11:32:00Z"
+            },
+            "suggestsHumanReview": false,
+            "suggestHRTransmission": {
+              "prompt": "Le numéro de sécurité sociale est toujours manquant. Souhaitez-vous créer un ticket de suivi pour forcer la relance et débloquer l'affiliation mutuelle/prévoyance ?",
+              "actions": {
+                "primary": {
+                  "label": "Créer un ticket de suivi",
+                  "action": "createRequest"
+                },
+                "secondary": {
+                  "label": "Je relance directement",
+                  "action": "dismiss"
+                }
+              }
+            }
+          },
+          {
+            "type": "answer",
+            "confidence": 99,
+            "sources": [
+              {
+                "name": "SIRH",
+                "type": "internal",
+                "color": "blue"
+              },
+              {
+                "name": "Mutuelle AG2R",
+                "type": "internal",
+                "color": "purple"
+              }
+            ],
+            "content": {
+              "intro": "Excellente nouvelle : Thomas Leclerc vient de transmettre son numéro de sécurité sociale (1 85 03 75 012 345 67). J'ai automatiquement déclenché les affiliations :",
+              "sections": [
+                {
+                  "title": "Mutuelle — AG2R La Mondiale",
+                  "type": "info",
+                  "content": "Formulaire d'affiliation envoyé avec effet au 1er février. Réponse attendue sous 72h."
+                },
+                {
+                  "title": "Prévoyance",
+                  "type": "info",
+                  "content": "Déclaration transmise à l'organisme de prévoyance. Couverture active dès la prise de poste."
+                },
+                {
+                  "title": "Dossier administratif",
+                  "type": "info",
+                  "content": "Le dossier est maintenant complet à 100%. Toutes les pièces obligatoires sont archivées dans le SIRH."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "SIRH — Dossier Thomas Leclerc",
+                  "article": "Mise à jour NIR",
+                  "title": "Numéro de sécurité sociale enregistré et vérifié",
+                  "verifiedDate": "2025-01-31",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Mutuelle AG2R La Mondiale",
+                  "article": "Formulaire affiliation",
+                  "title": "Affiliation salarié Thomas Leclerc — effet 01/02/2025",
+                  "verifiedDate": "2025-01-31",
+                  "status": "valid"
+                }
+              ],
+              "context": "NIR reçu et traitement automatique des affiliations complémentaires",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-01-31T14:05:00Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 97,
+            "sources": [
+              {
+                "name": "SIRH",
+                "type": "internal",
+                "color": "blue"
+              },
+              {
+                "name": "Procédure accueil J-1",
+                "type": "accord",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "Nous sommes à J-1 de la prise de poste de Thomas Leclerc. Voici le récapitulatif des dernières actions réalisées et les points à finaliser avant demain matin :",
+              "sections": [
+                {
+                  "title": "Actions réalisées automatiquement",
+                  "type": "info",
+                  "content": "Compte SIRH créé (login envoyé par email). Accès à la messagerie provisionnés (IT notifié). Livret d'accueil envoyé par email à Thomas."
+                },
+                {
+                  "title": "Actions à valider par le manager (Éric Dupont)",
+                  "type": "warning",
+                  "content": "Poste de travail attribué et configuré ? Accès aux outils métiers (GitHub, Jira, Confluence) créés ? Réunion d'accueil planifiée le 3 février à 09h00 ?"
+                },
+                {
+                  "title": "Checklist RH",
+                  "type": "info",
+                  "content": "Badge d'accès : à récupérer à l'accueil le 3 février dès 08h45. Document d'information collectivité (mutuelle, épargne salariale) : à remettre en main propre."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Procédure accueil nouveau salarié",
+                  "article": "Checklist J-1",
+                  "title": "Actions à réaliser la veille de la prise de poste",
+                  "verifiedDate": "2025-01-10",
+                  "status": "valid"
+                }
+              ],
+              "context": "Déclenchement automatique de la checklist J-1 à 08h00",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-02-02T08:00:00Z"
+            },
+            "suggestsHumanReview": true
+          },
+          {
+            "type": "answer",
+            "confidence": 95,
+            "sources": [
+              {
+                "name": "SIRH",
+                "type": "internal",
+                "color": "blue"
+              }
+            ],
+            "content": {
+              "intro": "Thomas Leclerc a pris son poste aujourd'hui. Voici le bilan de sa première journée et les points en suspens :",
+              "sections": [
+                {
+                  "title": "Accueil confirmé",
+                  "type": "info",
+                  "content": "Thomas a badgé pour la première fois à 08h52. Réunion d'accueil avec son manager Éric Dupont effectuée de 09h00 à 10h30."
+                },
+                {
+                  "title": "Points ouverts",
+                  "type": "warning",
+                  "content": "Accès Confluence toujours en cours de provisionnement (délai IT : 24-48h). Remise des documents de prévoyance à planifier avec Thomas avant la fin de semaine."
+                },
+                {
+                  "title": "Prochaine étape",
+                  "type": "info",
+                  "content": "Bilan de fin de période d'essai à programmer : je vous rappellerai à J+45 (19 mars) pour déclencher la procédure d'évaluation."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "SIRH — Pointages Thomas Leclerc",
+                  "article": "Badge d'entrée",
+                  "title": "Première entrée enregistrée le 03/02/2025 à 08h52",
+                  "verifiedDate": "2025-02-03",
+                  "status": "valid"
+                }
+              ],
+              "context": "Suivi automatique de la première journée d'intégration",
+              "validatedBy": "Kalia — Module ADP",
+              "validatedAt": "2025-02-03T18:00:00Z"
+            },
+            "suggestsHumanReview": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "scenario-lettre-disciplinaire",
+      "keywords": [
+        "avertissement",
+        "disciplinaire",
+        "sanction",
+        "lettre",
+        "retard",
+        "comportement",
+        "faute"
+      ],
+      "category": "Disciplinaire",
+      "conversation": {
+        "title": "Rédaction d'un avertissement — Julien Morel",
+        "subtitle": "Assistance à la rédaction d'une lettre disciplinaire",
+        "messages": [
+          {
+            "type": "answer",
+            "confidence": 96,
+            "sources": [
+              {
+                "name": "SIRH Lucca",
+                "type": "system",
+                "color": "orange"
+              },
+              {
+                "name": "Règlement intérieur",
+                "type": "convention",
+                "color": "purple"
+              },
+              {
+                "name": "Code du travail",
+                "type": "code",
+                "color": "blue"
+              },
+              {
+                "name": "CCN Syntec",
+                "type": "convention",
+                "color": "purple"
+              }
+            ],
+            "content": {
+              "intro": "Avant de rédiger, je vérifie plusieurs points pour que la lettre soit solide juridiquement.\n\n**Julien Morel** — CDI depuis le 12/03/2021, technicien support niveau 2, rattaché à l'établissement de Lyon. Convention Syntec.",
+              "sections": [
+                {
+                  "title": "Échelle des sanctions du règlement intérieur",
+                  "type": "info",
+                  "content": "Votre règlement intérieur (version septembre 2024) prévoit l'échelle suivante : avertissement, mise à pied disciplinaire, licenciement pour faute. L'avertissement est bien la sanction la plus basse — la proportionnalité est respectée.",
+                  "reference": "Document interne « Règlement intérieur — maj. sept. 2024 », article 12"
+                },
+                {
+                  "title": "Procédure applicable",
+                  "type": "info",
+                  "content": "Le même article précise que l'avertissement ne nécessite pas d'entretien préalable dans votre entreprise, conformément au Code du travail.",
+                  "reference": "Document interne « Règlement intérieur — maj. sept. 2024 » + Code du travail, art. L.1332-2"
+                },
+                {
+                  "title": "Délai de prescription",
+                  "type": "info",
+                  "content": "Les faits les plus anciens datent du 8 janvier. Vous avez 2 mois à compter de la connaissance des faits pour notifier la sanction. Vous êtes dans les délais.",
+                  "reference": "Code du travail, art. L.1332-4"
+                },
+                {
+                  "title": "Convention Syntec",
+                  "type": "info",
+                  "content": "Pas de disposition spécifique sur l'avertissement qui déroge au droit commun. L'échelle conventionnelle est compatible avec celle de votre règlement intérieur.",
+                  "reference": "CCN Syntec, art. 37"
+                },
+                {
+                  "title": "Confirmations nécessaires",
+                  "type": "warning",
+                  "content": "Avant d'aller plus loin, j'ai besoin de deux informations que je ne peux pas vérifier dans vos outils actuels :\n\n• **Historique disciplinaire** : Julien a-t-il déjà reçu une sanction dans les 3 dernières années ? C'est important pour la proportionnalité et la prescription des faits antérieurs (rappel : une sanction de plus de 3 ans ne peut pas être invoquée — art. L.1332-5).\n\n• **Mandats de représentation** : Julien est-il représentant du personnel ou titulaire d'un mandat syndical ? Pour un avertissement la procédure ne change pas, mais c'est une information à tracer dans le dossier."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "SIRH Lucca — Fiche collaborateur",
+                  "article": "Données contractuelles",
+                  "title": "Fiche Julien Morel — CDI, Technicien support N2, Lyon, Syntec",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Règlement intérieur — sept. 2024",
+                  "article": "Article 12",
+                  "title": "Échelle des sanctions disciplinaires et procédure applicable",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-3",
+                  "name": "Code du travail",
+                  "article": "Articles L.1332-2 et L.1332-4",
+                  "title": "Procédure disciplinaire — entretien préalable et prescription",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-4",
+                  "name": "CCN Syntec",
+                  "article": "Article 37",
+                  "title": "Dispositions disciplinaires conventionnelles",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                }
+              ],
+              "context": "Vérifications croisées : fiche collaborateur (Lucca), règlement intérieur (documents internes), cadre légal (Code du travail), convention collective (Syntec)",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-27T09:15:00Z"
+            },
+            "suggestsHumanReview": true
+          },
+          {
+            "type": "answer",
+            "confidence": 95,
+            "sources": [
+              {
+                "name": "Code du travail",
+                "type": "code",
+                "color": "blue"
+              },
+              {
+                "name": "Règlement intérieur",
+                "type": "convention",
+                "color": "purple"
+              },
+              {
+                "name": "Bonnes pratiques Kalia",
+                "type": "procedure",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "Parfait. Premier avertissement, pas de mandat — on est sur un cas simple et bien cadré. Aucun blocage, on peut avancer sur le contenu.\n\nPour qu'un avertissement soit valable, la lettre doit contenir quatre éléments obligatoires :",
+              "sections": [
+                {
+                  "title": "Structure obligatoire de la lettre",
+                  "type": "steps",
+                  "items": [
+                    {
+                      "number": 1,
+                      "text": "L'énoncé précis des faits reprochés, avec les dates. Pas de formulation vague du type « retards répétés ». Il faut les 3 dates et la description de l'incident du 20 janvier.",
+                      "reference": "Jurisprudence constante — Cass. soc., contrôle de la matérialité des faits"
+                    },
+                    {
+                      "number": 2,
+                      "text": "La qualification de la sanction : ici, un avertissement, conformément à l'article 12 de votre règlement intérieur.",
+                      "reference": "Règlement intérieur, article 12"
+                    },
+                    {
+                      "number": 3,
+                      "text": "Le rappel des obligations du salarié (respect des horaires, comportement professionnel).",
+                      "reference": "Code du travail — obligations contractuelles"
+                    },
+                    {
+                      "number": 4,
+                      "text": "L'avertissement sur les conséquences en cas de récidive, sans toutefois pré-qualifier une sanction future (ce serait une promesse de sanction, contestable).",
+                      "reference": "Bonnes pratiques Kalia — fiche « Rédiger une sanction disciplinaire »"
+                    }
+                  ]
+                },
+                {
+                  "title": "Point de vigilance — non-discrimination",
+                  "type": "warning",
+                  "content": "Ne mentionnez pas les absences maladie ou les arrêts de Julien dans la lettre, même si vous pensez qu'il y a un lien. Tout mélange faits disciplinaires / état de santé est un risque de nullité.",
+                  "reference": "Code du travail, art. L.1132-1 — non-discrimination"
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Code du travail",
+                  "article": "Art. L.1132-1",
+                  "title": "Principe de non-discrimination — interdiction de sanctionner en lien avec l'état de santé",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Bonnes pratiques Kalia",
+                  "article": "Fiche « Rédiger une sanction disciplinaire »",
+                  "title": "Structure et contenu obligatoire d'une lettre d'avertissement",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                }
+              ],
+              "context": "Confirmation par le DRH : aucune sanction antérieure, aucun mandat. Analyse de la structure juridique requise pour l'avertissement.",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-27T09:18:30Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 94,
+            "sources": [
+              {
+                "name": "Code du travail",
+                "type": "code",
+                "color": "blue"
+              },
+              {
+                "name": "Règlement intérieur",
+                "type": "convention",
+                "color": "purple"
+              },
+              {
+                "name": "Bonnes pratiques Kalia",
+                "type": "procedure",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "Voici une proposition structurée. Adaptez le ton à votre culture d'entreprise — je reste sur un registre factuel et ferme, sans excès.",
+              "sections": [
+                {
+                  "title": "Proposition de contenu",
+                  "type": "info",
+                  "content": "**Objet : Avertissement**\n\nMonsieur,\n\nNous avons constaté les faits suivants :\n\n— Le 8 janvier, le 15 janvier et le 22 janvier 2025, vous êtes arrivé à votre poste avec un retard respectivement de [durée], [durée] et [durée], sans justification préalable ni information de votre responsable hiérarchique.\n\n— Le 20 janvier 2025, lors de la réunion d'équipe hebdomadaire, vous avez adopté un comportement inapproprié en [décrire factuellement le comportement signalé par la manager — ex. : élevant la voix / interrompant de manière répétée / tenant des propos déplacés à l'égard de...], comme signalé par votre responsable, Mme [Nom].\n\nCes faits constituent un manquement à vos obligations contractuelles, notamment le respect des horaires de travail et l'obligation de comportement professionnel, tels que rappelés aux articles [X] et [Y] du règlement intérieur de l'entreprise.\n\nEn conséquence, et conformément à l'échelle des sanctions prévue à l'article 12 du règlement intérieur, nous vous notifions par la présente un avertissement.\n\nNous vous rappelons que tout manquement ultérieur de même nature pourrait donner lieu à une sanction disciplinaire plus sévère.\n\nNous vous invitons à prendre les mesures nécessaires pour que ces faits ne se reproduisent pas.\n\nVeuillez agréer, Monsieur, l'expression de nos salutations distinguées."
+                },
+                {
+                  "title": "Éléments à compléter",
+                  "type": "warning",
+                  "content": "Quatre points restent à compléter de votre côté :\n\n1. Les **durées exactes des retards** — je n'ai pas accès au pointage. Si vous utilisez un outil de suivi horaire, je peux chercher l'information.\n\n2. La **description factuelle du comportement du 20 janvier** — reprenez les termes du signalement de la manager, sans interprétation.\n\n3. Les **articles du règlement intérieur** relatifs aux obligations de ponctualité et de comportement, pour renforcer la lettre.\n\n4. Le **mode d'envoi** : recommandé avec AR ou remise en main propre contre décharge. Les deux sont valides. Le recommandé est plus sécurisant pour la preuve de la date.",
+                  "reference": "Bonnes pratiques Kalia — fiche « Notification des sanctions »"
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Règlement intérieur — sept. 2024",
+                  "article": "Article 12",
+                  "title": "Échelle des sanctions — référence dans la lettre",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Bonnes pratiques Kalia",
+                  "article": "Fiche « Notification des sanctions »",
+                  "title": "Modalités d'envoi et preuve de la notification",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                }
+              ],
+              "context": "Génération d'une proposition de contenu pour lettre d'avertissement — faits du 8, 15, 20 et 22 janvier 2025",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-27T09:22:15Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 93,
+            "sources": [
+              {
+                "name": "Code du travail",
+                "type": "code",
+                "color": "blue"
+              },
+              {
+                "name": "Bonnes pratiques Kalia",
+                "type": "procedure",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "Le risque est faible si vous respectez trois conditions :",
+              "sections": [
+                {
+                  "title": "Matérialité des faits",
+                  "type": "info",
+                  "content": "Les retards doivent être documentés (mails, pointage, attestation manager). Le comportement du 20 janvier doit être corroboré par le signalement écrit de la manager. Conseil : si ce signalement est oral, demandez à la manager un écrit factuel *avant* d'envoyer la lettre.",
+                  "reference": "Jurisprudence Cass. soc. — charge de la preuve"
+                },
+                {
+                  "title": "Proportionnalité",
+                  "type": "info",
+                  "content": "Premier avertissement pour des faits récurrents mais non graves, sanction prévue à l'échelle du règlement intérieur : c'est proportionné."
+                },
+                {
+                  "title": "Respect du délai",
+                  "type": "info",
+                  "content": "Vous êtes dans les 2 mois de prescription. Pas de problème de ce côté.",
+                  "reference": "Code du travail, art. L.1332-4"
+                },
+                {
+                  "title": "Principal risque identifié",
+                  "type": "warning",
+                  "content": "Une formulation trop vague des faits (d'où l'importance de dater et décrire précisément) ou un mélange avec des éléments non disciplinaires (état de santé, vie privée)."
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Code du travail",
+                  "article": "Art. L.1332-4",
+                  "title": "Prescription des faits fautifs — délai de 2 mois",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-2",
+                  "name": "Bonnes pratiques Kalia",
+                  "article": "Fiche « Contestation d'une sanction disciplinaire »",
+                  "title": "Analyse des risques de contestation — avertissement",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                }
+              ],
+              "context": "Analyse de risque juridique pour contestation d'un premier avertissement — faits datés et documentés",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-27T09:25:40Z"
+            },
+            "suggestsHumanReview": false
+          },
+          {
+            "type": "answer",
+            "confidence": 97,
+            "sources": [
+              {
+                "name": "Bonnes pratiques Kalia",
+                "type": "procedure",
+                "color": "green"
+              }
+            ],
+            "content": {
+              "intro": "Deux dernières recommandations avant d'envoyer :",
+              "sections": [
+                {
+                  "title": "Constitution du dossier",
+                  "type": "info",
+                  "content": "Conservez dans le dossier de Julien : la copie de la lettre, l'accusé de réception ou la décharge, et le signalement écrit de la manager. Si une situation similaire se reproduit, ce dossier constitué sera votre meilleur atout.",
+                  "reference": "Bonnes pratiques Kalia — fiche « Constitution du dossier disciplinaire »"
+                },
+                {
+                  "title": "Suivi managérial",
+                  "type": "info",
+                  "content": "Un avertissement est plus efficace s'il est accompagné d'un échange avec le manager direct. Ce n'est pas une obligation légale, mais c'est une bonne pratique pour éviter la récidive.",
+                  "reference": "Bonnes pratiques Kalia — fiche « Suivi post-sanction »"
+                }
+              ]
+            },
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-1",
+                  "name": "Bonnes pratiques Kalia",
+                  "article": "Fiches « Constitution du dossier disciplinaire » et « Suivi post-sanction »",
+                  "title": "Recommandations post-notification d'un avertissement",
+                  "verifiedDate": "2025-01-27",
+                  "status": "valid"
+                }
+              ],
+              "context": "Recommandations finales de bonne gestion du dossier disciplinaire",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-27T09:28:00Z"
             },
             "suggestsHumanReview": false
           }
@@ -730,109 +1420,109 @@
             },
             "suggestsHumanReview": false
           },
-{
-        "type": "answer",
-        "confidence": 91,
-        "sources": [
           {
-            "name": "SIRH Lucca",
-            "type": "system",
-            "color": "orange"
-          },
-          {
-            "name": "Accord 2024-01",
-            "type": "accord",
-            "color": "green"
-          }
-        ],
-        "content": {
-          "intro": "J'ai vérifié votre situation dans le SIRH pour valider la faisabilité de votre demande d'acompte de 400€.",
-          "sections": [
-            {
-              "title": "Validation de la demande",
-              "type": "success",
-              "content": "Votre demande d'acompte de **400€** est compatible avec votre salaire acquis au prorata du temps de travail effectué ce mois-ci. Vous pouvez procéder à la demande.",
-              "metadata": {
-                "requestedAmount": "400€",
-                "calculatedEligibility": "Éligible",
-                "workDaysCompleted": "9 jours sur 21",
-                "estimatedGrossSalary": "~1 200€ acquis"
+            "type": "answer",
+            "confidence": 91,
+            "sources": [
+              {
+                "name": "SIRH Lucca",
+                "type": "system",
+                "color": "orange"
+              },
+              {
+                "name": "Accord 2024-01",
+                "type": "accord",
+                "color": "green"
               }
+            ],
+            "content": {
+              "intro": "J'ai vérifié votre situation dans le SIRH pour valider la faisabilité de votre demande d'acompte de 400€.",
+              "sections": [
+                {
+                  "title": "Validation de la demande",
+                  "type": "success",
+                  "content": "Votre demande d'acompte de **400€** est compatible avec votre salaire acquis au prorata du temps de travail effectué ce mois-ci. Vous pouvez procéder à la demande.",
+                  "metadata": {
+                    "requestedAmount": "400€",
+                    "calculatedEligibility": "Éligible",
+                    "workDaysCompleted": "9 jours sur 21",
+                    "estimatedGrossSalary": "~1 200€ acquis"
+                  }
+                },
+                {
+                  "title": "Prochaines étapes",
+                  "type": "info",
+                  "content": "Une fois votre demande transmise au service RH :\n\n• **Validation** : Le service paie vérifiera le montant sous 48h ouvrées\n• **Versement** : Si validé, l'acompte sera versé sous 3 à 5 jours ouvrés sur votre compte bancaire habituel\n• **Déduction** : Le montant de 400€ sera automatiquement déduit de votre salaire de janvier 2026"
+                },
+                {
+                  "title": "Information importante",
+                  "type": "alert",
+                  "content": "Cet acompte sera déduit de votre prochain bulletin de salaire. Assurez-vous que cela n'impacte pas votre budget pour la fin du mois."
+                }
+              ]
             },
-            {
-              "title": "Prochaines étapes",
-              "type": "info",
-              "content": "Une fois votre demande transmise au service RH :\n\n• **Validation** : Le service paie vérifiera le montant sous 48h ouvrées\n• **Versement** : Si validé, l'acompte sera versé sous 3 à 5 jours ouvrés sur votre compte bancaire habituel\n• **Déduction** : Le montant de 400€ sera automatiquement déduit de votre salaire de janvier 2026"
+            "traceability": {
+              "sources": [
+                {
+                  "id": "source-3",
+                  "name": "SIRH Lucca - Module Paie",
+                  "article": "Calcul temps de travail effectué",
+                  "title": "Vérification du salaire acquis au prorata pour demande d'acompte",
+                  "verifiedDate": "2025-01-14",
+                  "status": "valid"
+                },
+                {
+                  "id": "source-4",
+                  "name": "Accord d'entreprise - Intéressement et Participation",
+                  "article": "Article 5.5",
+                  "title": "Modalités de versement et déduction des acomptes sur salaire",
+                  "verifiedDate": "2025-01-14",
+                  "status": "valid"
+                }
+              ],
+              "context": "Calcul effectué sur la base du temps de travail réel au 14 janvier 2026 - Données SIRH en temps réel",
+              "validatedBy": "Système automatique",
+              "validatedAt": "2025-01-14T10:24:35Z"
             },
-            {
-              "title": "Information importante",
-              "type": "alert",
-              "content": "Cet acompte sera déduit de votre prochain bulletin de salaire. Assurez-vous que cela n'impacte pas votre budget pour la fin du mois."
-            }
-          ]
-        },
-        "traceability": {
-          "sources": [
-            {
-              "id": "source-3",
-              "name": "SIRH Lucca - Module Paie",
-              "article": "Calcul temps de travail effectué",
-              "title": "Vérification du salaire acquis au prorata pour demande d'acompte",
-              "verifiedDate": "2025-01-14",
-              "status": "valid"
-            },
-            {
-              "id": "source-4",
-              "name": "Accord d'entreprise - Intéressement et Participation",
-              "article": "Article 5.5",
-              "title": "Modalités de versement et déduction des acomptes sur salaire",
-              "verifiedDate": "2025-01-14",
-              "status": "valid"
-            }
-          ],
-          "context": "Calcul effectué sur la base du temps de travail réel au 14 janvier 2026 - Données SIRH en temps réel",
-          "validatedBy": "Système automatique",
-          "validatedAt": "2025-01-14T10:24:35Z"
-        },
-        "suggestHRTransmission": {
-          "prompt": "Votre demande est prête à être transmise. Souhaitez-vous confirmer votre demande d'acompte de 400€ ?",
-          "context": "Demande d'acompte sur salaire de 400€ - Montant vérifié et éligible selon le temps de travail effectué",
-          "preFilledData": {
-            "amount": 400,
-            "currency": "EUR",
-            "requestDate": "2026-01-14",
-            "workDaysCompleted": 9,
-            "estimatedProcessingTime": "3-5 jours ouvrés"
-          },
-          "actions": {
-            "primary": {
-              "label": "Confirmer et transmettre aux RH",
-              "action": "createRequest",
-              "metadata": {
-                "subject": "Demande d'acompte sur salaire",
+            "suggestHRTransmission": {
+              "prompt": "Votre demande est prête à être transmise. Souhaitez-vous confirmer votre demande d'acompte de 400€ ?",
+              "context": "Demande d'acompte sur salaire de 400€ - Montant vérifié et éligible selon le temps de travail effectué",
+              "preFilledData": {
                 "amount": 400,
-                "priority": "normal",
-                "requestType": "advance_payment"
+                "currency": "EUR",
+                "requestDate": "2026-01-14",
+                "workDaysCompleted": 9,
+                "estimatedProcessingTime": "3-5 jours ouvrés"
+              },
+              "actions": {
+                "primary": {
+                  "label": "Confirmer et transmettre aux RH",
+                  "action": "createRequest",
+                  "metadata": {
+                    "subject": "Demande d'acompte sur salaire",
+                    "amount": 400,
+                    "priority": "normal",
+                    "requestType": "advance_payment"
+                  }
+                },
+                "secondary": {
+                  "label": "Modifier le montant",
+                  "action": "edit"
+                },
+                "tertiary": {
+                  "label": "Annuler",
+                  "action": "dismiss"
+                }
               }
             },
-            "secondary": {
-              "label": "Modifier le montant",
-              "action": "edit"
-            },
-            "tertiary": {
-              "label": "Annuler",
-              "action": "dismiss"
+            "suggestsHumanReview": false,
+            "automatedValidation": {
+              "eligibilityCheck": "passed",
+              "amountCheck": "passed",
+              "frequencyCheck": "passed",
+              "readyForSubmission": true
             }
           }
-        },
-        "suggestsHumanReview": false,
-        "automatedValidation": {
-          "eligibilityCheck": "passed",
-          "amountCheck": "passed",
-          "frequencyCheck": "passed",
-          "readyForSubmission": true
-        }
-      }
         ]
       }
     }

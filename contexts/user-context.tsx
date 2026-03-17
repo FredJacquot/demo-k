@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { useSession } from "next-auth/react";
 
 export type UserRole = "employee" | "hr" | "drh" | "payroll";
 
@@ -26,43 +25,31 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const { data: session, status } = useSession();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Load users from JSON
   useEffect(() => {
-    const loadUsers = async () => {
+    const loadData = async () => {
       try {
-        const response = await fetch("/data/users.json");
-        const data = await response.json();
-        setUsers(data.users);
+        const usersRes = await fetch("/data/users.json");
+        const usersData = await usersRes.json();
+        setUsers(usersData.users);
+
+        const storedUserId = localStorage.getItem("demo_user_id");
+        if (storedUserId) {
+          const found = usersData.users.find((u: User) => u.id === storedUserId) ?? null;
+          setCurrentUser(found);
+        }
       } catch (error) {
-        console.error("Error loading users:", error);
+        console.error("Error loading user data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    loadUsers();
+    loadData();
   }, []);
-
-  // Derive currentUser from session instead of storing in state
-  const currentUser: User | null = session?.user ? {
-    id: session.user.id,
-    email: session.user.email,
-    name: session.user.name,
-    role: session.user.role as UserRole,
-    department: session.user.department,
-    position: session.user.position,
-    company: session.user.company,
-    convention: session.user.convention,
-  } : null;
-
-  const isLoading = status === "loading";
-
-  const setCurrentUser = (user: User) => {
-    // This is now handled by NextAuth session
-    // Keep the function for backward compatibility but it's a no-op
-    console.log("setCurrentUser called but is now handled by NextAuth", user);
-  };
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser, users, isLoading }}>

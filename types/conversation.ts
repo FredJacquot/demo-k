@@ -111,6 +111,7 @@ export interface Message {
   actions?: MessageActions;
   transmissionDetails?: TransmissionDetails;
   suggestHRTransmission?: HRTransmissionSuggestion;
+  actionTaken?: "primary" | "secondary";
   confirmationStatus?: ConfirmationStatus;
   hrConfirmation?: HRConfirmation;
   hasNewUpdate?: boolean;

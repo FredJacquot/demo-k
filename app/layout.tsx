@@ -6,7 +6,6 @@ import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from "@/contexts/user-context";
-import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,8 +56,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SessionProvider>
-            <UserProvider>
+          <UserProvider>
               <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset className="max-w-[2560px] mx-auto flex flex-col h-screen">
@@ -70,7 +68,6 @@ export default function RootLayout({
               </SidebarProvider>
               <Toaster />
             </UserProvider>
-          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>
