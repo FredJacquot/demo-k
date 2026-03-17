@@ -626,7 +626,7 @@ export default function ADPv4Page() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const totalBlocked = allCases.filter(c => getHealth(c) === "blocked").length;
-  const totalWarning = allCases.filter(c => getHealth(c) === "waiting").length;
+  const totalWarning = allCases.filter(c => getHealth(c) === "warning").length;
 
   // Init chat with day summary
   useEffect(() => {
