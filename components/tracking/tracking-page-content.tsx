@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { ShieldAlert, CheckCircle2, Clock, AlertCircle, Send, FileText, Bot, X } from "lucide-react"
+import { ShieldAlert, CheckCircle2, Clock, AlertCircle, Send, FileText, Bot, X, User, Sparkles } from "lucide-react"
 import { useUser } from "@/contexts/user-context"
 import { canViewRequest } from "@/lib/permissions"
 import { Badge } from "@/components/ui/badge"
@@ -32,6 +32,8 @@ export default function TrackingPageContent() {
   const [hrResponse, setHrResponse] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [conversationMessages, setConversationMessages] = useState<Message[]>([])
+  const [chatRecipient, setChatRecipient] = useState<"employee" | "kalia">("employee")
+  const [isKaliaTyping, setIsKaliaTyping] = useState(false)
 
   const selectedRequest = allRequests.find((req) => req.id === selectedRequestId) || null
 
@@ -434,8 +436,28 @@ export default function TrackingPageContent() {
                 <div className="text-xs text-muted-foreground uppercase tracking-wide mb-2">
                   Historique de la conversation
                 </div>
+                {/* Kalia typing indicator */}
+                {isKaliaTyping && (
+                  <div className="flex justify-start mb-4">
+                    <div className="flex items-start gap-2">
+                      <Avatar className="w-6 h-6">
+                        <AvatarFallback className="text-xs bg-blue-100 text-blue-700">
+                          <Sparkles className="w-3 h-3" />
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="bg-background border rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
+                        <div className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {conversationMessages.map((message, index) => {
-                  const isUserMessage = message.author === "user";
+                  const isUserMessage = message.author === "user" || message.author === "hr";
                   
                   return (
                     <div key={index} className={`flex ${isUserMessage ? "justify-end" : "justify-start"}`}>
@@ -518,6 +540,90 @@ export default function TrackingPageContent() {
                                 </>
                               ) : null}
 
+                              {/* HR Action Card */}
+                              {message.suggestHRTransmission && !message.actionTaken && (
+                                <div className="mt-3 p-3 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800">
+                                  <p className="text-sm text-purple-900 dark:text-purple-200 mb-3">
+                                    {message.suggestHRTransmission.prompt}
+                                  </p>
+                                  <div className="flex gap-2">
+                                    <Button
+                                      size="sm"
+                                      className="bg-purple-600 hover:bg-purple-700 text-white"
+                                      onClick={() => {
+                                        // Marquer l'action comme prise
+                                        setConversationMessages((prev) =>
+                                          prev.map((m) =>
+                                            m.id === message.id ? { ...m, actionTaken: "primary" } : m
+                                          )
+                                        );
+                                        setIsKaliaTyping(true);
+
+                                        // Simuler la confirmation de Kalia
+                                        setTimeout(() => {
+                                          const confirmationMsg: Message = {
+                                            id: `kalia-confirm-${Date.now()}`,
+                                            author: "assistant",
+                                            content: {
+                                              intro: `La saisie de l'acompte de 400 € a bien été effectuée dans Silae. Le salarié sera notifié et le virement interviendra sous 3 à 5 jours ouvrés.`,
+                                              sections: [
+                                                {
+                                                  title: "Confirmation",
+                                                  type: "info",
+                                                  content: `Salarié : ${selectedRequest.userName} — Montant saisi : 400 € — Déduction prévue sur la paie de mars 2026 — Statut : Traité`,
+                                                },
+                                              ],
+                                            },
+                                            timestamp: new Date().toISOString(),
+                                            traceability: {
+                                              sources: [
+                                                { id: "src-confirm", name: "SIRH Silae", article: "Saisie acompte", title: `Acompte de 400 € saisi — ${selectedRequest.userName} — Mars 2026`, verifiedDate: new Date().toISOString().split("T")[0], status: "valid" },
+                                              ],
+                                              context: "Saisie effectuée dans Silae suite à validation RH",
+                                              validatedBy: "Gestionnaire RH",
+                                              validatedAt: new Date().toISOString(),
+                                            },
+                                          };
+                                          setConversationMessages((prev) => [...prev, confirmationMsg]);
+                                          setIsKaliaTyping(false);
+                                        }, 1200);
+                                      }}
+                                    >
+                                      <Send className="w-3 h-3 mr-1.5" />
+                                      {message.suggestHRTransmission.actions?.primary?.label || "Valider"}
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      className="border-purple-300 dark:border-purple-700"
+                                      onClick={() => {
+                                        setConversationMessages((prev) =>
+                                          prev.map((m) =>
+                                            m.id === message.id ? { ...m, actionTaken: "secondary" } : m
+                                          )
+                                        );
+                                      }}
+                                    >
+                                      {message.suggestHRTransmission.actions?.secondary?.label || "Refuser"}
+                                    </Button>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Action taken feedback */}
+                              {message.actionTaken === "primary" && (
+                                <div className="mt-2 flex items-center gap-2 text-xs text-green-600 dark:text-green-400">
+                                  <CheckCircle2 className="w-3 h-3" />
+                                  Action validée
+                                </div>
+                              )}
+                              {message.actionTaken === "secondary" && (
+                                <div className="mt-2 flex items-center gap-2 text-xs text-orange-600 dark:text-orange-400">
+                                  <AlertCircle className="w-3 h-3" />
+                                  Demande refusée
+                                </div>
+                              )}
+
                               {/* Metadata footer */}
                               {(message.traceability) && (
                                 <div className="mt-3 pt-3 border-t border-border/50">
@@ -535,7 +641,14 @@ export default function TrackingPageContent() {
 
                         {isUserMessage && (
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground">{selectedRequest.userName}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {message.author === "hr" ? (currentUser?.name || "RH") : selectedRequest.userName}
+                            </span>
+                            {message.author === "hr" && (
+                              <Badge variant="outline" className="text-[9px] px-1 py-0 bg-purple-50 text-purple-600 border-purple-200">
+                                RH → Kalia
+                              </Badge>
+                            )}
                           </div>
                         )}
                       </div>
@@ -597,24 +710,136 @@ export default function TrackingPageContent() {
             </ScrollArea>
 
             {selectedRequest.status === "in_progress" && (
-              <div className="border-t p-4 shrink-0 px-2">
-                <Label className="text-sm font-medium mb-2 block">Répondre au collaborateur</Label>
+              <div className="border-t p-4 shrink-0 px-2 space-y-3">
+                {/* Toggle destinataire */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground">Répondre à :</span>
+                  <div className="inline-flex rounded-lg border border-border p-0.5 bg-muted/30">
+                    <button
+                      onClick={() => setChatRecipient("employee")}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                        chatRecipient === "employee"
+                          ? "bg-background shadow-sm text-foreground"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <User className="w-3 h-3" />
+                      Salarié
+                    </button>
+                    <button
+                      onClick={() => setChatRecipient("kalia")}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                        chatRecipient === "kalia"
+                          ? "bg-blue-500 text-white shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      Kalia
+                    </button>
+                  </div>
+                </div>
+
+                {/* Zone de saisie */}
                 <div className="flex gap-2">
                   <Textarea
                     value={hrResponse}
                     onChange={(e) => setHrResponse(e.target.value)}
-                    placeholder="Saisissez votre réponse..."
+                    placeholder={
+                      chatRecipient === "employee"
+                        ? "Saisissez votre réponse au collaborateur..."
+                        : "Demandez à Kalia (ex: Peux-tu vérifier le solde de congés ?)"
+                    }
                     className="min-h-[80px] resize-none"
+                    disabled={isKaliaTyping}
                   />
                   <Button
-                    onClick={handleResolve}
-                    disabled={isSubmitting || !hrResponse.trim()}
-                    className="self-end"
+                    onClick={async () => {
+                      if (chatRecipient === "kalia") {
+                        // Simuler une interaction avec Kalia
+                        const userMsg: Message = {
+                          id: `hr-msg-${Date.now()}`,
+                          author: "hr",
+                          content: hrResponse,
+                          timestamp: new Date().toISOString(),
+                        };
+                        setConversationMessages((prev) => [...prev, userMsg]);
+                        setHrResponse("");
+                        setIsKaliaTyping(true);
+
+                        // Simuler la réponse de Kalia après un délai
+                        setTimeout(() => {
+                          const kaliaResponse: Message = {
+                            id: `kalia-msg-${Date.now()}`,
+                            author: "assistant",
+                            content: {
+                              intro: "Vous avez une nouvelle demande en attente de validation.",
+                              sections: [
+                                {
+                                  title: "Détail de la demande",
+                                  type: "info",
+                                  content: `Salarié : ${selectedRequest.userName} — Type : Acompte sur salaire — Montant : 400 € — Montant maximum autorisé : 1 363 € — Date de la demande : 10 mars 2026`,
+                                },
+                                {
+                                  title: "Éligibilité",
+                                  type: "info",
+                                  content: "La demande est conforme : le montant de 400 € est inférieur au plafond calculé de 1 363 € sur la base de 10 jours travaillés sur 22 jours ouvrés en mars 2026.",
+                                },
+                              ],
+                            },
+                            timestamp: new Date().toISOString(),
+                            traceability: {
+                              sources: [
+                                { id: "src-1", name: "SIRH Silae", article: "Demande d'acompte", title: `Acompte de 400 € — ${selectedRequest.userName} — Mars 2026`, verifiedDate: new Date().toISOString().split("T")[0], status: "pending" },
+                              ],
+                              context: "Demande transmise par le salarié et en attente de validation RH",
+                              validatedBy: "Système automatique",
+                              validatedAt: new Date().toISOString(),
+                            },
+                            suggestHRTransmission: {
+                              prompt: "Souhaitez-vous déclencher la saisie de l'acompte de 400 € dans Silae ?",
+                              actions: {
+                                primary: {
+                                  label: "Ok, déclenche la saisie dans Silae",
+                                  action: "triggerSilaeEntry",
+                                },
+                                secondary: {
+                                  label: "Refuser la demande",
+                                  action: "rejectRequest",
+                                },
+                              },
+                            },
+                          };
+                          setConversationMessages((prev) => [...prev, kaliaResponse]);
+                          setIsKaliaTyping(false);
+                        }, 1500);
+                      } else {
+                        // Comportement existant : résoudre la demande
+                        handleResolve();
+                      }
+                    }}
+                    disabled={isSubmitting || isKaliaTyping || !hrResponse.trim()}
+                    className={`self-end ${chatRecipient === "kalia" ? "bg-blue-500 hover:bg-blue-600" : ""}`}
                   >
-                    <Send className="w-4 h-4 mr-2" />
-                    Envoyer
+                    {isKaliaTyping ? (
+                      <>
+                        <div className="w-4 h-4 mr-2 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Kalia réfléchit...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        {chatRecipient === "employee" ? "Envoyer & Résoudre" : "Demander à Kalia"}
+                      </>
+                    )}
                   </Button>
                 </div>
+
+                {chatRecipient === "kalia" && (
+                  <p className="text-[10px] text-muted-foreground">
+                    Kalia peut vous aider à vérifier des informations, générer des récapitulatifs ou préparer une réponse au salarié.
+                  </p>
+                )}
               </div>
             )}
           </div>

@@ -21,6 +21,15 @@ export default function NewChat() {
 
   // Détecter le mode mock via le paramètre URL
   const mockMode = searchParams.has('mock');
+  const prefill = searchParams.get('prefill');
+
+  // Si un message est pré-rempli (démo), l'envoyer automatiquement au montage
+  useEffect(() => {
+    if (prefill && mockMode && currentUser) {
+      handleSendMessage(prefill);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   const handleSendMessage = async (message: string, attachments?: import('@/types/request').Attachment[]) => {
     if (!currentUser) return;
