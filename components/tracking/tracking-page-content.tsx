@@ -431,6 +431,140 @@ export default function TrackingPageContent() {
               </div>
             </div>
 
+            {selectedRequest.status === "in_progress" && (
+              <div className="border-b p-4 shrink-0 px-2 space-y-3">
+                {/* Toggle destinataire */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground">Répondre à :</span>
+                  <div className="inline-flex rounded-lg border border-border p-0.5 bg-muted/30">
+                    <button
+                      onClick={() => setChatRecipient("employee")}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                        chatRecipient === "employee"
+                          ? "bg-background shadow-sm text-foreground"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <User className="w-3 h-3" />
+                      Salarié
+                    </button>
+                    <button
+                      onClick={() => setChatRecipient("kalia")}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                        chatRecipient === "kalia"
+                          ? "bg-blue-500 text-white shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      Kalia
+                    </button>
+                  </div>
+                </div>
+
+                {/* Zone de saisie */}
+                <div className="flex gap-2">
+                  <Textarea
+                    value={hrResponse}
+                    onChange={(e) => setHrResponse(e.target.value)}
+                    placeholder={
+                      chatRecipient === "employee"
+                        ? "Saisissez votre réponse au collaborateur..."
+                        : "Demandez à Kalia (ex: Peux-tu vérifier le solde de congés ?)"
+                    }
+                    className="min-h-[80px] resize-none"
+                    disabled={isKaliaTyping}
+                  />
+                  <Button
+                    onClick={async () => {
+                      if (chatRecipient === "kalia") {
+                        // Simuler une interaction avec Kalia
+                        const userMsg: Message = {
+                          id: `hr-msg-${Date.now()}`,
+                          author: "hr",
+                          content: hrResponse,
+                          timestamp: new Date().toISOString(),
+                        };
+                        setConversationMessages((prev) => [...prev, userMsg]);
+                        setHrResponse("");
+                        setIsKaliaTyping(true);
+
+                        // Simuler la réponse de Kalia après un délai
+                        setTimeout(() => {
+                          const kaliaResponse: Message = {
+                            id: `kalia-msg-${Date.now()}`,
+                            author: "assistant",
+                            content: {
+                              intro: "Vous avez une nouvelle demande en attente de validation.",
+                              sections: [
+                                {
+                                  title: "Détail de la demande",
+                                  type: "info",
+                                  content: `Salarié : ${selectedRequest.userName} — Type : Acompte sur salaire — Montant : 400 € — Montant maximum autorisé : 1 363 € — Date de la demande : 10 mars 2026`,
+                                },
+                                {
+                                  title: "Éligibilité",
+                                  type: "info",
+                                  content: "La demande est conforme : le montant de 400 € est inférieur au plafond calculé de 1 363 € sur la base de 10 jours travaillés sur 22 jours ouvrés en mars 2026.",
+                                },
+                              ],
+                            },
+                            timestamp: new Date().toISOString(),
+                            traceability: {
+                              sources: [
+                                { id: "src-1", name: "SIRH Silae", article: "Demande d'acompte", title: `Acompte de 400 € — ${selectedRequest.userName} — Mars 2026`, verifiedDate: new Date().toISOString().split("T")[0], status: "pending" },
+                              ],
+                              context: "Demande transmise par le salarié et en attente de validation RH",
+                              validatedBy: "Système automatique",
+                              validatedAt: new Date().toISOString(),
+                            },
+                            suggestHRTransmission: {
+                              prompt: "Souhaitez-vous déclencher la saisie de l'acompte de 400 € dans Silae ?",
+                              actions: {
+                                primary: {
+                                  label: "Ok, déclenche la saisie dans Silae",
+                                  action: "triggerSilaeEntry",
+                                },
+                                secondary: {
+                                  label: "Refuser la demande",
+                                  action: "rejectRequest",
+                                },
+                              },
+                            },
+                          };
+                          setConversationMessages((prev) => [...prev, kaliaResponse]);
+                          setIsKaliaTyping(false);
+                        }, 1500);
+                      } else {
+                        // Comportement existant : résoudre la demande
+                        handleResolve();
+                      }
+                    }}
+                    disabled={isSubmitting || isKaliaTyping || !hrResponse.trim()}
+                    className={`self-end ${chatRecipient === "kalia" ? "bg-blue-500 hover:bg-blue-600" : ""}`}
+                  >
+                    {isKaliaTyping ? (
+                      <>
+                        <div className="w-4 h-4 mr-2 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Kalia réfléchit...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        {chatRecipient === "employee" ? "Envoyer & Résoudre" : "Demander à Kalia"}
+                      </>
+                    )}
+                  </Button>
+                </div>
+
+                {chatRecipient === "kalia" && (
+                  <p className="text-[10px] text-muted-foreground">
+                    Kalia peut vous aider à vérifier des informations, générer des récapitulatifs ou préparer une réponse au salarié.
+                  </p>
+                )}
+              </div>
+            )}
+
             <ScrollArea className="flex-1 min-h-0 px-2">
               <div className="p-6 space-y-4">
                 <div className="text-xs text-muted-foreground uppercase tracking-wide mb-2">
@@ -456,7 +590,7 @@ export default function TrackingPageContent() {
                   </div>
                 )}
 
-                {conversationMessages.map((message, index) => {
+                {[...conversationMessages].reverse().map((message, index) => {
                   const isUserMessage = message.author === "user" || message.author === "hr";
                   
                   return (
@@ -708,140 +842,6 @@ export default function TrackingPageContent() {
                 )}
               </div>
             </ScrollArea>
-
-            {selectedRequest.status === "in_progress" && (
-              <div className="border-t p-4 shrink-0 px-2 space-y-3">
-                {/* Toggle destinataire */}
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground">Répondre à :</span>
-                  <div className="inline-flex rounded-lg border border-border p-0.5 bg-muted/30">
-                    <button
-                      onClick={() => setChatRecipient("employee")}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
-                        chatRecipient === "employee"
-                          ? "bg-background shadow-sm text-foreground"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      <User className="w-3 h-3" />
-                      Salarié
-                    </button>
-                    <button
-                      onClick={() => setChatRecipient("kalia")}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
-                        chatRecipient === "kalia"
-                          ? "bg-blue-500 text-white shadow-sm"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      <Sparkles className="w-3 h-3" />
-                      Kalia
-                    </button>
-                  </div>
-                </div>
-
-                {/* Zone de saisie */}
-                <div className="flex gap-2">
-                  <Textarea
-                    value={hrResponse}
-                    onChange={(e) => setHrResponse(e.target.value)}
-                    placeholder={
-                      chatRecipient === "employee"
-                        ? "Saisissez votre réponse au collaborateur..."
-                        : "Demandez à Kalia (ex: Peux-tu vérifier le solde de congés ?)"
-                    }
-                    className="min-h-[80px] resize-none"
-                    disabled={isKaliaTyping}
-                  />
-                  <Button
-                    onClick={async () => {
-                      if (chatRecipient === "kalia") {
-                        // Simuler une interaction avec Kalia
-                        const userMsg: Message = {
-                          id: `hr-msg-${Date.now()}`,
-                          author: "hr",
-                          content: hrResponse,
-                          timestamp: new Date().toISOString(),
-                        };
-                        setConversationMessages((prev) => [...prev, userMsg]);
-                        setHrResponse("");
-                        setIsKaliaTyping(true);
-
-                        // Simuler la réponse de Kalia après un délai
-                        setTimeout(() => {
-                          const kaliaResponse: Message = {
-                            id: `kalia-msg-${Date.now()}`,
-                            author: "assistant",
-                            content: {
-                              intro: "Vous avez une nouvelle demande en attente de validation.",
-                              sections: [
-                                {
-                                  title: "Détail de la demande",
-                                  type: "info",
-                                  content: `Salarié : ${selectedRequest.userName} — Type : Acompte sur salaire — Montant : 400 € — Montant maximum autorisé : 1 363 € — Date de la demande : 10 mars 2026`,
-                                },
-                                {
-                                  title: "Éligibilité",
-                                  type: "info",
-                                  content: "La demande est conforme : le montant de 400 € est inférieur au plafond calculé de 1 363 € sur la base de 10 jours travaillés sur 22 jours ouvrés en mars 2026.",
-                                },
-                              ],
-                            },
-                            timestamp: new Date().toISOString(),
-                            traceability: {
-                              sources: [
-                                { id: "src-1", name: "SIRH Silae", article: "Demande d'acompte", title: `Acompte de 400 € — ${selectedRequest.userName} — Mars 2026`, verifiedDate: new Date().toISOString().split("T")[0], status: "pending" },
-                              ],
-                              context: "Demande transmise par le salarié et en attente de validation RH",
-                              validatedBy: "Système automatique",
-                              validatedAt: new Date().toISOString(),
-                            },
-                            suggestHRTransmission: {
-                              prompt: "Souhaitez-vous déclencher la saisie de l'acompte de 400 € dans Silae ?",
-                              actions: {
-                                primary: {
-                                  label: "Ok, déclenche la saisie dans Silae",
-                                  action: "triggerSilaeEntry",
-                                },
-                                secondary: {
-                                  label: "Refuser la demande",
-                                  action: "rejectRequest",
-                                },
-                              },
-                            },
-                          };
-                          setConversationMessages((prev) => [...prev, kaliaResponse]);
-                          setIsKaliaTyping(false);
-                        }, 1500);
-                      } else {
-                        // Comportement existant : résoudre la demande
-                        handleResolve();
-                      }
-                    }}
-                    disabled={isSubmitting || isKaliaTyping || !hrResponse.trim()}
-                    className={`self-end ${chatRecipient === "kalia" ? "bg-blue-500 hover:bg-blue-600" : ""}`}
-                  >
-                    {isKaliaTyping ? (
-                      <>
-                        <div className="w-4 h-4 mr-2 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Kalia réfléchit...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4 mr-2" />
-                        {chatRecipient === "employee" ? "Envoyer & Résoudre" : "Demander à Kalia"}
-                      </>
-                    )}
-                  </Button>
-                </div>
-
-                {chatRecipient === "kalia" && (
-                  <p className="text-[10px] text-muted-foreground">
-                    Kalia peut vous aider à vérifier des informations, générer des récapitulatifs ou préparer une réponse au salarié.
-                  </p>
-                )}
-              </div>
-            )}
           </div>
         )}
       </div>
