@@ -17,8 +17,10 @@ import {
   LogOut,
   Wallet,
   Workflow,
+  ArrowLeftRight,
+  Check,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -39,20 +41,29 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ThemeToggle } from "../theme-toggle";
 import Link from "next/link";
-import { useUser } from "@/contexts/user-context";
+import { useUser, UserRole } from "@/contexts/user-context";
 import { hasAccess, getRoleLabel, getRoleBadgeClass } from "@/lib/permissions";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 
+const profileLabels: Record<UserRole, string> = {
+  employee: "Mon espace",
+  hr: "Espace RH",
+  drh: "Espace DRH",
+  payroll: "Espace Paie",
+};
+
 export function AppSidebar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { open } = useSidebar();
   const { currentUser, users, setCurrentUser, isLoading } = useUser();
   const [totalCount, setTotalCount] = useState(0);
   const [newRequestsCount, setNewRequestsCount] = useState(0);
   const [inProgressCount, setInProgressCount] = useState(0);
+  const [originalRole, setOriginalRole] = useState<UserRole | null>(null);
 
   // Load requests count for HR/DRH
   useEffect(() => {
@@ -126,6 +137,12 @@ export function AppSidebar() {
     };
   }, [currentUser]);
 
+  useEffect(() => {
+    if (currentUser && !originalRole) {
+      setOriginalRole(currentUser.role);
+    }
+  }, [currentUser]);
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b">
@@ -184,18 +201,20 @@ export function AppSidebar() {
               </SidebarMenuItem>
 
               {/* Mes demandes */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname.startsWith("/requests")}
-                  tooltip="Mes demandes"
-                >
-                  <Link href="/requests">
-                    <User />
-                    <span>Mes demandes</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {currentUser?.role === "employee" && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith("/requests")}
+                    tooltip="Mes demandes"
+                  >
+                    <Link href="/requests">
+                      <User />
+                      <span>Mes demandes</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -247,9 +266,9 @@ export function AppSidebar() {
                       <CollapsibleContent>
                         <SidebarMenuSub>
                           <SidebarMenuSubItem>
-                            <SidebarMenuSubButton asChild isActive={pathname === "/tracking" && !pathname.includes("status")}>
+                            <SidebarMenuSubButton asChild isActive={pathname === "/tracking" && !searchParams.get("status")}>
                               <Link href="/tracking">
-                                <span>Toutes les demandes</span>
+                                <span className="flex-1 truncate min-w-0">Toutes les demandes</span>
                                 {totalCount > 0 && (
                                   <Badge variant="secondary" className="ml-auto text-[10px] px-1.5 py-0 h-4">
                                     {totalCount}
@@ -259,9 +278,9 @@ export function AppSidebar() {
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                           <SidebarMenuSubItem>
-                            <SidebarMenuSubButton asChild isActive={pathname.includes("status=pending")}>
+                            <SidebarMenuSubButton asChild isActive={pathname === "/tracking" && searchParams.get("status") === "pending"}>
                               <Link href="/tracking?status=pending">
-                                <span>Nouvelles</span>
+                                <span className="flex-1 truncate min-w-0">Nouvelles</span>
                                 {newRequestsCount > 0 && (
                                   <Badge variant="secondary" className="ml-auto text-[10px] px-1.5 py-0 h-4">
                                     {newRequestsCount}
@@ -271,9 +290,9 @@ export function AppSidebar() {
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                           <SidebarMenuSubItem>
-                            <SidebarMenuSubButton asChild isActive={pathname.includes("status=in_progress")}>
+                            <SidebarMenuSubButton asChild isActive={pathname === "/tracking" && searchParams.get("status") === "in_progress"}>
                               <Link href="/tracking?status=in_progress">
-                                <span>En cours</span>
+                                <span className="flex-1 truncate min-w-0">En cours</span>
                                 {inProgressCount > 0 && (
                                   <Badge variant="secondary" className="ml-auto text-[10px] px-1.5 py-0 h-4">
                                     {inProgressCount}
@@ -574,6 +593,29 @@ export function AppSidebar() {
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                  {originalRole && originalRole !== "employee" && (
+                    <>
+                      <DropdownMenuLabel className="px-2 py-1.5 text-xs text-muted-foreground font-normal flex items-center gap-2">
+                        <ArrowLeftRight className="h-3 w-3" />
+                        Changer de profil
+                      </DropdownMenuLabel>
+                      <DropdownMenuItem
+                        className="flex items-center justify-between cursor-pointer"
+                        onClick={() => setCurrentUser({ ...currentUser, role: "employee" })}
+                      >
+                        <span>Mon espace</span>
+                        {currentUser.role === "employee" && <Check className="h-4 w-4 text-blue-600" />}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="flex items-center justify-between cursor-pointer"
+                        onClick={() => setCurrentUser({ ...currentUser, role: originalRole })}
+                      >
+                        <span>{profileLabels[originalRole]}</span>
+                        {currentUser.role === originalRole && <Check className="h-4 w-4 text-blue-600" />}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  )}
                   <DropdownMenuItem
                     onClick={() => {
                       localStorage.removeItem("demo_user_id");
